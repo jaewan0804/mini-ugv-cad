@@ -1,4 +1,12 @@
-# Local engineering specs, BOM, and duplicate/working CAD exports (kept local only)
+# Local Python venv, VS Code workspace, local bench tools, test caches, specs, BOM, and CAD exports (kept local only)
+.venv/
+.vscode/
+tools/
+requirements-ugv.txt
+__pycache__/
+*.py[cod]
+.pytest_cache/
+logs/
 *.pdf
 *.csv
 *.obj
