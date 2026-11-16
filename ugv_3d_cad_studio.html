@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MINI-UGV 3D CAD 스튜디오 | 실측 상용부품 32종 & 완제품·분해 뷰어</title>
+  <title>MINI-UGV 3D CAD 스튜디오 (Rev 5.0 Design Freeze) | 실측 32종 & 오차검증·분해 뷰어</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     * { box-sizing: border-box; user-select: none; }
@@ -75,16 +75,16 @@
   <!-- =====================================================================
        1. TOP MAIN HEADER BAR (NO WRAPPING CLIP, CLEAN SEGMENTED TABS)
        ===================================================================== -->
-  <header class="min-h-[58px] bg-white border-b border-slate-300 px-3.5 py-2 flex items-center justify-between gap-2.5 shrink-0 z-30 shadow-2xs">
+  <header class="min-h-[58px] bg-white border-b border-slate-300 px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 shrink-0 z-30 shadow-2xs">
     <!-- Left: Brand & Core Spec Summary -->
     <div class="flex items-center gap-2.5 min-w-0">
       <div class="bg-blue-700 text-white px-2.5 py-1.5 rounded-lg font-extrabold text-xs tracking-tight flex items-center gap-1.5 shrink-0 shadow-xs">
         <span>🚜 MINI-UGV CAD</span>
-        <span class="text-[11px] bg-emerald-600 px-1.5 py-0.5 rounded font-mono">v4.0</span>
+        <span class="text-[11px] bg-emerald-600 px-1.5 py-0.5 rounded font-mono">v5.0 Freeze</span>
       </div>
       <div class="hidden 2xl:block truncate">
-        <div class="text-sm font-bold text-slate-900 truncate">보닛 힌지오픈 · 퀵스왑 듀얼 카트리지 UGV</div>
-        <div class="text-xs text-slate-500 truncate">외곽 580×660mm · 듀얼 배터리 2×(162×240×160mm) · 간섭 0mm</div>
+        <div class="text-sm font-bold text-slate-900 truncate">Design Freeze · 고정 Pixhawk 브릿지 · 650mm B안 UGV</div>
+        <div class="text-xs text-slate-500 truncate">650×660×≤333mm · 실측 51.4kg(본체 37.9kg) · 칼날/궤도·공차 간섭 0mm</div>
       </div>
     </div>
 
@@ -100,7 +100,7 @@
         <span>🧩 3. 부품 도감(32종)</span>
       </button>
       <button id="mainTab_spec" onclick="switchMainTab('spec')" class="nav-tab">
-        <span>📐 4. 간섭·칼날·재단표</span>
+        <span>📐 4. 동결검증·오차·예산</span>
       </button>
     </nav>
 
@@ -133,7 +133,7 @@
   <div class="flex-1 flex overflow-hidden relative">
 
     <!-- LEFT SIDEBAR: CLEAN, READABLE 32-PART EXPLORER (W-84) -->
-    <aside class="w-84 bg-white border-r border-slate-300 flex flex-col shrink-0 z-20" style="width: 340px;">
+    <aside id="leftSidebar" class="w-[245px] xl:w-[330px] bg-white border-r border-slate-300 flex flex-col shrink-0 z-20">
       <!-- Sidebar Header & Search -->
       <div class="p-3 border-b border-slate-200 space-y-2.5 bg-slate-50">
         <div class="flex items-center justify-between">
@@ -250,7 +250,7 @@
                   <span id="hudPartDim" class="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 shrink-0">92 × 52 × 24 mm</span>
                   <span id="hudPartWeight" class="font-mono text-xs font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded shrink-0">0.09 kg</span>
                 </div>
-                <p id="hudPartSub" class="text-xs text-slate-600 truncate mt-0.5">상층 IP65 박스 정중앙 (Z=258mm) · ArduPilot 자율주행 및 40° 전복 시 칼날 차단</p>
+                <p id="hudPartSub" class="text-xs text-slate-600 truncate mt-0.5">(0, +148, 284) — 전방 비개폐 고정 IP65 내부 · IMU 영점 0° 불변</p>
               </div>
             </div>
             <div class="text-xs text-slate-500 font-medium shrink-0 hidden xl:block">
@@ -284,7 +284,7 @@
           <div id="bpCard_assembled" class="bg-white border border-slate-300 rounded-2xl p-4 shadow-xs">
             <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
               <div>
-                <span class="text-base font-extrabold text-slate-900">🛡️ [완제품 조립 투시도] 실측 대용량 배터리 & 상부 모터 배치</span>
+                <span class="text-base font-extrabold text-slate-900">🖼️ [초기 Rev 3/4 개념 렌더 · 참고용] (※ 확정 Rev 5.0 치수·구조는 하단 2종 단면도·탭1·탭4 기준)</span>
                 <p class="text-xs text-slate-500 mt-0.5">전방 Pixhawk 6C·라즈베리파이 5·VESC·ESC, 중앙 340×260×165mm 배터리, 상부 예초/주행 모터 확인</p>
               </div>
               <span class="text-xs bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full font-bold">클릭 시 원본 확대</span>
@@ -310,7 +310,7 @@
           <div id="bpCard_master" class="bg-white border border-slate-300 rounded-2xl p-4 shadow-xs xl:col-span-2">
             <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
               <div>
-                <span class="text-base font-extrabold text-slate-900">📏 [마스터 엔지니어링 청사진] 외곽 치수(580×660×300mm) · 중량표 · 칼날 간섭 검증 통합 도면</span>
+                <span class="text-base font-extrabold text-slate-900">📏 [참고용 Rev 3/4 마스터 청사진 JPG] — ※ Rev 5.0 확정안(전폭 650mm, 51.39kg, 고정 브릿지)은 하단 단면도 &amp; 탭 4 참조</span>
               </div>
               <span class="text-xs bg-slate-200 text-slate-800 px-2.5 py-1 rounded-full font-mono font-bold">Master Blueprint</span>
             </div>
@@ -323,17 +323,17 @@
         <!-- Side Elevation & 5-Layer Schematics -->
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
           <div class="bg-white border border-slate-300 rounded-2xl p-5 shadow-xs">
-            <h3 class="text-base font-extrabold text-slate-900 mb-1">📐 측면(Side) 수직 높이 단면도 — 보닛 힌지오픈(62°) & 수직 리프팅 배터리 구조</h3>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">📐 측면(Side) 수직 높이 단면도 — Rev 5.0 고정 브릿지 · 62° 경량 보닛 · 전고 ≤340mm</h3>
             <p class="text-xs text-slate-600 mb-3">
-              후방 힌지(Y=-315, Z=258)와 전방 원터치 토글 래치로 상부 보닛이 62° 들려 올라가며, 좌·우 2분할 카트리지(각 6.75kg)가 간섭 0mm로 수직 탈착됩니다. 예초·주행모터는 상부 안전구역(Z=165~195mm)에 장착됩니다.
+              전방(IP65·Pixhawk·LiDAR)과 후방(저상 RTK·RC·SiK)은 비개폐 3030 브릿지에 영점 고정되고, 중앙 <b>경량 방진 보닛(Y=-216~+46)</b>만 62° 열려 대칭 배터리를 10초 교체합니다. 최고 높이 <b>333mm(≤340mm)</b>!
             </p>
             <div id="assembledSvgContainer" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3"></div>
           </div>
 
           <div class="bg-white border border-slate-300 rounded-2xl p-5 shadow-xs">
-            <h3 class="text-base font-extrabold text-slate-900 mb-1">🗂️ 5층 수직 분해 계층 블록도 (Rev 4.0 퀵스왑 아키텍처)</h3>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">🗂️ 5층 수직 분해 계층 블록도 (Rev 5.0 Design Freeze 650mm 아키텍처)</h3>
             <p class="text-xs text-slate-600 mb-3">
-              최상단 안테나/전방고정센서(5층) → 보닛 일체형 IP65 두뇌박스(4층) → 듀얼 수직리프팅 배터리 카트리지 & VESC/ESC 드라이버(3층) → 상부 예초/주행 모터 & 175mm 프레임(2층) → 하부 스핀들 & 칼날(1층) 구조입니다.
+              저상 안테나/고정센서(Z≤333mm) → 전방 비개폐 고정 IP65 두뇌(4층) → 470mm 프레임 대칭 배터리 &amp; 측창 방열 ESC(3층) → 상부 모터(3단Z조절) &amp; 동축 구동(2층) → Ø230 보호슈라우드 칼날 &amp; 650mm 궤도(1층) 구조입니다.
             </p>
             <div id="explodedSvgContainer" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3"></div>
           </div>
@@ -363,124 +363,256 @@
            VIEW 4: ENGINEERING VERIFICATION, BLADE MATH & 3030 CUT LIST
            ================================================================= -->
       <div id="tabView_spec" class="hidden flex-1 overflow-y-auto cad-scroll p-6 bg-slate-100 space-y-6">
-        <!-- 4 SE Principles Banner -->
-        <div class="bg-white border border-slate-300 rounded-2xl p-5 shadow-xs">
-          <h2 class="text-lg font-extrabold text-slate-900 mb-3">🛡️ 시스템 엔지니어링(SE) 4대 설계 원칙 및 Rev 4.0 퀵스왑 보완 사항</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 text-sm">
-            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200">
-              <div class="font-extrabold text-blue-950 mb-1">1. 강전(48V) vs 약전(5V) 층 분리</div>
-              <p class="text-xs text-blue-900 leading-relaxed">하층(48V 배터리, 컨택터, VESC×2, ESC×2, 모터 4개)과 보닛 상부 IP65 박스 내부(Pixhawk 6C, 라즈베리파이 5, RTK-GPS)를 물리적으로 분리해 EMI 노이즈를 원천 차단합니다.</p>
+        <!-- Rev 5.0 Design Freeze Summary Banner -->
+        <div class="bg-white border-2 border-emerald-500 rounded-2xl p-5 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h2 class="text-lg font-extrabold text-slate-900">🔒 MINI-UGV Design Freeze (Rev 5.0) 확정 기준 — 8대 엔지니어링 쟁점 해결</h2>
+            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-600 text-white">전폭 650mm · 전고 333mm(≤340) · 실측 51.39kg(본체 37.89kg) · 간섭 0건</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 text-sm">
+            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200">
+              <div class="font-extrabold text-blue-950 mb-1">1. 전폭 650mm 확장 (B안)</div>
+              <p class="text-xs text-blue-900 leading-relaxed">프레임 <b>400→470mm</b>, 궤도 외곽 <b>650mm</b>로 확장해 Ø230 칼날(유효폭 <b>440mm</b>)과 궤도 내벽 사이 <b>+20mm</b>(보호슈라우드 <b>+14mm</b>) 확보 및 배터리 공차(+18~30mm) 동시 해결.</p>
             </div>
-            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
-              <div class="font-extrabold text-amber-950 mb-1">2. 드라이버 밀폐 금지 & 외부 방열</div>
-              <p class="text-xs text-amber-900 leading-relaxed">발열이 심한 VESC 75100(×2)과 48V 80A 예초 ESC(×2)는 IP65 박스에 넣지 않고, 3030 알루미늄 프레임 좌/우 외벽에 써멀패드로 직접 볼트 체결해 방열합니다.</p>
+            <div class="p-3.5 rounded-xl bg-orange-50 border border-orange-200">
+              <div class="font-extrabold text-orange-950 mb-1">2. 고정 브릿지 vs 경량 보닛</div>
+              <p class="text-xs text-orange-900 leading-relaxed"><b>Pixhawk·IP65·LiDAR·RTK</b>는 비개폐 3030 고정 브릿지에 직결(IMU 영점 0° 불변). 중앙 <b>62° 경량 방진 보닛</b>(흡기팬·필터)만 열어 배터리를 10초 교체합니다.</p>
             </div>
-            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
-              <div class="font-extrabold text-emerald-950 mb-1">3. 보닛 힌지오픈 · 10초 수직 배터리 교체</div>
-              <p class="text-xs text-emerald-900 leading-relaxed">후방 힌지 보닛과 전방 토글 래치 2개로 공구 없이 62° 개방하며, 좌·우 2분할 카트리지(162×240×160mm, 각 6.75kg)가 간섭 0mm로 수직 리프팅 교체됩니다. 전방 LiDAR/카메라는 고정 노즈에 유지됩니다.</p>
+            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200">
+              <div class="font-extrabold text-amber-950 mb-1">3. 저상 안테나 & 3단 높이조절</div>
+              <p class="text-xs text-amber-900 leading-relaxed">퍽형 RTK(315mm)·L절곡 915MHz(333mm)로 <b>최대 전고 333mm(≤340mm)</b> 준수. 예초부는 <b>1차 수동 3단(35/55/75mm)</b> + 2단계 액추에이터 홀 예비 가공.</p>
             </div>
-            <div class="p-4 rounded-xl bg-purple-50 border border-purple-200">
-              <div class="font-extrabold text-purple-950 mb-1">4. RF 안테나 이격 & 모터 상부 보호</div>
-              <p class="text-xs text-purple-900 leading-relaxed">RTK-GPS 아래 Ø120mm 알루미늄 접지판을 장착해 안테나 간 150mm+ 이격하고, 예초모터(Z=165mm)·주행모터(Z=195mm)를 상부에 배치해 돌 타격을 막습니다.</p>
+            <div class="p-3.5 rounded-xl bg-purple-50 border border-purple-200">
+              <div class="font-extrabold text-purple-950 mb-1">4. 1단계 100만 원 / 2단계 분리</div>
+              <p class="text-xs text-purple-900 leading-relaxed"><b>1단계(원격 실증)</b>: 기본구동+예초+1팩(~100만 원 타겟). <b>2단계(자율주행)</b>: 동일 프레임에 Pixhawk·RPi5·RTK·LiDAR·2번 팩 볼트온 확장.</p>
             </div>
           </div>
         </div>
 
+        <!-- CAD Discrepancy & Interference Audit Table -->
+        <div class="bg-white border-2 border-rose-300 rounded-2xl p-5 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-base font-extrabold text-rose-950">🔎 기존 v4.0 CAD · 실물 제작 오차(간섭) 전수 감사 및 Rev 5.0 해결 내역</h3>
+              <p class="text-xs text-rose-800 mt-0.5">Python 3D AABB/원통 기하 솔버로 전체 32종 부품을 정밀 검증한 결과, 문서 8대 쟁점 외에 숨어있던 제작 오차 5건까지 추가 검출하여 0.0mm로 수정했습니다.</p>
+            </div>
+            <span class="text-xs font-mono font-extrabold px-3 py-1 rounded-lg bg-emerald-100 text-emerald-900 border border-emerald-300">검증 결과: 비의도 충돌 0건 (PASS)</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs border-collapse">
+              <thead>
+                <tr class="bg-rose-50 border-y border-rose-200 text-rose-950">
+                  <th class="py-2 px-3 text-left">구분 / 부품</th>
+                  <th class="py-2 px-3 text-left">기존 v4.0 실제 오차 및 간섭 현상</th>
+                  <th class="py-2 px-3 text-left">Rev 5.0 (현 3D/도면) 조치 결과</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 text-slate-700">
+                <tr>
+                  <td class="py-2 px-3 font-bold text-slate-900">1. 칼날 vs 궤도 &amp; 직경</td>
+                  <td class="py-2 px-3 text-rose-700 font-medium">칼날 R=115(±220)가 궤도 내벽(±205)을 <b>15mm 침범</b>. CAD엔 R=112(Ø224)로 6mm 축소 왜곡됨.</td>
+                  <td class="py-2 px-3 text-emerald-800 font-medium">전폭 650mm(궤도 내벽 ±240) 확장 + 실치수 R=115 복원 + Ø242 보호 슈라우드 추가(측면 +14~20mm 여유).</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-slate-900">2. 좌측 칼날 vs 전방 스커트</td>
+                  <td class="py-2 px-3 text-rose-700 font-medium">좌측 칼날(Y=+215, 전단 +330)이 <b>전방 고무스커트(Y=+328)와 3~6mm 충돌(절단)</b> 및 베이스판 돌출.</td>
+                  <td class="py-2 px-3 text-emerald-800 font-medium">칼날을 Y=+208 / +88로 후퇴시키고 스커트를 Y=±336에 배치해 슈라우드(+329)와 +3mm, 칼날(+323)과 +9mm 비간섭.</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-slate-900">3. 구동축·베어링·풀리 어긋남</td>
+                  <td class="py-2 px-3 text-rose-700 font-medium">궤도 스프로킷(<b>Y=-170</b>)과 베어링 축(<b>Y=-195</b>)이 <b>25mm 불일치</b>, 풀리(±198)가 3030 프레임·궤도 동시 관통, 모터 중앙 8mm 협소.</td>
+                  <td class="py-2 px-3 text-emerald-800 font-medium">스프로킷·베어링(KFL004)·풀리 전부 <b>Y=-170, Z=170 동축 정렬</b>. 3030 측창(±220) 내장 벨트 &amp; 모터 중앙 56mm 복도 확보.</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-slate-900">4. VESC/ESC·핸들·트레이·EStop</td>
+                  <td class="py-2 px-3 text-rose-700 font-medium">ESC 외벽 돌출(±207)이 궤도(±205) 2mm 충돌. 코너 핸들·E-Stop(Y=-332)·배터리 트레이(Z=78)가 프레임/베이스판 관통.</td>
+                  <td class="py-2 px-3 text-emerald-800 font-medium">ESC를 3030 측창 포켓(±212, 핀 끝 ±237&lt;±240) 매립, 핸들 외측 코너(±247), E-Stop Y=-349, 트레이 Z=80 상단 안착.</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-slate-900">5. 보닛 Pixhawk &amp; 안테나 높이</td>
+                  <td class="py-2 px-3 text-rose-700 font-medium">보닛 개폐 시 Pixhawk IMU 영점 0.5~2° 틀어짐. RTK(Z=410)·SiK(Z=438) 안테나가 태양광 하부(350~380mm)와 충돌.</td>
+                  <td class="py-2 px-3 text-emerald-800 font-medium">Pixhawk·IP65·LiDAR·RTK 전방/후방 고정 데크 직결(0° 불변). 퍽형 RTK(315)·L절곡 915MHz(333)로 <b>Z_max=333mm</b>.</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-slate-900">6. 중량(33kg 오류) &amp; 4mm판·높이</td>
+                  <td class="py-2 px-3 text-rose-700 font-medium">도면 33kg vs v4.0 합산 <b>47.89kg</b>(무배터리 24.8kg 오류→실제 34.4kg). 75mm 높이 상향 시 베이스판과 칼날 간섭 우려.</td>
+                  <td class="py-2 px-3 text-emerald-800 font-medium">실측 <b>51.39kg</b>(배터리 제외 37.89kg, 1팩 ~48kg) 정정. 베이스판 4mm(Z=76~80) 통일 + 예초부 하부 Ø250mm 릴리프 타공 반영.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Math SVG + 3030 Cut List (Rev 5.0) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Dual Blade Non-Collision Math Card -->
           <div class="bg-white border border-slate-300 rounded-2xl p-5 shadow-xs">
-            <h3 class="text-base font-extrabold text-slate-900 mb-2">🔪 듀얼 칼날 비충돌 수학 검증 & 6면 배터리 간섭 제로 검증</h3>
-            <p class="text-xs text-slate-600 mb-4">
-              좌측 스핀들 <b>(-105, +215)</b>과 우측 스핀들 <b>(+105, +95)</b> 배치로 중앙 미절단 0%, 칼날 비충돌 여유(+11.9mm)를 확보하는 동시에 두 배터리 카트리지 수직 인출 통로를 완전히 개방합니다.
+            <h3 class="text-base font-extrabold text-slate-900 mb-2">🔪 듀얼 칼날·650mm 궤도 비간섭 &amp; 대칭 배터리 베이 평면 검증</h3>
+            <p class="text-xs text-slate-600 mb-3">
+              좌측 <b>(-105, +208)</b> &amp; 우측 <b>(+105, +88)</b> 배치로 <b>D=241.9mm</b> 비충돌을 유지하면서, 전폭 <b>650mm</b> 확장으로 궤도 내벽(±240)과 <b>+20mm</b>(+슈라우드 14mm) 여유 및 대칭 배터리 슬롯(<b>±18~30mm</b> 공차)을 확보했습니다.
             </p>
             <div id="bladeMathSvgContainer" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 flex justify-center"></div>
-            <div class="mt-4 grid grid-cols-3 gap-3 text-xs">
-              <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
-                <div class="text-emerald-800 font-bold">1. 중앙 미절단 방지</div>
-                <div class="font-mono text-base font-extrabold text-emerald-950 mt-1">20.0 mm 중첩</div>
-                <div class="text-emerald-700 mt-0.5">X간격 210mm &lt; Ø230mm (유효폭 440mm)</div>
+            <div class="mt-3 grid grid-cols-3 gap-2.5 text-xs">
+              <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200">
+                <div class="text-emerald-800 font-bold">1. 유효폭 &amp; 궤도 여유</div>
+                <div class="font-mono text-sm font-extrabold text-emerald-950 mt-0.5">440mm / +20mm</div>
+                <div class="text-emerald-700 mt-0.5">슈라우드(±226) 외측 +14mm</div>
               </div>
-              <div class="p-3 rounded-xl bg-blue-50 border border-blue-200">
-                <div class="text-blue-800 font-bold">2. 충돌 방지 여유</div>
-                <div class="font-mono text-base font-extrabold text-blue-950 mt-1">D = 241.9 mm</div>
-                <div class="text-blue-700 mt-0.5">√(210²+120²) → 상시 11.9mm 안전간격</div>
+              <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200">
+                <div class="text-blue-800 font-bold">2. 칼날 상호 비충돌</div>
+                <div class="font-mono text-sm font-extrabold text-blue-950 mt-0.5">D = 241.9 mm</div>
+                <div class="text-blue-700 mt-0.5">중앙 20mm 중첩 · +11.9mm 여유</div>
               </div>
-              <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
-                <div class="text-amber-800 font-bold">3. 배터리 수직 간섭</div>
-                <div class="font-mono text-base font-extrabold text-amber-950 mt-1">상하좌우 0 mm</div>
-                <div class="text-amber-700 mt-0.5">좌/우 여유 +4~22mm · 상단 15mm 에어갭</div>
+              <div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
+                <div class="text-amber-800 font-bold">3. 배터리 공차 &amp; 전고</div>
+                <div class="font-mono text-sm font-extrabold text-amber-950 mt-0.5">±18~30mm / 333mm</div>
+                <div class="text-amber-700 mt-0.5">10초 차단 교체 · Z≤340mm</div>
               </div>
             </div>
           </div>
 
-          <!-- 3030 Cut List Card -->
           <div class="bg-white border border-slate-300 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
             <div>
-              <h3 class="text-base font-extrabold text-slate-900 mb-2">📏 3030 알루미늄 프로파일 실제 재단 치수표 (Rev 4.0 Cut List)</h3>
-              <p class="text-xs text-slate-600 mb-4">
-                외곽 <b>400(W) × 650(L) × 175(H) mm</b> 프레임(Z=80~255mm) 내부에 <b>좌·우 대칭 수직 리프팅 배터리 카트리지(각 162×240×160mm)</b>가 상부 보닛 개방 시 여유 간격(+4~15mm)으로 쏙 빠져나옵니다.
+              <h3 class="text-base font-extrabold text-slate-900 mb-2">📏 3030 알루미늄 프로파일 Rev 5.0 재단 치수표 (전폭 470 × 길이 660mm)</h3>
+              <p class="text-xs text-slate-600 mb-3">
+                프레임 외곽 <b>470(W) × 660(L) × 175(H) mm</b>(내폭 410mm, Z=80~255mm). 30×30 측창(Z=110~225)에 VESC/ESC와 타이밍 벨트를 수납합니다.
               </p>
               <table class="w-full text-xs border-collapse">
                 <thead>
                   <tr class="bg-slate-100 border-y border-slate-300 text-slate-800">
-                    <th class="py-2.5 px-3 text-left">품목</th>
-                    <th class="py-2.5 px-3 text-center">절단 길이</th>
-                    <th class="py-2.5 px-3 text-center">수량</th>
-                    <th class="py-2.5 px-3 text-center">총 길이</th>
-                    <th class="py-2.5 px-3 text-left">조립 위치 및 용도</th>
+                    <th class="py-2 px-2.5 text-left">품목</th>
+                    <th class="py-2 px-2.5 text-center">절단 길이</th>
+                    <th class="py-2 px-2.5 text-center">수량</th>
+                    <th class="py-2 px-2.5 text-center">총 길이</th>
+                    <th class="py-2 px-2.5 text-left">조립 위치 및 용도</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 text-slate-700">
                   <tr>
-                    <td class="py-2.5 px-3 font-bold text-slate-900">세로 메인 빔 (Y축)</td>
-                    <td class="py-2.5 px-3 text-center font-mono font-bold text-blue-700">590 mm</td>
-                    <td class="py-2.5 px-3 text-center font-mono">4개</td>
-                    <td class="py-2.5 px-3 text-center font-mono">2,360 mm</td>
-                    <td class="py-2.5 px-3">상/하부 좌/우 종방향 빔 (내측 폭 340mm, VESC/ESC 외부 방열 장착)</td>
+                    <td class="py-2 px-2.5 font-bold text-slate-900">세로 메인 빔 (Y축)</td>
+                    <td class="py-2 px-2.5 text-center font-mono font-bold text-blue-700">600 mm</td>
+                    <td class="py-2 px-2.5 text-center font-mono">4개</td>
+                    <td class="py-2 px-2.5 text-center font-mono">2,400 mm</td>
+                    <td class="py-2 px-2.5">좌/우 상·하부 종방향 레일 (내폭 410mm · 측창 ESC 매립)</td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-3 font-bold text-slate-900">가로 크로스 빔 (X축)</td>
-                    <td class="py-2.5 px-3 text-center font-mono font-bold text-blue-700">340 mm</td>
-                    <td class="py-2.5 px-3 text-center font-mono">4개</td>
-                    <td class="py-2.5 px-3 text-center font-mono">1,360 mm</td>
-                    <td class="py-2.5 px-3">전/후단 3030 크로스바 (중앙 배터리 수직 인출 통로 전면 개방)</td>
+                    <td class="py-2 px-2.5 font-bold text-slate-900">가로 크로스 빔 (X축)</td>
+                    <td class="py-2 px-2.5 text-center font-mono font-bold text-blue-700">410 mm</td>
+                    <td class="py-2 px-2.5 text-center font-mono">4개</td>
+                    <td class="py-2 px-2.5 text-center font-mono">1,640 mm</td>
+                    <td class="py-2 px-2.5">전/후단 3030 크로스바 (중앙 배터리 수직 인출부 개방)</td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-3 font-bold text-slate-900">수직 기둥 포스트 (Z축)</td>
-                    <td class="py-2.5 px-3 text-center font-mono font-bold text-blue-700">175 mm</td>
-                    <td class="py-2.5 px-3 text-center font-mono">4개</td>
-                    <td class="py-2.5 px-3 text-center font-mono">700 mm</td>
-                    <td class="py-2.5 px-3">Z=80~255mm 섀시 형성 (+15mm 배터리 상부 에어갭 확보)</td>
+                    <td class="py-2 px-2.5 font-bold text-slate-900">수직 코너 기둥 (Z축)</td>
+                    <td class="py-2 px-2.5 text-center font-mono font-bold text-blue-700">175 mm</td>
+                    <td class="py-2 px-2.5 text-center font-mono">4개</td>
+                    <td class="py-2 px-2.5 text-center font-mono">700 mm</td>
+                    <td class="py-2 px-2.5">Z=80~255mm 섀시 + 후방 동축 베어링 브래킷 지지</td>
                   </tr>
                   <tr>
-                    <td class="py-2.5 px-3 font-bold text-slate-900">모터 Z단차 브릿지 & 보닛 힌지바</td>
-                    <td class="py-2.5 px-3 text-center font-mono font-bold text-blue-700">340 mm</td>
-                    <td class="py-2.5 px-3 text-center font-mono">4개</td>
-                    <td class="py-2.5 px-3 text-center font-mono">1,360 mm</td>
-                    <td class="py-2.5 px-3">전방 Z형 예초브릿지, 후방 주행모터 마운트, 보닛 분할 경계바(Y=+230)</td>
+                    <td class="py-2 px-2.5 font-bold text-slate-900">고정 전장/힌지 분할바</td>
+                    <td class="py-2 px-2.5 text-center font-mono font-bold text-blue-700">410 mm</td>
+                    <td class="py-2 px-2.5 text-center font-mono">2~4개</td>
+                    <td class="py-2 px-2.5 text-center font-mono">820~1,520 mm</td>
+                    <td class="py-2 px-2.5">Y=+48 전방 Pixhawk 고정 브릿지바, Y=-216 후방 힌지바 (예비 2개 포함)</td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr class="bg-slate-900 text-white font-bold">
-                    <td class="py-2.5 px-3">합계</td>
-                    <td class="py-2.5 px-3 text-center">—</td>
-                    <td class="py-2.5 px-3 text-center font-mono">16개</td>
-                    <td class="py-2.5 px-3 text-center font-mono text-amber-300">5,780 mm</td>
-                    <td class="py-2.5 px-3">Z-브릿지·보닛 경계바 포함 알루미늄 프로파일 약 3.8 kg</td>
+                    <td class="py-2 px-2.5">합계 (기본 14개)</td>
+                    <td class="py-2 px-2.5 text-center">—</td>
+                    <td class="py-2 px-2.5 text-center font-mono">14개</td>
+                    <td class="py-2 px-2.5 text-center font-mono text-amber-300">5,560~6,260 mm</td>
+                    <td class="py-2 px-2.5">AL3030 프로파일 실중량 약 4.95 kg (브래킷 별도)</td>
                   </tr>
                 </tfoot>
               </table>
             </div>
           </div>
         </div>
-      </div>
 
+        <!-- Weight/Power Budget + Phase 1 vs Phase 2 + Decision Matrix -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <div class="bg-white border border-slate-300 rounded-2xl p-5 shadow-xs space-y-4">
+            <h3 class="text-base font-extrabold text-slate-900">⚖️ 실측 중량·무게중심(CG)·배터리 1시간 소비전력 검증</h3>
+            <table class="w-full text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-100 border-y border-slate-300 text-slate-800">
+                  <th class="py-2 px-2.5 text-left">계통 (32종 부품 실측)</th>
+                  <th class="py-2 px-2.5 text-right">Rev 5.0 중량</th>
+                  <th class="py-2 px-2.5 text-left">구성 및 검증 수치</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 text-slate-700">
+                <tr><td class="py-1.5 px-2.5 font-bold">A. 프레임/구동/궤도</td><td class="py-1.5 px-2.5 text-right font-mono font-bold">24.73 kg</td><td class="py-1.5 px-2.5">470×660 프레임(4.95), 베이스판(3.05), 궤도(6.8), 모터×2(7.2), 풀리/축/핸들/스커트</td></tr>
+                <tr><td class="py-1.5 px-2.5 font-bold">B. 예초계통 + 보호슈라우드</td><td class="py-1.5 px-2.5 text-right font-mono font-bold">7.15 kg</td><td class="py-1.5 px-2.5">상부 모터·3단 브릿지(2.65), Ø20 스핀들(1.6), Ø230 칼날+보호 슈라우드(2.9)</td></tr>
+                <tr><td class="py-1.5 px-2.5 font-bold">C. 배터리·4채널 ESC·배전</td><td class="py-1.5 px-2.5 text-right font-mono font-bold">16.31 kg</td><td class="py-1.5 px-2.5">듀얼 배터리(13.5), 측창 VESC/ESC(1.46), 컨택터/퓨즈/버스바/DCDC/E-Stop</td></tr>
+                <tr><td class="py-1.5 px-2.5 font-bold">D. 고정 전방 IP65 두뇌</td><td class="py-1.5 px-2.5 text-right font-mono font-bold">1.37 kg</td><td class="py-1.5 px-2.5">비개폐 전방 고정 데크 직결(Pixhawk 6C, RPi5, F9P, UBEC, PM07, IP65함)</td></tr>
+                <tr><td class="py-1.5 px-2.5 font-bold">E. 센서 · 저상안테나 · 보닛</td><td class="py-1.5 px-2.5 text-right font-mono font-bold">1.83 kg</td><td class="py-1.5 px-2.5">방진 보닛+흡기팬(1.15), LiDAR/OAK-D/퍽RTK/RC/SiK (전고 333mm)</td></tr>
+              </tbody>
+              <tfoot>
+                <tr class="bg-slate-900 text-white font-bold">
+                  <td class="py-2 px-2.5">2팩 풀세트 CAD 합계</td>
+                  <td class="py-2 px-2.5 text-right font-mono text-amber-300">51.39 kg</td>
+                  <td class="py-2 px-2.5">배터리 제외 본체 37.89kg (2인 운반) · 1단계 1팩 약 44~48kg · CG (0, -47, 151mm)</td>
+                </tr>
+              </tfoot>
+            </table>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-xl bg-blue-50 border border-blue-200">
+                <div class="font-extrabold text-blue-950">⛰️ 35° 경사 토크 검증 (52kg 기준)</div>
+                <div class="text-blue-900 mt-1">요구 견인력 ≈ 373N → 필요 토크 <b>~24.2 N·m</b><br/>750W 1:36 ×2 출력 <b>100 N·m+</b> (여유 충분)</div>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                <div class="font-extrabold text-emerald-950">⚡ 1시간 연속 소비전력 (85% DoD)</div>
+                <div class="text-emerald-900 mt-1">평균 <b>1,200W</b>(고부하 1,450W) → <b>1,412~1,705 Wh</b><br/>즉, 48V(51.2V) <b>28~33Ah</b> 필요 (1팩 테스트 → 2팩 확장)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-300 rounded-2xl p-5 shadow-xs space-y-4">
+            <h3 class="text-base font-extrabold text-slate-900">💰 단계별 예산 분리 &amp; 4대 팀 확정 안건 · 3인 병렬 Gate 전략</h3>
+            <table class="w-full text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-100 border-y border-slate-300 text-slate-800">
+                  <th class="py-2 px-2.5 text-left">개발 단계</th>
+                  <th class="py-2 px-2.5 text-left">포함 핵심 품목</th>
+                  <th class="py-2 px-2.5 text-right">예산 타겟</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 text-slate-700">
+                <tr class="bg-emerald-50/40">
+                  <td class="py-2 px-2.5 font-extrabold text-emerald-900">1단계 (필수)<br/>원격 주행+예초</td>
+                  <td class="py-2 px-2.5">470×660 프레임·궤도, 주행/예초모터×4 + VESC/ESC×4, <b>48V 1팩 배터리</b>, 150A 퓨즈·E-Stop·DCDC, FlySky RC 조종기</td>
+                  <td class="py-2 px-2.5 text-right font-mono font-extrabold text-emerald-800">~100만 원<br/><span class="text-[10px] font-normal">(기존 보유부품 제외 정밀견적)</span></td>
+                </tr>
+                <tr class="bg-blue-50/40">
+                  <td class="py-2 px-2.5 font-extrabold text-blue-900">2단계 (확장)<br/>자율주행 고도화</td>
+                  <td class="py-2 px-2.5">Pixhawk 6C, ZED-F9P RTK-GPS, RPi 5, OAK-D, 3D LiDAR, 915MHz 텔레메트리, <b>2번째 배터리팩</b>, 12V 높이 액추에이터</td>
+                  <td class="py-2 px-2.5 text-right font-mono font-extrabold text-blue-800">+150~200만 원<br/><span class="text-[10px] font-normal">(동일 마운트 볼트온 장착)</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
+              <div class="font-extrabold text-slate-900">✅ 4대 팀 확정 안건 &amp; 3인 병렬 통합 (Gate 0 → Gate 3)</div>
+              <div class="text-slate-700">• <b>안건 확정:</b> [1] 전폭 650mm/예초폭 440mm(B안 추천) · [2] 2슬롯(초기 1팩 vs 중앙 1팩) · [3] 1차 수동 3단 높이조절(전동 홀 예비) · [4] 보유부품 파악 &amp; 전고 ≤340mm 동결</div>
+              <div class="grid grid-cols-3 gap-2 pt-1 text-[11px]">
+                <div class="p-2 rounded bg-white border border-slate-200"><b class="text-blue-700">담당자 A (기구)</b><br/>650 프레임·보호덱·수동 3단·고정브릿지·저상보닛</div>
+                <div class="p-2 rounded bg-white border border-slate-200"><b class="text-emerald-700">담당자 B (동력)</b><br/>48V 1팩·모터4 벤치구동·측창 방열·100만 원 BOM</div>
+                <div class="p-2 rounded bg-white border border-slate-200"><b class="text-purple-700">담당자 C (제어)</b><br/>RC 믹싱/비상차단·Pixhawk 자세·자율주행 SW 준비</div>
+              </div>
+              <div class="text-[11px] font-bold text-slate-800 pt-0.5">
+                Gate 0(구조동결·보유품) → Gate 1(A+B 무부하·비간섭·E-Stop) → Gate 2(야외 예초·발열 실측) → Gate 3(RTK/LiDAR·최종 도면 동기화)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- =====================================================================
          3. RIGHT SIDEBAR: HIGH-READABILITY PART INSPECTOR (W-92)
          ===================================================================== -->
-    <aside class="bg-white border-l border-slate-300 flex flex-col shrink-0 z-20" style="width: 370px;">
+    <aside id="rightSidebar" class="w-[265px] xl:w-[360px] bg-white border-l border-slate-300 flex flex-col shrink-0 z-20">
       <!-- Inspector Header -->
       <div class="p-3.5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
         <div class="font-extrabold text-sm text-slate-900">🔍 선택 부품 상세 도면 & 명세</div>
@@ -517,7 +649,7 @@
           </div>
           <div class="col-span-2 bg-blue-50/60 p-2.5 rounded-lg border border-blue-200">
             <span class="text-[11px] text-blue-800 font-semibold block">3D CAD 배치 중심 좌표 (X, Y, Z mm)</span>
-            <span id="inspPartCoord" class="font-mono font-extrabold text-blue-900 text-xs mt-0.5 block">(0, -25, 258) — 상층 IP65 정중앙</span>
+            <span id="inspPartCoord" class="font-mono font-extrabold text-blue-900 text-xs mt-0.5 block">(0, +148, 284) — 전방 비개폐 고정 IP65 내부</span>
           </div>
         </div>
 
@@ -534,23 +666,23 @@
           <div class="font-extrabold text-xs text-slate-900">✅ 실차 핵심 설계 반영 요약 (클릭 시 해당 부품 이동)</div>
 
           <div onclick="focusPreset('pixhawk')" class="p-3 rounded-xl bg-amber-50/80 hover:bg-amber-100/70 border border-amber-200 cursor-pointer transition">
-            <div class="font-extrabold text-xs text-amber-950">1. Pixhawk 6C & 4채널 모터 드라이버 실측 반영</div>
+            <div class="font-extrabold text-xs text-amber-950">1. 전방 고정 Pixhawk & 3030 측창 매립 ESC</div>
             <p class="text-xs text-amber-900 mt-1 leading-relaxed">
-              Holybro Pixhawk 6C(92×52×24mm)와 주행용 VESC 75100 V2(×2, 105×70×35mm), 예초용 48V 80A 방열핀 ESC(×2, 110×62×36mm)의 실제 외형과 방열 구조를 반영했습니다.
+              Pixhawk 6C는 <b>전방 비개폐 고정 IP65 브릿지</b>에 직결해 IMU 영점(0°)을 보호하고, VESC×2·예초 ESC×2는 470mm 측창 포켓(±212)에 매립해 궤도(±240) 간섭을 차단했습니다.
             </p>
           </div>
 
           <div onclick="focusPreset('battery')" class="p-3 rounded-xl bg-emerald-50/80 hover:bg-emerald-100/70 border border-emerald-200 cursor-pointer transition">
-            <div class="font-extrabold text-xs text-emerald-950">2. 보닛 힌지오픈 · 듀얼 수직 배터리 (간섭 0mm)</div>
+            <div class="font-extrabold text-xs text-emerald-950">2. 경량 62° 방진 보닛 · 대칭 퀵스왑 (+18~30mm 공차)</div>
             <p class="text-xs text-emerald-900 mt-1 leading-relaxed">
-              후방 힌지 보닛이 62°로 들리며 <b>162×240×160mm 듀얼 카트리지(각 6.75kg)</b>가 좌·우 엇갈린 독립 샤프트를 통해 공구 없이 10초 만에 수직 탈착됩니다. (상부 15mm 에어갭)
+              흡기팬·필터만 달린 경량 보닛을 62° 열면 <b>대칭 배터리 슬롯(±96, -84)</b>에서 1팩(1단계) 또는 2팩(2단계) 카트리지를 E-Stop 차단 후 10초 만에 교체합니다.
             </p>
           </div>
 
           <div onclick="focusPreset('motors')" class="p-3 rounded-xl bg-blue-50/80 hover:bg-blue-100/70 border border-blue-200 cursor-pointer transition">
-            <div class="font-extrabold text-xs text-blue-950">3. 모터 상부 배치 (모터 보호 · 하부 스핀들/벨트 구동)</div>
+            <div class="font-extrabold text-xs text-blue-950">3. B안 650mm 궤도 · Ø230 보호슈라우드 · 3단 조절</div>
             <p class="text-xs text-blue-900 mt-1 leading-relaxed">
-              예초모터(Z=165mm)와 주행모터(Z=195mm)를 상부 안전 구역에 배치하여 하부에서는 스핀들(칼날 Z=42mm)과 궤도만 구르고, 후방 모터 하단 공간에 버스바·12V 컨버터를 수납했습니다.
+              전폭 650mm 확장으로 칼날·궤도 간섭 0mm(+14~20mm 여유)와 <b>수동 3단 높이조절(35/55/75mm)</b>을 달성했고, 주행모터(Z=178)와 스프로킷(Y=-170)을 동축 정렬했습니다.
             </p>
           </div>
         </div>
@@ -564,785 +696,509 @@
 // 1. MASTER 32-PART CATALOG (NUMBERED #01 ~ #32 FOR HIGH READABILITY)
 // ============================================================================
 const PARTS_CATALOG = [
-  // --- [계통 D] 상위/하위 제어 두뇌 (상층 IP65 밀폐 박스 내부 — 7종) ---
+  // ========================================================================
+  // 계통 D : 두뇌 · 제어 보드 (전방 비개폐 고정 프레임 브릿지 Z=261~329, IMU 영점 고정)
+  // ========================================================================
   {
-    num: 1,
-    id: 'D_PIXHAWK',
-    sys: 'D',
-    sysName: '계통 D · 두뇌/제어',
-    shortLabel: 'Pixhawk 6C 제어기',
-    name: 'Holybro Pixhawk 6C + CNC 진동댐퍼',
-    sub: '본체 84.8×44×12.4mm + CNC 방진마운트 (92×52×24mm)',
-    dim: '92 × 52 × 24 mm',
-    qty: '1세트',
-    weight: 0.09,
-    coord: '(0, -45, 282) — 보닛 상부 IP65 박스 정중앙',
-    note: '실제 Holybro Pixhawk 6C 규격(84.8×44×12.4mm)에 전용 CNC 진동 댐핑 보드(92×52mm)를 결합한 치수입니다. 보닛 일체형 IP65 박스 내부에 장착되어 배터리 교체를 위해 보닛을 들어 올려도 배선을 분리할 필요가 없습니다.',
-    color: '#ea580c',
-    visible: true,
-    isKeyLabel: true,
-    mountedOnBonnet: true,
-    explodeVec: [0, 35, 235],
+    num: 1, id: 'D_PIXHAWK', sys: 'D', sysName: '계통 D · 두뇌/제어',
+    shortLabel: 'Pixhawk 6C 제어기', name: 'Holybro Pixhawk 6C + CNC 진동댐퍼',
+    sub: '본체 84.8×44×12.4mm + CNC 방진마운트 (전방 고정 브릿지)', dim: '92 × 52 × 24 mm',
+    qty: '1세트', weight: 0.09,
+    coord: '(0, +148, 284) — 전방 비개폐 고정 IP65 내부',
+    note: '[Rev 5.0 핵심 개선] 보닛 개폐 유격으로 인한 Roll/Pitch IMU 영점 오차(0.5~2°)를 원천 제거하기 위해, 3030 전방 고정 프레임 브릿지(비개폐 구역) 위 IP65 박스 정중앙에 직결했습니다. 1단계 원격 제어 또는 2단계 자율주행·전복 차단을 담당합니다.',
+    color: '#ea580c', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [0, 45, 225],
     shapes: [
-      { type: 'box', pos: [0, -45, 273], size: [52, 92, 6], color: '#475569' },
-      { type: 'box', pos: [0, -45, 283], size: [44, 85, 14], color: '#1e293b' },
-      { type: 'box', pos: [0, -38, 291], size: [22, 38, 3], color: '#f97316' },
-      { type: 'box', pos: [0, -6, 284], size: [38, 10, 10], color: '#f8fafc' },
-      { type: 'box', pos: [0, -84, 284], size: [36, 8, 9], color: '#e2e8f0' }
+      { type: 'box', pos: [0, 148, 274], size: [52, 92, 6], color: '#475569' },
+      { type: 'box', pos: [0, 148, 284], size: [44, 85, 14], color: '#1e293b' },
+      { type: 'box', pos: [0, 155, 292.5], size: [22, 38, 3], color: '#f97316' },
+      { type: 'box', pos: [0, 187, 285], size: [38, 10, 10], color: '#f8fafc' },
+      { type: 'box', pos: [0, 109, 285], size: [36, 8, 9], color: '#e2e8f0' }
     ]
   },
   {
-    num: 2,
-    id: 'D_RPI5',
-    sys: 'D',
-    sysName: '계통 D · 두뇌/제어',
-    shortLabel: 'Raspberry Pi 5 + 쿨러',
-    name: 'Raspberry Pi 5 (8GB) + 정품 액티브 쿨러 + NVMe HAT',
-    sub: '실측 85.0×56.0×34.0mm · FPV 영상 송출 & AI 비전 연산',
-    dim: '85 × 56 × 34 mm',
-    qty: '1세트',
-    weight: 0.12,
-    coord: '(-72, -45, 284) — 보닛 IP65 박스 내 좌측',
-    note: '실제 Raspberry Pi 5 기판(85×56mm)에 정품 알루미늄 액티브 블로워 쿨러 및 PCIe NVMe SSD HAT을 적층한 실측 치수(높이 34mm)입니다. 보닛과 함께 열리므로 하부 강전부와 완전히 격리되어 유지보수가 편합니다.',
-    color: '#16a34a',
-    visible: true,
-    isKeyLabel: true,
-    mountedOnBonnet: true,
-    explodeVec: [-125, 35, 220],
+    num: 2, id: 'D_RPI5', sys: 'D', sysName: '계통 D · 두뇌/제어',
+    shortLabel: '라즈베리파이 5', name: 'Raspberry Pi 5 (8GB) + 액티브 쿨러',
+    sub: '실측 PCB 85×56mm · 고정 IP65 좌전방 장착 (2단계 자율주행)', dim: '85 × 56 × 34 mm',
+    qty: '1세트', weight: 0.12,
+    coord: '(-74, +174, 282) — 고정 IP65 좌측 구역',
+    note: '2단계 자율주행·태양광 하부 맵핑용 메인 컴패니언 보드입니다(1단계 원격 실증 시 생략 가능). 전방 고정 프레임 위 IP65 박스에 장착되어 카메라·LiDAR와의 좌표계(TF)가 영구 일치합니다.',
+    color: '#16a34a', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [-125, 55, 210],
     shapes: [
-      { type: 'box', pos: [-72, -45, 272], size: [56, 85, 5], color: '#15803d' },
-      { type: 'box', pos: [-72, -50, 282], size: [42, 52, 16], color: '#cbd5e1' },
-      { type: 'cylinderZ', pos: [-72, -50, 292], radius: 16, height: 6, color: '#334155' },
-      { type: 'box', pos: [-84, -10, 280], size: [14, 16, 15], color: '#2563eb' },
-      { type: 'box', pos: [-62, -10, 280], size: [16, 16, 15], color: '#94a3b8' },
-      { type: 'box', pos: [-95, -50, 278], size: [6, 52, 9], color: '#0f172a' }
+      { type: 'box', pos: [-74, 174, 273], size: [56, 85, 5], color: '#15803d' },
+      { type: 'box', pos: [-74, 174, 282], size: [48, 60, 13], color: '#64748b' },
+      { type: 'cylinderZ', pos: [-74, 174, 290], radius: 17, height: 6, color: '#334155' },
+      { type: 'box', pos: [-74, 214, 282], size: [38, 10, 12], color: '#2563eb' }
     ]
   },
   {
-    num: 3,
-    id: 'D_ZED_F9P',
-    sys: 'D',
-    sysName: '계통 D · 두뇌/제어',
-    shortLabel: 'ZED-F9P RTK 보드',
-    name: 'u-blox ZED-F9P RTK-GPS 수신 보드',
-    sub: '실측 50×45×14mm · u-blox RF 실드캔 & 황동 SMA 단자',
-    dim: '50 × 45 × 14 mm',
-    qty: '1세트',
-    weight: 0.04,
-    coord: '(+72, -15, 280) — 보닛 IP65 박스 내 우측 상단',
-    note: '실제 u-blox ZED-F9P RTK-GPS 보드 실측 치수입니다. 금속 RF 노이즈 차폐 캔과 외부 RTK 안테나 연결용 황동 SMA 벌크헤드 잭이 장착되어 오차 1~2cm 정밀 측위를 수행합니다.',
-    color: '#0d9488',
-    visible: true,
-    isKeyLabel: true,
-    mountedOnBonnet: true,
-    explodeVec: [125, 55, 220],
+    num: 3, id: 'D_ZED_F9P', sys: 'D', sysName: '계통 D · 두뇌/제어',
+    shortLabel: 'u-blox RTK 보드', name: 'u-blox ZED-F9P RTK-GPS 수신 모듈',
+    sub: '실측 50×45×14mm · 고정 IP65 우전방 (2단계 1~2cm RTK)', dim: '50 × 45 × 14 mm',
+    qty: '1세트', weight: 0.04,
+    coord: '(+74, +174, 280) — 고정 IP65 우측 구역',
+    note: '2단계 cm급 RTK 자율주행 경로 추종 모듈입니다(1단계 원격 예초 구매 제외 가능). 고정 프레임 위 Pixhawk 6C와 직결되어 진동·자세 편차가 없습니다.',
+    color: '#0d9488', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [125, 65, 210],
     shapes: [
-      { type: 'box', pos: [72, -15, 276], size: [45, 50, 5], color: '#0f766e' },
-      { type: 'box', pos: [72, -15, 282], size: [26, 28, 7], color: '#e2e8f0' },
-      { type: 'cylinderZ', pos: [72, -38, 282], radius: 5, height: 12, color: '#eab308' }
+      { type: 'box', pos: [74, 174, 276], size: [45, 50, 6], color: '#0f766e' },
+      { type: 'box', pos: [74, 174, 281], size: [26, 26, 7], color: '#e2e8f0' }
     ]
   },
   {
-    num: 4,
-    id: 'D_UBEC_5V',
-    sys: 'D',
-    sysName: '계통 D · 두뇌/제어',
-    shortLabel: '12V→5V 8A 컨버터',
-    name: '절연형 12V → 5.1V (8A) 라즈베리파이 5 전용 컨버터',
-    sub: '실측 58×40×22mm · 라즈베리파이 5 독립 전원 공급',
-    dim: '58 × 40 × 22 mm',
-    qty: '1개',
-    weight: 0.06,
-    coord: '(-72, -110, 280) — 보닛 IP65 박스 좌측 후방',
-    note: '라즈베리파이 5 및 카메라/NVMe 구동 시 5V 전압 강하를 막기 위한 5.1V 8A(40W) 절연형 DC-DC 컨버터입니다.',
-    color: '#2563eb',
-    visible: true,
-    isKeyLabel: false,
-    mountedOnBonnet: true,
-    explodeVec: [-125, -65, 195],
+    num: 4, id: 'D_UBEC_5V', sys: 'D', sysName: '계통 D · 두뇌/제어',
+    shortLabel: '5V 5A 정전압 보드', name: '12V → 5.1V 5A 듀얼 UBEC 전원보드',
+    sub: '실측 58×40×22mm · RPi5 & Pixhawk 5V 전용', dim: '58 × 40 × 22 mm',
+    qty: '1개', weight: 0.06,
+    coord: '(-74, +96, 281) — 고정 IP65 좌후방 구역',
+    note: '12V 입력을 안정된 5.1V(최대 5A)로 강압해 라즈베리파이 5 및 주변 센서에 공급하는 정전압 레귤레이터입니다.',
+    color: '#2563eb', visible: true, mountedOnBonnet: false,
+    explodeVec: [-125, -45, 185],
     shapes: [
-      { type: 'box', pos: [-72, -110, 280], size: [40, 58, 22], color: '#2563eb' }
+      { type: 'box', pos: [-74, 96, 281], size: [40, 48, 22], color: '#2563eb' }
     ]
   },
   {
-    num: 5,
-    id: 'D_PM07',
-    sys: 'D',
-    sysName: '계통 D · 두뇌/제어',
-    shortLabel: 'PM07 파워 모듈',
-    name: 'Holybro PM07 (또는 PM02) Pixhawk 파워 모듈',
-    sub: '실측 68×45×18mm · 전압/전류 센싱 & Pixhawk 5V 공급',
-    dim: '68 × 45 × 18 mm',
-    qty: '1개',
-    weight: 0.06,
-    coord: '(+72, -100, 279) — 보닛 IP65 박스 우측 후방',
-    note: 'Pixhawk 6C에 클린 5V 전원을 공급하고 48V(51.2V) 듀얼 배터리 병렬 전압·전류를 실시간 정밀 계측합니다.',
-    color: '#0284c7',
-    visible: true,
-    isKeyLabel: false,
-    mountedOnBonnet: true,
-    explodeVec: [125, -65, 195],
+    num: 5, id: 'D_PM07', sys: 'D', sysName: '계통 D · 두뇌/제어',
+    shortLabel: 'PM07 전원감시 보드', name: 'Holybro PM07 파워모듈 (전류/전압 계측)',
+    sub: '실측 68×45×18mm · Pixhawk 연동 배터리 전압/전류 모니터링', dim: '68 × 45 × 18 mm',
+    qty: '1개', weight: 0.06,
+    coord: '(+74, +102, 281) — 고정 IP65 우후방 구역',
+    note: '48V 배터리 전압과 제어부 소비전류를 계측해 Pixhawk 6C로 전송하는 전원 모듈입니다.',
+    color: '#0284c7', visible: true, mountedOnBonnet: false,
+    explodeVec: [125, -45, 185],
     shapes: [
-      { type: 'box', pos: [72, -100, 279], size: [45, 68, 18], color: '#0284c7' },
-      { type: 'box', pos: [72, -100, 289], size: [30, 40, 4], color: '#facc15' }
+      { type: 'box', pos: [74, 102, 277], size: [45, 68, 10], color: '#0369a1' },
+      { type: 'box', pos: [74, 102, 283], size: [30, 40, 8], color: '#eab308' }
     ]
   },
   {
-    num: 6,
-    id: 'D_IP65_BOX',
-    sys: 'D',
-    sysName: '계통 D · 두뇌/제어',
-    shortLabel: 'IP65 방진·방수 박스',
-    name: 'IP65 방진·방수 전장 박스 (힌지 보닛 일체 탑재)',
-    sub: '외형 260×220×82mm · 보닛과 함께 62° 개방 (무배선 분리)',
-    dim: '260 × 220 × 82 mm',
-    qty: '1식',
-    weight: 0.85,
-    coord: '(0, -45, 298) — 힌지 보닛 중앙 상단',
-    note: '보닛 데크(Z=258mm) 위에 고정되어 앞쪽 토글 래치만 풀면 전장 박스째로 62° 들려 올라갑니다. 바닥 3mm 알루미늄 EMI 차폐판과 상부 투명 폴리커버네이트 점검창이 적용되었습니다.',
-    color: '#94a3b8',
-    visible: true,
-    isEnclosure: true,
-    isKeyLabel: false,
-    mountedOnBonnet: true,
-    explodeVec: [0, -30, 140],
-    shapes: [
-      { type: 'box', pos: [0, -45, 265], size: [260, 220, 10], color: '#94a3b8', isEnclosureBase: true },
-      { type: 'box', pos: [0, -45, 304], size: [260, 220, 68], color: '#e2e8f0', isEnclosureLid: true, extraExplodeZ: 155 }
-    ]
-  },
-  {
-    num: 7,
-    id: 'D_CABLE_GLANDS',
-    sys: 'D',
-    sysName: '계통 D · 두뇌/제어',
-    shortLabel: 'PG9 방수 그랜드 ×8',
-    name: '방수 케이블 그랜드 (PG9 / PG13.5 × 8개 · 후방 힌지 배선)',
-    sub: '외경 Ø20 × 길이 35 mm · 힌지 축 근접 루프 실링',
-    dim: 'Ø20 × L 35 mm (8개)',
-    qty: '8개',
-    weight: 0.12,
-    coord: 'IP65 박스 후방 힌지측 벽면 관통 (Z=278)',
-    note: '보닛이 62° 회전 개방될 때 케이블이 당겨지지 않도록 신호선 인출구를 회전 중심인 후방 힌지(Y=-310) 측에 집중 배치하여 굽힘 스트레스를 최소화했습니다.',
-    color: '#475569',
-    visible: true,
-    isKeyLabel: false,
-    mountedOnBonnet: true,
-    explodeVec: [0, -110, 155],
-    shapes: [
-      { type: 'box', pos: [-85, -162, 278], size: [18, 28, 18], color: '#475569' },
-      { type: 'box', pos: [-30, -162, 278], size: [18, 28, 18], color: '#475569' },
-      { type: 'box', pos: [30, -162, 278], size: [18, 28, 18], color: '#475569' },
-      { type: 'box', pos: [85, -162, 278], size: [18, 28, 18], color: '#475569' },
-      { type: 'box', pos: [-85, 68, 278], size: [18, 28, 18], color: '#475569' },
-      { type: 'box', pos: [-30, 68, 278], size: [18, 28, 18], color: '#475569' },
-      { type: 'box', pos: [30, 68, 278], size: [18, 28, 18], color: '#475569' },
-      { type: 'box', pos: [85, 68, 278], size: [18, 28, 18], color: '#475569' }
-    ]
-  },
-
-  // --- [계통 C] 실측 퀵스왑 듀얼 배터리 카트리지 & 4채널 모터 드라이버 (8종) ---
-  {
-    num: 8,
-    id: 'C_BATTERY',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: '듀얼 수직 배터리 (각 6.75kg)',
-    name: '퀵스왑 48V(51.2V) 듀얼 수직 리프팅 배터리 카트리지 (×2팩)',
-    sub: '실측 각 162(W)×240(L)×160(H)mm · 상부 수직 인출(간섭 0mm) · 블라인드 도킹',
-    dim: '각 162×240×160 (×2팩)',
-    qty: '2카트리지 (13.5 kg)',
-    weight: 13.5,
-    coord: '좌 (-85, +35, 162) / 우 (+85, -73, 162) — 상하좌우 간섭 0mm',
-    note: '기존 통짜 배터리의 6면 막힘 문제를 완전히 해결한 2분할 수직 리프팅 카트리지입니다. 후방 힌지 보닛을 열고 상부 접이식 노란색 손잡이를 들어 올리면, 하단 바닥의 Anderson SBS75G 블라인드 도킹 소켓에서 전선 분리 없이 10초 만에 분리됩니다. (좌측 여유 +22mm, 우측 여유 +10~14mm, 상부 15mm 에어갭)',
-    color: '#16a34a',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [0, 0, 215],
-    shapes: [
-      // Left & Right interchangeable vertical-lift cartridges
-      { type: 'box', pos: [-85, 35, 162], size: [162, 240, 158], color: '#15803d', isBatteryCartridge: true, liftOffsetZ: 215 },
-      { type: 'box', pos: [85, -73, 162], size: [162, 240, 158], color: '#16a34a', isBatteryCartridge: true, liftOffsetZ: 165 },
-      // Ergonomic yellow-black top lifting handles (clear under Z=255 deck!)
-      { type: 'box', pos: [-85, 35, 244], size: [42, 130, 8], color: '#eab308', isBatteryCartridge: true, liftOffsetZ: 215 },
-      { type: 'box', pos: [85, -73, 244], size: [42, 130, 8], color: '#eab308', isBatteryCartridge: true, liftOffsetZ: 165 },
-      // Fixed aluminum bay U-guide & Anderson SBS75G floor blind-mate sockets (stays on baseplate!)
-      { type: 'box', pos: [-85, 35, 81], size: [170, 246, 6], color: '#334155', fixedBay: true },
-      { type: 'box', pos: [85, -73, 81], size: [170, 246, 6], color: '#334155', fixedBay: true },
-      { type: 'box', pos: [-85, -62, 86], size: [58, 32, 14], color: '#dc2626', fixedBay: true },
-      { type: 'box', pos: [85, -170, 86], size: [58, 32, 14], color: '#dc2626', fixedBay: true }
-    ]
-  },
-  {
-    num: 9,
-    id: 'C_VESC',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: 'VESC 75100 드라이버 ×2',
-    name: '주행 모터 드라이버 — VESC 75100 V2 Alu CNC (×2개)',
-    sub: '실측 각 105×70×35mm · 3030 외벽 방열 장착 (배터리 인출과 비간섭)',
-    dim: '각 105 × 70 × 35 mm',
-    qty: '2개 (좌/우 주행)',
-    weight: 0.76,
-    coord: '좌 (-190, -70, 175) / 우 (+190, -70, 175)',
-    note: '실제 VESC 75100 V2 Alu CNC 모델(75V 100A FOC 제어)입니다. 프레임 외벽(X=±190)에 써멀패드로 직접 밀착 방열되어 내측 배터리 카트리지 수직 인출 통로(X=±166)와 8mm 이상 완전히 분리되어 있습니다.',
-    color: '#0f172a',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [-195, -30, 55],
-    symmetricX: true,
-    shapes: [
-      { type: 'vescDriver', pos: [-190, -70, 175], size: [34, 105, 70], color: '#0f172a', side: -1 },
-      { type: 'vescDriver', pos: [190, -70, 175], size: [34, 105, 70], color: '#0f172a', side: 1 }
-    ]
-  },
-  {
-    num: 10,
-    id: 'C_MOWER_ESC',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: '48V 80A 예초 ESC ×2',
-    name: '예초 모터 드라이버 — 48V 80A~100A 대형 방열핀 ESC (×2개)',
-    sub: '실측 각 110×62×36mm · 전방 좌/우 프레임 외벽 방열',
-    dim: '각 110 × 62 × 36 mm',
-    qty: '2개 (좌/우 예초)',
-    weight: 0.70,
-    coord: '좌 (-190, +115, 175) / 우 (+190, +115, 175)',
-    note: '듀얼 예초 모터의 고부하 기동 전류(50~80A)를 처리하는 방열핀 브러시리스 드라이버로, 전방 프레임 외벽(X=±190)에 장착해 주행풍으로 냉각하며 배터리 통로를 침범하지 않습니다.',
-    color: '#1e293b',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [-195, 95, 55],
-    symmetricX: true,
-    shapes: [
-      { type: 'vescDriver', pos: [-190, 115, 175], size: [34, 110, 62], color: '#1e293b', side: -1 },
-      { type: 'vescDriver', pos: [190, 115, 175], size: [34, 110, 62], color: '#1e293b', side: 1 }
-    ]
-  },
-  {
-    num: 11,
-    id: 'C_CONTACTOR',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: '200A 메인 컨택터',
-    name: 'TE Kilovac EV200 (48V 200A 메인 컨택터 + 프리차지 저항)',
-    sub: '실측 85×60×72mm · 좌측 배터리 후방 여유베이 배치 (비간섭)',
-    dim: '85 × 60 × 72 mm',
-    qty: '1식',
-    weight: 0.45,
-    coord: '(-55, -145, 120) — 좌측 배터리 후방(+30mm 이격)',
-    note: '좌측 배터리 카트리지 뒤쪽 빈 공간(Y=-145mm, 배터리와 +30mm 이격)에 배치해 배터리 수직 인출을 방해하지 않으면서 E-Stop 신호로 200A 메인 전원을 즉시 차단합니다.',
-    color: '#334155',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [-75, -145, 70],
-    shapes: [
-      { type: 'box', pos: [-55, -145, 120], size: [65, 60, 72], color: '#1e293b' },
-      { type: 'box', pos: [-55, -182, 115], size: [55, 22, 22], color: '#ca8a04' }
-    ]
-  },
-  {
-    num: 12,
-    id: 'C_ANL_FUSE',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: '150A ANL 메인 퓨즈',
-    name: '150A ANL 메인 퓨즈 & 방진 홀더',
-    sub: '실측 92×42×38mm · 좌측 배터리 후방 도킹 출력단 직결',
-    dim: '92 × 42 × 38 mm',
-    qty: '1개',
-    weight: 0.15,
-    coord: '(-132, -145, 105) — 배터리 도킹 직후단',
-    note: '좌측 카트리지 후방 도킹 소켓 바로 뒤에 위치해 배선 길이를 최단으로 줄이고 단락 사고 시 즉각 용단됩니다.',
-    color: '#b91c1c',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [-115, -145, 70],
-    shapes: [
-      { type: 'box', pos: [-132, -145, 105], size: [42, 72, 36], color: '#b91c1c' },
-      { type: 'box', pos: [-132, -145, 125], size: [22, 42, 6], color: '#facc15' }
-    ]
-  },
-  {
-    num: 13,
-    id: 'C_BUSBAR',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: '48V 전원 버스바 ×2',
-    name: '48V(+) / GND(-) 대전류 황동 전원 분배 버스바 (150A 4구)',
-    sub: '실측 각 115×32×35mm · 상층 주행모터 하부(Z=102) 수납',
-    dim: '각 115 × 32 × 35 mm',
-    qty: '2개 (+/-)',
-    weight: 0.28,
-    coord: '좌 (-105, -250, 102) / 우 (+105, -250, 102) — 주행모터 하부',
-    note: '주행모터를 Z=195mm 상층으로 올려 비워둔 후방 하층 데크(Z=102mm)에 장착해 배터리를 뺄 때 손이나 배터리가 닿지 않고 안전하게 분배됩니다.',
-    color: '#d97706',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [-135, -165, 40],
-    symmetricX: true,
-    shapes: [
-      { type: 'box', pos: [-105, -250, 102], size: [32, 95, 34], color: '#dc2626', side: -1 },
-      { type: 'box', pos: [105, -250, 102], size: [32, 95, 34], color: '#0f172a', side: 1 }
-    ]
-  },
-  {
-    num: 14,
-    id: 'C_DCDC_12V',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: '48V→12V 20A 컨버터',
-    name: '절연형 48V(36~75V) → 12V 20A (240W) 방수 컨버터',
-    sub: '실측 82×80×35mm · 주행모터 하단 방열판 밀착 (Z=100mm)',
-    dim: '82 × 80 × 35 mm',
-    qty: '1개',
-    weight: 0.35,
-    coord: '(0, -250, 100) — 후방 하층 방열판 정중앙',
-    note: '후방 주행모터(Z=195mm) 아래쪽 여유 공간(Z=82~140mm)에 위치해 4mm 베이스 판재에 직접 방열되며 배터리 탈착 동선과 완전히 분리됩니다.',
-    color: '#475569',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [0, -195, 35],
-    shapes: [
-      { type: 'box', pos: [0, -250, 100], size: [82, 80, 35], color: '#475569' }
-    ]
-  },
-  {
-    num: 15,
-    id: 'C_ESTOP',
-    sys: 'C',
-    sysName: '계통 C · 배터리/드라이버',
-    shortLabel: '비상정지(E-Stop)',
-    name: '비상정지(E-Stop) 대형 버섯형 스위치 (고정 후면 브래킷)',
-    sub: '실측 헤드 Ø45 × 깊이 65 mm · 보닛 힌지 뒤 고정 프레임 장착',
-    dim: 'Ø45 × H 65 mm',
-    qty: '1개',
-    weight: 0.12,
-    coord: '(0, -334, 236) — 보닛 개방 시에도 비간섭 고정위치',
-    note: '후방 보닛 힌지(Y=-310)보다 뒤쪽의 고정 프레임 브래킷(Y=-334)에 장착하여 보닛을 62° 열어도 전혀 걸리지 않으며, 정비 중에도 즉시 전원을 차단할 수 있습니다.',
-    color: '#ef4444',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [0, -175, 100],
-    shapes: [
-      { type: 'box', pos: [0, -332, 224], size: [54, 42, 34], color: '#eab308' },
-      { type: 'cylinderZ', pos: [0, -332, 250], radius: 22, height: 22, color: '#ef4444' }
-    ]
-  },
-
-  // --- [계통 B] 예초 작업계 (상부 Z단차 브릿지 배치 + 하부 관통 스핀들 허브 & 칼날 — 3종) ---
-  {
-    num: 16,
-    id: 'B_MOWER_MOTOR',
-    sys: 'B',
-    sysName: '계통 B · 예초계통',
-    shortLabel: '상부 예초모터 ×2 (Z=165)',
-    name: '상부 Z-브릿지 배치 48V 1.2~1.5kW 전폐형 예초 BLDC (×2개)',
-    sub: '실측 Ø76×H70mm · Z단차 브릿지 장착(배터리 수직 인출 통로와 비간섭!)',
-    dim: 'Ø76 × H 70 mm (2개)',
-    qty: '2개 (상부 Z-브릿지)',
-    weight: 2.4,
-    coord: '좌 (-105, +215, 165) / 우 (+105, +95, 165)',
-    note: '예초 모터가 바닥 돌에 맞지 않도록 베이스 판재(Z=80mm)보다 높은 Z단차 브릿지(Z=165mm) 위에 장착했습니다. 특히 좌·우 엇갈린 Z형 브릿지 구조로 설계해 바로 뒤편의 좌·우 배터리 카트리지 수직 인출 시 전혀 걸리지 않습니다.',
-    color: '#0284c7',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [0, 135, 115],
-    shapes: [
-      { type: 'box', pos: [-88, 220, 122], size: [164, 106, 8], color: '#94a3b8' },
-      { type: 'box', pos: [88, 108, 122], size: [164, 102, 8], color: '#94a3b8' },
-      { type: 'box', pos: [0, 165, 122], size: [42, 22, 8], color: '#64748b' },
-      { type: 'cylinderZ', pos: [-105, 215, 165], radius: 38, height: 70, color: '#0284c7' },
-      { type: 'cylinderZ', pos: [105, 95, 165], radius: 38, height: 70, color: '#0369a1' }
-    ]
-  },
-  {
-    num: 17,
-    id: 'B_ANTI_WRAP',
-    sys: 'B',
-    sysName: '계통 B · 예초계통',
-    shortLabel: 'Ø20 스핀들 허브 & 방지링',
-    name: '중하중 Ø20mm 베어링 스핀들 허브 & 풀감김 방지 래비린스 캡',
-    sub: '상부 모터(Z=165)와 하부 칼날(Z=42)을 잇는 수직 구동축 & 베어링 하우징',
-    dim: '스핀들 Ø80×H95 + 방지캡 Ø85',
-    qty: '2세트',
-    weight: 1.6,
-    coord: '좌 (-105, +215, 65~122) / 우 (+105, +95, 65~122)',
-    note: '상부 예초 모터(Z=165mm)의 회전력을 하부 베이스 판재(Z=80mm) 아래의 칼날(Z=42mm)로 전달하는 복열 베어링 스핀들 허브입니다.',
-    color: '#64748b',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [0, 135, -145],
-    shapes: [
-      { type: 'cylinderZ', pos: [-105, 215, 92], radius: 22, height: 72, color: '#475569' },
-      { type: 'cylinderZ', pos: [-105, 215, 58], radius: 40, height: 18, color: '#94a3b8' },
-      { type: 'cylinderZ', pos: [105, 95, 92], radius: 22, height: 72, color: '#475569' },
-      { type: 'cylinderZ', pos: [105, 95, 58], radius: 40, height: 18, color: '#94a3b8' }
-    ]
-  },
-  {
-    num: 18,
-    id: 'B_BLADE',
-    sys: 'B',
-    sysName: '계통 B · 예초계통',
-    shortLabel: '하부 듀얼 스윙 칼날(Z=42)',
-    name: '하부 듀얼 스윙 칼날 디스크 & 스키드 접시 (Ø230~320mm)',
-    sub: '중심거리 D=241.9mm > 230mm (상시 +11.9mm 안전간격 · 유효폭 440mm)',
-    dim: 'Ø230 (유효폭 440) × T 15 mm',
-    qty: '2세트 (좌 CW / 우 CCW)',
-    weight: 1.4,
-    coord: '좌 (-105, +215, 42) / 우 (+105, +95, 42)',
-    note: '좌(-105, +215)와 우(+105, +95) 배치로 중심 간격 241.9mm(>230mm)를 유지해 절대 비충돌을 보장하면서 중앙 20mm 중첩으로 미절단 풀을 남기지 않습니다.',
-    color: '#dc2626',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [0, 135, -230],
-    shapes: [
-      { type: 'bladeDisc', pos: [-105, 215, 42], radius: 112, height: 10, color: '#dc2626', dir: 1 },
-      { type: 'bladeDisc', pos: [105, 95, 42], radius: 112, height: 10, color: '#dc2626', dir: -1 }
-    ]
-  },
-
-  // --- [계통 A] 기구 프레임, 상층 배치 주행 모터 & 궤도 동력 전달부 (8종) ---
-  {
-    num: 19,
-    id: 'A_DRIVE_MOTOR',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: '상층 주행모터 ×2 (Z=195)',
-    name: '상층 대칭 배치 48V 750W BLDC + 1:36 유성감속기 + 전자브레이크',
-    sub: '실측 Ø90 × L 176 mm · 후방 상층(Z=195mm) 배치 (배터리 베이 후방 12mm 이격)',
-    dim: 'Ø90 × L 176 mm (2개)',
-    qty: '2개 (후방 상층 대칭)',
-    weight: 7.2,
-    coord: '좌 (-92, -250, 195) / 우 (+92, -250, 195) — Z=195mm',
-    note: '후방 최상층(Y=-250, Z=195mm)에 좌·우 대칭으로 높게 배치하여 우측 배터리 카트리지 후면과 +12mm 여유를 유지하고, 아래쪽 공간(Z=82~140mm)에 버스바·DC-DC 컨버터를 깔끔히 수납했습니다.',
-    color: '#3730a3',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [0, -165, 85],
-    shapes: [
-      { type: 'cylinderX', pos: [-92, -250, 195], radius: 44, length: 176, color: '#3730a3' },
-      { type: 'cylinderX', pos: [92, -250, 195], radius: 44, length: 176, color: '#4338ca' }
-    ]
-  },
-  {
-    num: 20,
-    id: 'A_PULLEY_BELT',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: 'HTD 타이밍 벨트 ×2',
-    name: 'HTD-8M (5M) 타이밍 풀리 & 벨트 동력전달계',
-    sub: '상층 주행모터 출력축(Z=195mm) ↔ 궤도 구동 스프로킷축 연결',
-    dim: '풀리 Ø55×25 / 벨트 20폭',
-    qty: '2세트 (좌/우)',
-    weight: 0.7,
-    coord: '좌 (-198, -225, 182) / 우 (+198, -225, 182)',
-    note: '후방 상층에 위치한 감속모터(Y=-250, Z=195mm)의 회전력을 외부 궤도 상부 구동 스프로킷(Y=-195, Z=170mm)으로 전달합니다.',
-    color: '#ca8a04',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [-145, -140, 60],
-    symmetricX: true,
-    shapes: [
-      { type: 'box', pos: [-198, -222, 182], size: [22, 96, 54], color: '#ca8a04', side: -1 },
-      { type: 'box', pos: [198, -222, 182], size: [22, 96, 54], color: '#ca8a04', side: 1 }
-    ]
-  },
-  {
-    num: 21,
-    id: 'A_BEARING_KFL002',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: 'KFL 플랜지 베어링 ×4',
-    name: '구동축(Ø20mm) & 중하중 플랜지 필로우 베어링 (KFL004/002 × 4개)',
-    sub: '궤도 충격 하중을 모터 축에서 분리 지지하는 독립 구동축 베어링',
-    dim: '축 Ø20×130 / 베어링 75×45 mm',
-    qty: '4개',
-    weight: 0.9,
-    coord: '좌/우 후방 상부 스프로킷 구동축 (±208, -195, 170)',
-    note: '지면 충격이 감속기 출력축에 직접 전달되지 않도록 독립 구동축과 양단 플랜지 베어링이 궤도 장력을 지지합니다.',
-    color: '#475569',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [-160, -155, 45],
-    symmetricX: true,
-    shapes: [
-      { type: 'cylinderX', pos: [-208, -195, 170], radius: 24, length: 95, color: '#475569', side: -1 },
-      { type: 'cylinderX', pos: [208, -195, 170], radius: 24, length: 95, color: '#475569', side: 1 }
-    ]
-  },
-  {
-    num: 22,
-    id: 'A_TRACKS',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: '삼각형 고무궤도 ×2',
-    name: '삼각형 고무 궤도(크롤러) 어셈블리 + 상부 구동 스프로킷(Ø130)',
-    sub: '실측 각 85(W) × 640(L) × 230(H) mm · 총 폭 580mm 유지',
-    dim: '각 85 × 640 × 230 mm',
-    qty: '1쌍 (좌/우)',
-    weight: 6.8,
-    coord: '좌 (-247.5, 0, 115) / 우 (+247.5, 0, 115)',
-    note: '하부 보기륜 롤러들은 지면(Z=0~50mm)을 구르고, 상부 꼭짓점(Z=170mm)에 위치한 Ø130mm 구동 스프로킷이 상층 주행모터의 동력을 받아 궤도를 회전시킵니다.',
-    color: '#27272a',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [-240, 0, 0],
-    symmetricX: true,
-    shapes: [
-      { type: 'track', pos: [-247.5, 0, 115], size: [85, 640, 230], color: '#27272a', side: -1 },
-      { type: 'track', pos: [247.5, 0, 115], size: [85, 640, 230], color: '#27272a', side: 1 }
-    ]
-  },
-  {
-    num: 23,
-    id: 'A_FRAME_3030',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: '3030 알루미늄 프레임 (175H)',
-    name: '3030 알루미늄 프로파일 오픈탑 메인 섀시 프레임 (보닛 경계바 포함)',
-    sub: '외곽 400(W) × 650(L) × 175(H) mm · 내측 폭 340mm 수직 배터리 베이',
-    dim: '400 × 650 × 175 mm',
-    qty: '1식 (16개 프로파일)',
-    weight: 3.8,
-    coord: '(0, 0, 167.5) — Z=80~255mm 오픈탑 구조',
-    note: '프레임 높이를 175mm(Z=80~255mm)로 확장하여 상부 보닛과의 간섭(15mm 에어갭)을 완전히 제거하고, 중앙 상단에 가로 장애물이 없는 오픈탑(Open-Top) 구조로 듀얼 배터리 카트리지 수직 탈착이 자유롭습니다.',
-    color: '#94a3b8',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [0, 0, 0],
-    shapes: [
-      { type: 'box', pos: [-185, 0, 95], size: [30, 590, 30], color: '#94a3b8' },
-      { type: 'box', pos: [185, 0, 95], size: [30, 590, 30], color: '#94a3b8' },
-      { type: 'box', pos: [-185, 0, 240], size: [30, 590, 30], color: '#94a3b8' },
-      { type: 'box', pos: [185, 0, 240], size: [30, 590, 30], color: '#94a3b8' },
-      { type: 'box', pos: [0, -310, 95], size: [340, 30, 30], color: '#94a3b8' },
-      { type: 'box', pos: [0, 310, 95], size: [340, 30, 30], color: '#94a3b8' },
-      { type: 'box', pos: [0, -310, 240], size: [340, 30, 30], color: '#94a3b8' },
-      { type: 'box', pos: [0, 310, 240], size: [340, 30, 30], color: '#94a3b8' },
-      { type: 'box', pos: [0, 234, 240], size: [340, 24, 24], color: '#64748b' },
-      { type: 'box', pos: [-185, -310, 167.5], size: [30, 30, 175], color: '#64748b' },
-      { type: 'box', pos: [185, -310, 167.5], size: [30, 30, 175], color: '#64748b' },
-      { type: 'box', pos: [-185, 310, 167.5], size: [30, 30, 175], color: '#64748b' },
-      { type: 'box', pos: [185, 310, 167.5], size: [30, 30, 175], color: '#64748b' }
-    ]
-  },
-  {
-    num: 24,
-    id: 'A_BASE_PLATE',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: '4mm 알루미늄 베이스판',
-    name: '하부 4mm 6061-T6 알루미늄 베이스 판재 (언더커버 & 방열판)',
-    sub: '400×650×5mm (Z=78mm) · 스핀들 홀 & 블라인드 배터리 도킹 트레이 베이스',
-    dim: '400 × 650 × 4 mm',
-    qty: '1장',
-    weight: 2.75,
-    coord: '(0, 0, 78)',
-    note: '최저 지상고 Z=78mm를 형성하는 고강도 AL6061-T6 언더커버입니다. 배터리 카트리지용 블라인드 도킹 커넥터 소켓과 컨택터·버스바가 이 위에 고정됩니다.',
-    color: '#cbd5e1',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [0, 0, -95],
-    shapes: [
-      { type: 'box', pos: [0, 0, 78], size: [400, 650, 5], color: '#cbd5e1' }
-    ]
-  },
-  {
-    num: 25,
-    id: 'A_HANDLES',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: '4코너 리프팅 손잡이',
-    name: '4코너 산업용 폴딩 리프팅 손잡이',
-    sub: '각 120×40×25mm · 배터리 분리(10초) 후 본체 운반용 핸들',
-    dim: '각 120 × 40 × 25 mm',
-    qty: '4개',
-    weight: 0.45,
-    coord: '프레임 상단 4코너 (±196, ±285, 250)',
-    note: '산소 비탈길 이동 시 6.75kg 배터리 카트리지 2개를 먼저 수직 분리한 뒤 본체(약 24.8kg)를 1~2인이 들고 운반하는 손잡이입니다.',
-    color: '#334155',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [-110, 110, 85],
-    symmetricX: true,
-    shapes: [
-      { type: 'box', pos: [-196, 285, 248], size: [22, 110, 24], color: '#334155', side: -1 },
-      { type: 'box', pos: [196, 285, 248], size: [22, 110, 24], color: '#334155', side: 1 },
-      { type: 'box', pos: [-196, -285, 248], size: [22, 110, 24], color: '#334155', side: -1 },
-      { type: 'box', pos: [196, -285, 248], size: [22, 110, 24], color: '#334155', side: 1 }
-    ]
-  },
-  {
-    num: 26,
-    id: 'A_SKIRTS',
-    sys: 'A',
-    sysName: '계통 A · 프레임/구동',
-    shortLabel: '전/후 고무 보호스커트',
-    name: '전/후면 5T EPDM 고무 비산방지 스커트',
-    sub: '440 × 6 × 65 mm · 하부 칼날 회전 시 돌/풀 비산 물리 차단',
-    dim: '440 × 6 × 65 mm (2장)',
-    qty: '2장 (전/후)',
-    weight: 0.6,
-    coord: '전 (0, +328, 45) / 후 (0, -328, 45)',
-    note: '하부 Z=42mm에서 회전하는 예초 칼날로부터 튀는 돌멩이를 전/후방에서 막아주는 안전 스커트입니다.',
-    color: '#18181b',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [0, 185, -75],
-    shapes: [
-      { type: 'box', pos: [0, 328, 45], size: [430, 8, 62], color: '#18181b' },
-      { type: 'box', pos: [0, -328, 45], size: [430, 8, 62], color: '#18181b' }
-    ]
-  },
-
-  // --- [계통 E] 외부 인지 센서 (전방 고정 노즈) & 무선 안테나 · 힌지 보닛 (6종) ---
-  {
-    num: 27,
-    id: 'E_FPV_CAM',
-    sys: 'E',
-    sysName: '계통 E · 센서/안테나',
-    shortLabel: 'OAK-D 전방 스테레오 캠',
-    name: 'Luxonis OAK-D Lite / Pro 광각 스테레오 FPV 카메라 (고정 노즈)',
-    sub: '실측 91×28×28mm · 전방 고정 노즈 브래킷 장착 (보닛 개방 무관)',
-    dim: '91 × 28 × 28 mm',
-    qty: '1세트',
-    weight: 0.09,
-    coord: '(0, +324, 245) — 전방 고정 센서 노즈',
-    note: '보닛이 아닌 전방 고정 프레임 노즈(Y=+324)에 볼트 체결되어, 배터리를 교체하려 보닛을 여닫아도 카메라 화각 및 캘리브레이션이 틀어지지 않습니다.',
-    color: '#0ea5e9',
-    visible: true,
-    isKeyLabel: true,
-    explodeVec: [0, 195, 110],
-    shapes: [
-      { type: 'box', pos: [0, 322, 245], size: [91, 28, 22], color: '#0284c7' },
-      { type: 'box', pos: [-30, 336, 245], size: [12, 6, 12], color: '#0f172a' },
-      { type: 'box', pos: [0, 336, 245], size: [14, 6, 14], color: '#0f172a' },
-      { type: 'box', pos: [30, 336, 245], size: [12, 6, 12], color: '#0f172a' }
-    ]
-  },
-  {
-    num: 28,
-    id: 'E_LIDAR_BOSS',
-    sys: 'E',
-    sysName: '계통 E · 센서/안테나',
-    shortLabel: '3D LiDAR (전방 고정 노즈)',
-    name: '3D LiDAR (Livox Mid-360) 고정 마운트 & 센서 헤드',
-    sub: '실측 80×80×65mm · 전방 고정 데크(Y=+278) 장착 → 캘리브레이션 영구 보존',
-    dim: '80 × 80 × 65 mm',
-    qty: '1식',
-    weight: 0.25,
-    coord: '(0, +278, 286) — 전방 고정 센서 노즈 상단',
-    note: '보닛 분할선(Y=+234)보다 앞쪽의 전방 고정 노즈(Y=+278)에 설치되어, 보닛을 열어도 LiDAR 3D 센서 축이 절대 움직이지 않고 보닛 열림과도 0mm 비간섭입니다.',
-    color: '#475569',
-    visible: true,
-    isKeyLabel: false,
-    explodeVec: [0, 155, 175],
-    shapes: [
-      { type: 'box', pos: [0, 278, 265], size: [80, 78, 10], color: '#64748b' },
-      { type: 'cylinderZ', pos: [0, 278, 293], radius: 32, height: 46, color: '#334155' }
-    ]
-  },
-  {
-    num: 29,
-    id: 'E_RTK_ANT',
-    sys: 'E',
-    sysName: '계통 E · 센서/안테나',
-    shortLabel: 'RTK 안테나 + Ø120 접지판',
-    name: '다중대역 RTK-GPS 측량 안테나 + Ø120mm 알루미늄 원형 접지판',
-    sub: '실측 안테나 Ø105×32 + 접지판 Ø120 + 폴대 105mm (힌지 보닛 후좌측)',
-    dim: 'Ø120 × H 140 mm',
-    qty: '1식',
-    weight: 0.25,
-    coord: '(-150, -245, 395) — 보닛 후방 좌측 상단',
-    note: '보닛 후방 좌측에 장착되어 Ø120mm 접지판으로 하부 모터 EMI 노이즈를 차폐하며, 힌지 축 근처에 위치해 보닛 개방 시에도 안정적으로 회전합니다.',
-    color: '#0284c7',
-    visible: true,
-    isKeyLabel: true,
-    mountedOnBonnet: true,
-    explodeVec: [-110, -135, 215],
-    shapes: [
-      { type: 'cylinderZ', pos: [-150, -245, 326], radius: 8, height: 105, color: '#64748b' },
-      { type: 'cylinderZ', pos: [-150, -245, 381], radius: 60, height: 4, color: '#cbd5e1' },
-      { type: 'cylinderZ', pos: [-150, -245, 397], radius: 46, height: 26, color: '#f8fafc' }
-    ]
-  },
-  {
-    num: 30,
-    id: 'E_RC_RX',
-    sys: 'E',
-    sysName: '계통 E · 센서/안테나',
-    shortLabel: '2.4GHz RC 수신기/안테나',
-    name: '2.4GHz ELRS / SIYI MK15 수신기 & 90° 직교 다이버시티 안테나',
-    sub: '모듈 32×20×12mm / 듀얼 안테나 110mm (보닛 우측 장착)',
-    dim: '32 × 20 × 110 mm',
-    qty: '1세트',
-    weight: 0.04,
-    coord: '(+150, -100, 340) — 보닛 우측 상단',
-    note: 'RTK 안테나 및 915MHz 모뎀과 150mm 이상 이격되어 보닛 우측 상단에 고정된 2.4GHz 조종 수신 안테나입니다.',
-    color: '#8b5cf6',
-    visible: true,
-    isKeyLabel: false,
-    mountedOnBonnet: true,
-    explodeVec: [120, -40, 200],
-    shapes: [
-      { type: 'box', pos: [150, -100, 298], size: [26, 32, 14], color: '#7c3aed' },
-      { type: 'cylinderZ', pos: [150, -100, 352], radius: 4, height: 95, color: '#6d28d9' }
-    ]
-  },
-  {
-    num: 31,
-    id: 'E_SIK_TELEM',
-    sys: 'E',
-    sysName: '계통 E · 센서/안테나',
-    shortLabel: '915MHz 텔레메트리 모뎀',
-    name: 'Holybro 915MHz SiK 텔레메트리 무선 모뎀 & 안테나 (500mW)',
-    sub: '실측 모듈 53×28×14mm + 무지향성 다이폴 안테나 150mm',
-    dim: '53 × 28 × 150 mm',
-    qty: '1세트',
-    weight: 0.06,
-    coord: '(+150, -245, 360) — 보닛 후방 우측 상단 (RTK와 300mm 이격)',
-    note: 'Mission Planner 경로 업로드용 장거리 915MHz 텔레메트리 모뎀입니다. 좌측 RTK 안테나와 300mm 완전히 이격되어 간섭이 없습니다.',
-    color: '#6d28d9',
-    visible: true,
-    isKeyLabel: false,
-    mountedOnBonnet: true,
-    explodeVec: [125, -135, 210],
-    shapes: [
-      { type: 'box', pos: [150, -245, 296], size: [28, 53, 14], color: '#5b21b6' },
-      { type: 'cylinderZ', pos: [150, -245, 368], radius: 5, height: 140, color: '#4c1d95' }
-    ]
-  },
-  {
-    num: 32,
-    id: 'E_TOP_COWL',
-    sys: 'E',
-    sysName: '계통 E · 센서/안테나',
-    shortLabel: '힌지 보닛 & 토글 래치',
-    name: '상부 힌지 오픈 보닛 데크(62°) + 전방 고정 센서 노즈 & 원터치 래치',
-    sub: '분할형 힌지 보닛(544mm) + 전방 고정 노즈(86mm) + 후방 힌지×2 + 전방 토글래치×2',
-    dim: '보닛 396×544 + 노즈 396×86',
-    qty: '1식 (힌지·래치 포함)',
-    weight: 0.95,
-    coord: '힌지축 (Y=-310, Z=259) / 분할선 Y=+234',
-    note: '배터리 교체 편의를 위해 상부 데크를 전방 센서 고정 노즈(86mm)와 후방 힌지 보닛(544mm)으로 2분할했습니다. 전방 주황색 토글 래치 2개를 손으로 풀고 보닛을 들어 올리면 가스 쇼바가 62° 자세로 지지해 배터리 카트리지 2개를 즉시 수직 교체할 수 있습니다.',
-    color: '#94a3b8',
-    visible: true,
-    isEnclosure: true,
-    isKeyLabel: true,
+    num: 6, id: 'D_IP65_BOX', sys: 'D', sysName: '계통 D · 두뇌/제어',
+    shortLabel: '전방 고정 IP65 함체', name: '전방 프레임 고정형 IP65 방수 전장함 (비개폐)',
+    sub: '외형 240×182×68mm (Z=261~329mm ≤ 340mm) · Pixhawk 캘리브레이션 영구 고정', dim: '240 × 182 × 68 mm',
+    qty: '1식', weight: 0.88,
+    coord: '(0, +144, 295) — 전방 고정 브릿지 데크 직결',
+    note: '[Rev 5.0 개선] 기존 보닛 상부 장착 대신 비개폐 전방 3030 브릿지 데크(Z=261mm)에 직결해 보닛 개폐와 완전히 분리했습니다. 상단 최고 높이 329mm로 태양광 패널 하부 통과 제한(340mm)을 만족합니다.',
+    color: '#94a3b8', visible: true, isEnclosure: true, mountedOnBonnet: false,
     explodeVec: [0, 0, 145],
     shapes: [
-      // Fixed front sensor nose (NEVER moves when bonnet opens!)
-      { type: 'box', pos: [0, 279, 258], size: [396, 86, 6], color: '#cbd5e1', fixedNose: true },
-      // Hinged Service Bonnet aluminum cover plate (swings up 62°!)
-      { type: 'box', pos: [0, -38, 258], size: [396, 544, 6], color: '#e2e8f0', isEnclosureBase: true, onBonnet: true },
-      // Dual heavy-duty rear hinges at Y=-308
-      { type: 'box', pos: [-135, -308, 263], size: [40, 24, 12], color: '#334155', onBonnet: true },
-      { type: 'box', pos: [135, -308, 263], size: [40, 24, 12], color: '#334155', onBonnet: true },
-      // Dual front tool-less orange over-center toggle latches at Y=+232
-      { type: 'box', pos: [-145, 231, 264], size: [30, 30, 14], color: '#ea580c', onBonnet: true },
-      { type: 'box', pos: [145, 231, 264], size: [30, 30, 14], color: '#ea580c', onBonnet: true }
+      { type: 'box', pos: [0, 144, 264], size: [240, 182, 6], color: '#94a3b8', isEnclosureBase: true },
+      { type: 'box', pos: [0, 144, 298], size: [240, 182, 62], color: '#e2e8f0', isEnclosureLid: true, extraExplodeZ: 155 }
+    ]
+  },
+  {
+    num: 7, id: 'D_CABLE_GLANDS', sys: 'D', sysName: '계통 D · 두뇌/제어',
+    shortLabel: '방수 케이블 그랜드', name: 'PG9 / PG13.5 IP68 방수 케이블 그랜드 (×5)',
+    sub: '고정 함체 전·후면 격벽 밀폐 (움직임 0mm → 단선 방지)', dim: 'Ø20 × L 32 mm (5개)',
+    qty: '5개', weight: 0.12,
+    coord: '(±70/0, +50, 282) / (±65, +238, 282)',
+    note: '전장함이 보닛에서 고정 브릿지로 옮겨져 케이블 굴곡 피로가 사라졌으며, PG9 방수 그랜드로 강전·신호선을 IP68 밀폐 인입합니다.',
+    color: '#475569', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, -90, 150],
+    shapes: [
+      { type: 'box', pos: [-70, 50, 282], size: [18, 20, 18], color: '#334155' },
+      { type: 'box', pos: [0, 50, 282], size: [18, 20, 18], color: '#334155' },
+      { type: 'box', pos: [70, 50, 282], size: [18, 20, 18], color: '#334155' },
+      { type: 'box', pos: [-65, 238, 282], size: [18, 20, 18], color: '#334155' },
+      { type: 'box', pos: [65, 238, 282], size: [18, 20, 18], color: '#334155' }
+    ]
+  },
+
+  // ========================================================================
+  // 계통 C : 듀얼/싱글 퀵스왑 배터리 & 측창 방열 드라이버 & 안전 배전
+  // ========================================================================
+  {
+    num: 8, id: 'C_BATTERY', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: '퀵스왑 배터리 (2슬롯)', name: '48V(51.2V) LiFePO4 수직 퀵스왑 배터리 카트리지 ×2',
+    sub: '각 162×240×158mm · 470mm 프레임 좌/우 +18~30mm 공차 · 1/2팩 겸용', dim: '각 162 × 240 × 158 mm',
+    qty: '2슬롯 (1팩/2팩 겸용)', weight: 13.50,
+    coord: '좌 (-96, -84, 167) / 우 (+96, -84, 167) — 대칭 배치',
+    note: '[Rev 5.0 개선] 470mm 확장 프레임 덕분에 외측 +18mm, 중앙 파티션 30mm 가이드 레일 여유 공차를 확보했습니다. E-Stop 차단 후 10초 수직 퀵스왑 방식이며, 1단계 예산(100만 원)에서는 1팩(20~30Ah)만 장착해 운용 후 2단계에 2팩(1,500Wh+, 1시간+ 연속 예초)으로 확장합니다.',
+    color: '#16a34a', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [0, 0, 215],
+    shapes: [
+      { type: 'box', pos: [-96, -84, 167], size: [162, 240, 158], color: '#15803d', isBatteryCartridge: true, liftOffsetZ: 215 },
+      { type: 'box', pos: [96, -84, 167], size: [162, 240, 158], color: '#16a34a', isBatteryCartridge: true, liftOffsetZ: 175 },
+      { type: 'box', pos: [-96, -84, 250], size: [42, 130, 8], color: '#eab308', isBatteryCartridge: true, liftOffsetZ: 215 },
+      { type: 'box', pos: [96, -84, 250], size: [42, 130, 8], color: '#eab308', isBatteryCartridge: true, liftOffsetZ: 175 },
+      { type: 'box', pos: [-96, -84, 83], size: [172, 248, 6], color: '#334155', fixedBay: true },
+      { type: 'box', pos: [96, -84, 83], size: [172, 248, 6], color: '#334155', fixedBay: true },
+      { type: 'box', pos: [-96, -182, 92], size: [58, 32, 12], color: '#dc2626', fixedBay: true },
+      { type: 'box', pos: [96, -182, 92], size: [58, 32, 12], color: '#dc2626', fixedBay: true }
+    ]
+  },
+  {
+    num: 9, id: 'C_VESC', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: 'VESC 75100 ×2 (측창)', name: 'Flipsky / Makerbase VESC 75100 V2 FOC ×2',
+    sub: '105×70×35mm · 3030 측창 포켓 매립 방열 (궤도 ±240과 3mm+ 이격)', dim: '각 105 × 70 × 35 mm',
+    qty: '2개 (좌/우 주행)', weight: 0.76,
+    coord: '좌 (-212, -70, 170) / 우 (+212, -70, 170)',
+    note: '[Rev 5.0 개선] 기존 외벽 돌출(±207mm) 시 궤도(±205mm)와 2mm 충돌하던 문제를 해결해, 470mm 프레임(±205~±235) 상/하 레일 사이 측창 포켓에 알루미늄 방열판을 매립 장착했습니다(방열핀 끝단 ±237mm → 궤도 ±240과 비간섭, 배터리와 +18mm 이격).',
+    color: '#0f172a', visible: true, isKeyLabel: true, symmetricX: true, mountedOnBonnet: false,
+    explodeVec: [-195, -30, 55],
+    shapes: [
+      { type: 'vescDriver', pos: [-212, -70, 170], size: [34, 105, 70], color: '#0f172a', side: -1 },
+      { type: 'vescDriver', pos: [212, -70, 170], size: [34, 105, 70], color: '#0f172a', side: 1 }
+    ]
+  },
+  {
+    num: 10, id: 'C_MOWER_ESC', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: '예초 ESC ×2 (측창)', name: '48V 80A~100A 고부하 BLDC ESC 드라이버 ×2',
+    sub: '110×62×36mm · 전방 3030 측창 포켓 매립 방열 (RC 비상차단 연동)', dim: '각 110 × 62 × 36 mm',
+    qty: '2개 (좌/우 예초)', weight: 0.70,
+    coord: '좌 (-212, +115, 170) / 우 (+212, +115, 170)',
+    note: '예초 모터 기동 피크 전류를 감당하는 48V 80~100A ESC를 전방 측창 알루미늄 히트싱크에 매립했습니다. RC 조종기 비상 스위치 신호 및 E-Stop과 독립 연동됩니다.',
+    color: '#1e293b', visible: true, isKeyLabel: true, symmetricX: true, mountedOnBonnet: false,
+    explodeVec: [-195, 95, 55],
+    shapes: [
+      { type: 'vescDriver', pos: [-212, 115, 170], size: [34, 110, 62], color: '#1e293b', side: -1 },
+      { type: 'vescDriver', pos: [212, 115, 170], size: [34, 110, 62], color: '#1e293b', side: 1 }
+    ]
+  },
+  {
+    num: 11, id: 'C_CONTACTOR', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: '200A 메인 릴레이', name: 'TE EVC200 48V 200A 메인 컨택터 + 프리차지',
+    sub: '85×60×72mm · 좌/우 주행모터 중앙 56mm 복도 수납', dim: '52 × 76 × 68 mm',
+    qty: '1식', weight: 0.45,
+    coord: '(0, -255, 116) — 후방 주행모터 사이 중앙 공간',
+    note: '[Rev 5.0 개선] 470mm 확장으로 주행모터 사이 중앙 복도가 56mm(±28)로 넓어져 컨택터가 배터리 베이(Y=-204)와 간섭 없이 후방 중앙에 수직 안착합니다.',
+    color: '#334155', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, -145, 70],
+    shapes: [
+      { type: 'box', pos: [0, -255, 116], size: [52, 76, 68], color: '#334155' }
+    ]
+  },
+  {
+    num: 12, id: 'C_ANL_FUSE', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: '150A ANL 메인퓨즈', name: '150A ANL 볼트다운 메인 퓨즈 & 홀더',
+    sub: '42×72×38mm · 좌측 주행모터 하부(Z=100) 수납', dim: '42 × 72 × 38 mm',
+    qty: '1개', weight: 0.15,
+    coord: '(-68, -255, 100) — 좌 주행모터 하부',
+    note: '배터리 직결 단락을 차단하는 150A 메인 퓨즈로, 주행모터(Z_bottom=134) 하부 안전 공간에 배치했습니다.',
+    color: '#b91c1c', visible: true, mountedOnBonnet: false,
+    explodeVec: [-95, -145, 50],
+    shapes: [
+      { type: 'box', pos: [-68, -255, 100], size: [42, 72, 38], color: '#b91c1c' }
+    ]
+  },
+  {
+    num: 13, id: 'C_BUSBAR', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: '강전 버스바 (+/-)', name: '150A~200A M8 동 버스바 배전 블록 (+/- 2개)',
+    sub: '각 32×72×34mm · 후방 크로스바와 +9mm 이격 정대칭 배치', dim: '각 32 × 72 × 34 mm',
+    qty: '2개 (+/-)', weight: 0.28,
+    coord: '좌 (-128, -255, 99) / 우 (+128, -255, 99)',
+    note: '[Rev 5.0 개선] 기존 후방 크로스바와 2.5mm 겹치던 위치를 안쪽(Y=-255)으로 정리해 크로스바(Y=-300)·배터리 트레이(Y=-208) 양쪽 모두와 완전히 분리했습니다.',
+    color: '#d97706', visible: true, symmetricX: true, mountedOnBonnet: false,
+    explodeVec: [-135, -165, 40],
+    shapes: [
+      { type: 'box', pos: [-128, -255, 99], size: [32, 72, 34], color: '#dc2626', side: -1 },
+      { type: 'box', pos: [128, -255, 99], size: [32, 72, 34], color: '#0f172a', side: 1 }
+    ]
+  },
+  {
+    num: 14, id: 'C_DCDC_12V', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: '48V→12V 컨버터', name: '48V → 12V 20A(240W) 방수 DC-DC 컨버터',
+    sub: '50×72×34mm · 우 주행모터 하부(Z=99) 밀착 방열', dim: '50 × 72 × 34 mm',
+    qty: '1개', weight: 0.35,
+    coord: '(+68, -255, 99) — 우 주행모터 하부 베이스판 직결',
+    note: '48V에서 제어함 12V 전원, 쿨링팬, 추후 2단계 전동 높이조절 액추에이터용 12V 전원을 공급합니다.',
+    color: '#475569', visible: true, mountedOnBonnet: false,
+    explodeVec: [85, -175, 40],
+    shapes: [
+      { type: 'box', pos: [68, -255, 99], size: [50, 72, 34], color: '#475569' }
+    ]
+  },
+  {
+    num: 15, id: 'C_ESTOP', sys: 'C', sysName: '계통 C · 전원/드라이버',
+    shortLabel: '후방 비상정지 버튼', name: '후방 외부 프레임 직결 비상정지 (E-Stop)',
+    sub: 'Ø45 버섯형 × 박스 54×34×42 · 후방 3030 크로스바 외측 L브래킷', dim: '54 × 34 × 64 mm',
+    qty: '1개', weight: 0.12,
+    coord: '(0, -349, 250) — 후방 크로스바 외측 (-330 뒤)',
+    note: '[Rev 5.0 개선] 기존 후방 크로스바를 14mm 관통하던 좌표를 크로스바 외측 L-브래킷(Y=-349)으로 보정했습니다. 1단계 배터리 교체 시 E-Stop 차단 후 10초 교체 절차의 핵심 안전 스위치입니다.',
+    color: '#ef4444', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, -175, 100],
+    shapes: [
+      { type: 'box', pos: [0, -349, 238], size: [54, 34, 42], color: '#eab308' },
+      { type: 'cylinderZ', pos: [0, -349, 270], radius: 22, height: 22, color: '#ef4444' }
+    ]
+  },
+
+  // ========================================================================
+  // 계통 B : 상부 예초모터 (3단 높이조절 Z-브릿지) + 스핀들 + 보호슈라우드 칼날
+  // ========================================================================
+  {
+    num: 16, id: 'B_MOWER_MOTOR', sys: 'B', sysName: '계통 B · 예초계통',
+    shortLabel: '상부 예초모터 ×2 (3단조절)', name: '상부 예초모터 ×2 + 3단 수동 높이조절 Z-브릿지',
+    sub: 'Ø76×70mm · 수동 3단(35/55/75mm) 장공 가이드 + 전동 액추에이터 예비홀', dim: 'Ø76 × H 70 mm (2개)',
+    qty: '2개 (3단 Z-브릿지)', weight: 2.65,
+    coord: '좌 (-105, +208, 166) / 우 (+105, +88, 166)',
+    note: '[Rev 5.0 개선] 1차 수동 3단 핀 조절(예초 높이 35 / 55 / 75mm) 양측 가이드 레일(X=±187)을 추가하고, 중앙 Z-링크(Y=+148)에 2단계 12V 리니어 액추에이터 볼트온 예비 홀을 반영했습니다. 최고 75mm 상승 시에도 상부 고정 전장 데크(Z=255)와 +21mm 여유를 유지합니다.',
+    color: '#0284c7', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [0, 125, 115],
+    shapes: [
+      { type: 'box', pos: [-105, 208, 126], size: [160, 98, 8], color: '#94a3b8' },
+      { type: 'box', pos: [105, 88, 126], size: [160, 98, 8], color: '#94a3b8' },
+      { type: 'box', pos: [0, 148, 126], size: [46, 36, 8], color: '#64748b' },
+      { type: 'cylinderZ', pos: [-105, 208, 166], radius: 38, height: 70, color: '#0284c7' },
+      { type: 'cylinderZ', pos: [105, 88, 166], radius: 38, height: 70, color: '#0369a1' },
+      { type: 'box', pos: [-187, 148, 165], size: [8, 130, 80], color: '#475569' },
+      { type: 'box', pos: [187, 148, 165], size: [8, 130, 80], color: '#475569' }
+    ]
+  },
+  {
+    num: 17, id: 'B_ANTI_WRAP', sys: 'B', sysName: '계통 B · 예초계통',
+    shortLabel: 'Ø20 스핀들 & 방지링', name: 'Ø20 스핀들 베어링 허브 + 풀 감김 방지 캡 ×2',
+    sub: '스핀들 Ø44×68 + 방지컵 Ø80×18mm · 하부 돌 충격 차단', dim: '허브 Ø44×68 / 컵 Ø80×18 mm',
+    qty: '2세트', weight: 1.60,
+    coord: '좌 (-105, +208, 58~122) / 우 (+105, +88, 58~122)',
+    note: '모터(Z=166)를 안전구역에 두고 하부 Ø20 스핀들·베어링 허브·방지컵만 하부로 내려 풀 감김과 축 휨을 방지합니다.',
+    color: '#64748b', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, 125, -145],
+    shapes: [
+      { type: 'cylinderZ', pos: [-105, 208, 90], radius: 22, height: 68, color: '#475569' },
+      { type: 'cylinderZ', pos: [-105, 208, 58], radius: 40, height: 18, color: '#94a3b8' },
+      { type: 'cylinderZ', pos: [105, 88, 90], radius: 22, height: 68, color: '#475569' },
+      { type: 'cylinderZ', pos: [105, 88, 58], radius: 40, height: 18, color: '#94a3b8' }
+    ]
+  },
+  {
+    num: 18, id: 'B_BLADE', sys: 'B', sysName: '계통 B · 예초계통',
+    shortLabel: 'Ø230 칼날 & 보호덱 ×2', name: 'Ø230mm 듀얼 스윙 칼날 + Ø242mm 3.5mm 보호 슈라우드 ×2',
+    sub: '실측 Ø230(R=115) · 중심 D=241.9mm · 궤도 ±240과 측면 20mm(슈라우드 14mm) 여유', dim: '칼날 Ø230 / 슈라우드 Ø242 × 26 mm',
+    qty: '2세트 (좌 CW / 우 CCW)', weight: 2.90,
+    coord: '좌 (-105, +208, 42) / 우 (+105, +88, 42)',
+    note: '[Rev 5.0 핵심 해결] 1) v4.0에서 Ø224(R=112)로 축소 묘사되었던 오차를 실치수 Ø230(R=115)으로 정정, 2) 전폭 650mm 확장으로 궤도(±240)와 +20mm 측면 간격 확보, 3) 좌측 칼날 전단(Y=+323)을 전방 고무스커트(Y=+336) 뒤로 후퇴시켜 절단 간섭 0mm 해결, 4) Ø242 보호 슈라우드 링 기본 탑재!',
+    color: '#dc2626', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [0, 125, -230],
+    shapes: [
+      { type: 'bladeDisc', pos: [-105, 208, 42], radius: 115, height: 10, color: '#dc2626', dir: 1 },
+      { type: 'bladeDisc', pos: [105, 88, 42], radius: 115, height: 10, color: '#dc2626', dir: -1 },
+      { type: 'shroudRing', pos: [-105, 208, 48], innerRadius: 117, outerRadius: 121, height: 26, color: '#475569' },
+      { type: 'shroudRing', pos: [105, 88, 48], innerRadius: 117, outerRadius: 121, height: 26, color: '#475569' }
+    ]
+  },
+
+  // ========================================================================
+  // 계통 A : 470×660 프레임 · 동축 구동부 · 전폭 650mm 무한궤도
+  // ========================================================================
+  {
+    num: 19, id: 'A_DRIVE_MOTOR', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '상층 주행모터 ×2 (Z=178)', name: '48V 750W 1:36 BLDC 감속 주행모터 ×2',
+    sub: 'Ø90×176mm · 중앙 56mm 배선·컨택터 공간 · 35° 경사 토크 100N·m+ 검증', dim: 'Ø88 × L 176 mm (2개)',
+    qty: '2개 (후방 상층 대칭)', weight: 7.20,
+    coord: '좌 (-116, -255, 178) / 우 (+116, -255, 178)',
+    note: '[Rev 5.0 검증] 실차 중량 51kg 기준 35° 급경사 등판 요구 토크 ~24.2N·m 대비 양측 합산 100N·m+로 토크 여유 충분. Z=178mm 배치로 상부 힌지 크로스바(Z_min=232) 및 하부 버스바(Z_max=116)와 모두 완전 비간섭입니다.',
+    color: '#3730a3', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [0, -165, 85],
+    shapes: [
+      { type: 'cylinderX', pos: [-116, -255, 178], radius: 44, length: 176, color: '#3730a3' },
+      { type: 'cylinderX', pos: [116, -255, 178], radius: 44, length: 176, color: '#4338ca' }
+    ]
+  },
+  {
+    num: 20, id: 'A_PULLEY_BELT', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '타이밍 풀리·벨트 (측창)', name: 'HTD 5M 타이밍 풀리 & 벨트 구동세트 ×2',
+    sub: '18×108×54mm · 3030 측창(±205~±235) 내부 주행 (프레임·궤도 비관통)', dim: '풀리Ø54 / 벨트 폭20mm (Y=-255↔-170)',
+    qty: '2세트 (좌/우)', weight: 0.70,
+    coord: '좌 (-220, -212, 176) / 우 (+220, -212, 176)',
+    note: '[Rev 5.0 개선] 기존 X=±198에서 프레임과 궤도를 동시에 관통하던 오차를 수정해, 3030 상/하 레일 사이 오픈 측창(X=±220, 폭 18mm) 안에서 주행모터(-255)와 스프로킷축(-170)을 수직 연결합니다.',
+    color: '#ca8a04', visible: true, symmetricX: true, mountedOnBonnet: false,
+    explodeVec: [-145, -140, 60],
+    shapes: [
+      { type: 'box', pos: [-220, -212, 176], size: [18, 108, 54], color: '#ca8a04', side: -1 },
+      { type: 'box', pos: [220, -212, 176], size: [18, 108, 54], color: '#ca8a04', side: 1 }
+    ]
+  },
+  {
+    num: 21, id: 'A_BEARING_KFL002', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '동축 KFL004 베어링·축', name: 'Ø20 스프로킷 독립 구동축 & KFL004 베어링 ×4',
+    sub: '축 Ø20×90 · Y=-170, Z=170 궤도 스프로킷과 100% 동축 정렬', dim: '축 Ø20×90 / 베어링 90×55mm',
+    qty: '4개 (양단 지지)', weight: 0.90,
+    coord: '좌/우 스프로킷 동축 (±245, -170, 170)',
+    note: '[Rev 5.0 치명 오차 수정] 기존 v4.0에서 궤도 스프로킷(Y=-170)과 베어링 축(Y=-195)이 25mm 어긋나고 주행모터와 충돌하던 문제를 Y=-170, Z=170 동축 정렬로 완전 해결했습니다.',
+    color: '#475569', visible: true, symmetricX: true, mountedOnBonnet: false,
+    explodeVec: [-160, -155, 45],
+    shapes: [
+      { type: 'cylinderX', pos: [-245, -170, 170], radius: 24, length: 90, color: '#475569', side: -1 },
+      { type: 'cylinderX', pos: [245, -170, 170], radius: 24, length: 90, color: '#475569', side: 1 }
+    ]
+  },
+  {
+    num: 22, id: 'A_TRACKS', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '고무 무한궤도 (전폭 650)', name: '삼각형 하이토크 고무 무한궤도 ×1쌍 (B안 전폭 650mm)',
+    sub: '각 85×640×230mm · 중심 X=±282.5 (내벽 ±240 · 전폭 650mm)', dim: '각 85 × 640 × 230 mm',
+    qty: '1쌍 (좌/우)', weight: 6.80,
+    coord: '좌 (-282.5, 0, 115) / 우 (+282.5, 0, 115)',
+    note: '[Design Freeze B안 확정] 전폭을 580mm → 650mm로 확장해 궤도 내벽(±240mm)과 Ø230mm 칼날(±220mm) 사이 +20mm(보호 슈라우드 외측 +14mm) 안전 간격을 확보했습니다. 일반 출입문(800mm)과 트럭/SUV 적재, 태양광 패널 열간 이동에 무리가 없습니다.',
+    color: '#27272a', visible: true, isKeyLabel: true, symmetricX: true, mountedOnBonnet: false,
+    explodeVec: [-240, 0, 0],
+    shapes: [
+      { type: 'track', pos: [-282.5, 0, 115], size: [85, 640, 230], color: '#27272a', side: -1 },
+      { type: 'track', pos: [282.5, 0, 115], size: [85, 640, 230], color: '#27272a', side: 1 }
+    ]
+  },
+  {
+    num: 23, id: 'A_FRAME_3030', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '3030 프레임 (470×660)', name: 'AL3030 알루미늄 프로파일 섀시 (470 × 660 × 175mm)',
+    sub: '외곽 470(W)×660(L)×175(H) · 전/후 고정 브릿지 분할바 + 내폭 410mm', dim: '470 × 660 × 175 mm (14개)',
+    qty: '1식 (총 6,260mm)', weight: 4.95,
+    coord: '(0, 0, 167.5) — Z=80~255mm 오픈탑 구조',
+    note: '[Rev 5.0 확장] 내부 폭이 +70mm 넓어져(내측 410mm) 배터리 공차·중앙 30mm 파티션·측창 ESC 매립을 동시 해결했습니다. Y=+48 및 Y=-216 고정 분할 바로 중앙 보닛과 전/후 고정 전장 브릿지를 분리 지지합니다.',
+    color: '#94a3b8', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, 0, 0],
+    shapes: [
+      { type: 'box', pos: [-220, 0, 95], size: [30, 600, 30], color: '#94a3b8' },
+      { type: 'box', pos: [220, 0, 95], size: [30, 600, 30], color: '#94a3b8' },
+      { type: 'box', pos: [-220, 0, 240], size: [30, 600, 30], color: '#94a3b8' },
+      { type: 'box', pos: [220, 0, 240], size: [30, 600, 30], color: '#94a3b8' },
+      { type: 'box', pos: [0, -315, 95], size: [410, 30, 30], color: '#94a3b8' },
+      { type: 'box', pos: [0, 315, 95], size: [410, 30, 30], color: '#94a3b8' },
+      { type: 'box', pos: [0, -315, 240], size: [410, 30, 30], color: '#94a3b8' },
+      { type: 'box', pos: [0, 315, 240], size: [410, 30, 30], color: '#94a3b8' },
+      { type: 'box', pos: [0, 48, 240], size: [410, 24, 24], color: '#64748b' },
+      { type: 'box', pos: [0, -216, 242], size: [410, 20, 20], color: '#64748b' },
+      { type: 'box', pos: [-220, -315, 167.5], size: [30, 30, 175], color: '#64748b' },
+      { type: 'box', pos: [220, -315, 167.5], size: [30, 30, 175], color: '#64748b' },
+      { type: 'box', pos: [-220, 315, 167.5], size: [30, 30, 175], color: '#64748b' },
+      { type: 'box', pos: [220, 315, 167.5], size: [30, 30, 175], color: '#64748b' }
+    ]
+  },
+  {
+    num: 24, id: 'A_BASE_PLATE', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '4mm 하부 베이스판', name: 'AL5052-H32 4mm 하부 베이스 플레이트 (Ø250 타공)',
+    sub: '470×660×4mm (Z=76~80) · 스핀들/칼날 상부 릴리프 & 도킹 트레이 베이스', dim: '470 × 660 × 4 mm',
+    qty: '1장', weight: 3.05,
+    coord: '(0, 0, 78)',
+    note: '표기/CAD 두께를 4mm(Z=76~80)로 통일하고 배터리 트레이(Z=80~86)를 상면에 안착시켰습니다. 전방 예초부 하부에는 Ø250mm 릴리프 컷아웃을 적용해 3단 높이조절(35/55/75mm) 시 간섭이 없습니다.',
+    color: '#cbd5e1', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, 0, -95],
+    shapes: [
+      { type: 'box', pos: [0, 0, 78], size: [470, 660, 4], color: '#cbd5e1' }
+    ]
+  },
+  {
+    num: 25, id: 'A_HANDLES', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '2인 운반 핸들 ×4', name: '4코너 2인 리프팅 운반 핸들 (경사로·적재용)',
+    sub: '각 22×100×24mm · 외측 코너(±247, ±285, 242) 장착 (궤도 상면 +124mm 여유)', dim: '각 100 × 24 × 22 mm (4개)',
+    qty: '4개', weight: 0.48,
+    coord: '프레임 외측 4코너 (±247, ±285, 242)',
+    note: '[Rev 5.0 현실화 & 오차 수정] 기존 3030 상단 레일·카울과 관통하던 위치를 경사진 궤도 전/후단 상공(+124~177mm 여유)의 4코너 외측으로 이동했습니다. 배터리 분리 후 본체 무게는 약 37.9kg이므로 4코너 핸들 2인 운반 또는 경량 램프 적재를 기준으로 합니다.',
+    color: '#334155', visible: true, symmetricX: true, mountedOnBonnet: false,
+    explodeVec: [-110, 110, 85],
+    shapes: [
+      { type: 'box', pos: [-247, 285, 242], size: [22, 100, 24], color: '#334155', side: -1 },
+      { type: 'box', pos: [247, 285, 242], size: [22, 100, 24], color: '#334155', side: 1 },
+      { type: 'box', pos: [-247, -285, 242], size: [22, 100, 24], color: '#334155', side: -1 },
+      { type: 'box', pos: [247, -285, 242], size: [22, 100, 24], color: '#334155', side: 1 }
+    ]
+  },
+  {
+    num: 26, id: 'A_SKIRTS', sys: 'A', sysName: '계통 A · 프레임/구동',
+    shortLabel: '전/후 비산방지 스커트', name: '고무 강화 비산방지 안전 스커트 (전/후 ×2)',
+    sub: '460 × 8 × 62 mm · 칼날 전단(Y=+323)/슈라우드(+329)와 3~11mm 안전 이격', dim: '460 × 8 × 62 mm (2장)',
+    qty: '2장 (전/후)', weight: 0.65,
+    coord: '전 (0, +336, 45) / 후 (0, -336, 45)',
+    note: '[Rev 5.0 치명 오차 수정] v4.0에서 좌측 칼날이 전방 고무스커트를 3~6mm 절단하던 문제를 Y=±336 배치 및 칼날 후퇴(Y=+208)로 완전 해결했습니다.',
+    color: '#18181b', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, 185, -75],
+    shapes: [
+      { type: 'box', pos: [0, 336, 45], size: [460, 8, 62], color: '#18181b' },
+      { type: 'box', pos: [0, -336, 45], size: [460, 8, 62], color: '#18181b' }
+    ]
+  },
+
+  // ========================================================================
+  // 계통 E : 저상 센서/안테나 (총 전고 ≤ 333mm ≤ 340mm) & 방진 62° 경량 보닛
+  // ========================================================================
+  {
+    num: 27, id: 'E_FPV_CAM', sys: 'E', sysName: '계통 E · 센서/외장',
+    shortLabel: 'OAK-D 노즈 카메라', name: 'OAK-D 스테레오 카메라 (전방 고정 데크 · 2단계)',
+    sub: '91×22×22mm · 고정 노즈 데크 상단 (Z_max=283 · LiDAR 스캔면과 19mm 아래)', dim: '91 × 28 × 22 mm',
+    qty: '1세트 (1단계 FPV 대체 가능)', weight: 0.09,
+    coord: '(0, +319, 272) — 전방 고정 데크 선단',
+    note: '[Rev 5.0 수정] 기존 전방 상단 크로스바를 관통하던 좌표를 고정 노즈 데크 상면(Z=261~283)으로 올려 LiDAR 스캔평면(Z=302)과 시야 간섭도 0mm로 분리했습니다.',
+    color: '#0ea5e9', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [0, 195, 110],
+    shapes: [
+      { type: 'box', pos: [0, 319, 272], size: [91, 22, 22], color: '#0284c7' }
+    ]
+  },
+  {
+    num: 28, id: 'E_LIDAR_BOSS', sys: 'E', sysName: '계통 E · 센서/외장',
+    shortLabel: '3D LiDAR (저상형)', name: '저상형 3D LiDAR & 보호 가드 (Z_max=328mm · 2단계)',
+    sub: '받침+스캐너 Z=261~328mm ≤ 340mm · 1단계 원격 실증 제외 가능', dim: '76 × 60 × 67 mm',
+    qty: '1식 (2단계 확장)', weight: 0.25,
+    coord: '(0, +276, 294) — 전방 고정 데크 상단',
+    note: '고정 프레임 직결로 Pixhawk·OAK-D와 캘리브레이션이 불변입니다. 총 높이 328mm로 태양광 하부 안전 통과 높이(340mm 이하)에 수납됩니다.',
+    color: '#475569', visible: true, mountedOnBonnet: false,
+    explodeVec: [0, 155, 175],
+    shapes: [
+      { type: 'box', pos: [0, 276, 268.5], size: [76, 60, 15], color: '#64748b' },
+      { type: 'cylinderZ', pos: [0, 276, 302], radius: 30, height: 52, color: '#334155' }
+    ]
+  },
+  {
+    num: 29, id: 'E_RTK_ANT', sys: 'E', sysName: '계통 E · 센서/외장',
+    shortLabel: '저상 퍽 RTK 안테나', name: '저상 퍽(Puck) RTK-GPS 안테나 + Ø120 접지판 (Z=315mm)',
+    sub: '후방 고정 브릿지(비개폐) 직결 · 총 높이 315mm ≤ 340mm (폴대 제거)', dim: '접지판 Ø120 × H 54 mm',
+    qty: '1식 (2단계 확장)', weight: 0.24,
+    coord: '(-145, -274, 290) — 후방 고정 데크 좌측',
+    note: '[Rev 5.0 전고 제한 해결] 기존 410mm까지 솟던 RTK 폴대를 제거하고, 후방 고정 데크(비개폐) 위 20mm 방진 마운트 + Ø120 접지판 + 저상 퍽 돔을 장착해 전고를 315mm(≤ 340mm)로 억제했습니다.',
+    color: '#0284c7', visible: true, isKeyLabel: true, mountedOnBonnet: false,
+    explodeVec: [-110, -135, 195],
+    shapes: [
+      { type: 'cylinderZ', pos: [-145, -274, 271], radius: 10, height: 20, color: '#64748b' },
+      { type: 'cylinderZ', pos: [-145, -274, 283], radius: 60, height: 4, color: '#cbd5e1' },
+      { type: 'cylinderZ', pos: [-145, -274, 300], radius: 46, height: 30, color: '#f8fafc' }
+    ]
+  },
+  {
+    num: 30, id: 'E_RC_RX', sys: 'E', sysName: '계통 E · 센서/외장',
+    shortLabel: '2.4GHz RC (저상형)', name: '2.4GHz 조종기 수신기 + 수평 절곡 저상 안테나 (Z=287mm)',
+    sub: '후방 고정 데크 · 90° L자/플렉시블 수평 안테나로 높이 억제', dim: '90 × 30 × 26 mm',
+    qty: '1세트 (1단계 필수)', weight: 0.04,
+    coord: '(+145, -248, 275) — 후방 고정 데크 우전방',
+    note: '1단계 원격 주행·예초의 핵심 수신기입니다. 안테나를 수평 X축으로 꺾어 전고를 287mm로 낮추고, 후방 고정 데크에 장착해 보닛 개방 시 간섭이 없습니다.',
+    color: '#8b5cf6', visible: true, mountedOnBonnet: false,
+    explodeVec: [120, -40, 185],
+    shapes: [
+      { type: 'box', pos: [145, -248, 268], size: [26, 30, 14], color: '#7c3aed' },
+      { type: 'box', pos: [145, -248, 281], size: [90, 8, 12], color: '#6d28d9' }
+    ]
+  },
+  {
+    num: 31, id: 'E_SIK_TELEM', sys: 'E', sysName: '계통 E · 센서/외장',
+    shortLabel: '915MHz (L절곡 Z=333)', name: '915MHz 텔레메트리 + 90° L-어댑터 단축 안테나 (Z=333mm)',
+    sub: 'RTK와 290mm 이격 · L형 단축 안테나로 최대 전고 333mm ≤ 340mm 준수', dim: '28 × 42 × 72 mm',
+    qty: '1세트 (2단계 확장)', weight: 0.06,
+    coord: '(+145, -296, 297) — 후방 고정 데크 우후방',
+    note: '[Rev 5.0 전고 제한 해결] 기존 Z=438mm로 태양광 패널과 충돌하던 수직 안테나를 단축 플렉시블/90° L-어댑터로 교체해 전체 로봇 최고 높이 333mm(≤ 340mm)를 달성했습니다.',
+    color: '#6d28d9', visible: true, mountedOnBonnet: false,
+    explodeVec: [125, -135, 195],
+    shapes: [
+      { type: 'box', pos: [145, -296, 268], size: [28, 42, 14], color: '#5b21b6' },
+      { type: 'cylinderZ', pos: [145, -296, 304], radius: 6, height: 58, color: '#4c1d95' }
+    ]
+  },
+  {
+    num: 32, id: 'E_TOP_COWL', sys: 'E', sysName: '계통 E · 센서/외장',
+    shortLabel: '고정 브릿지 + 경량 62° 보닛', name: '고정 전·후 브릿지 데크 + 62° 방진 보닛(흡기팬·필터)',
+    sub: '전방(IP65)·후방(RTK) 비개폐 고정 + 중앙 배터리 보닛(266mm)만 62° 경량 개방', dim: '전폭 410 × 분할 3구간 (Z=258)',
+    qty: '1식 (흡기팬·힌지·래치 포함)', weight: 1.15,
+    coord: '힌지축 (Y=-216, Z=263) / 중앙 보닛 Y=-220~+46',
+    note: '[Rev 5.0 핵심 아키텍처] 상부 커버를 3구간으로 재설계했습니다: ① 전방 고정 브릿지(IP65·Pixhawk·LiDAR, 비개폐), ② 후방 고정 데크(RTK·RC·SiK, 비개폐), ③ 중앙 62° 경량 방진 보닛(상단 120mm 흡기 쿨링팬+먼지필터만 탑재)만 들려 올라가 양쪽 배터리를 10초 교체합니다.',
+    color: '#94a3b8', visible: true, isKeyLabel: true, isEnclosure: true, mountedOnBonnet: false,
+    explodeVec: [0, 0, 145],
+    shapes: [
+      { type: 'box', pos: [0, 190, 258], size: [410, 276, 6], color: '#cbd5e1', fixedNose: true },
+      { type: 'box', pos: [0, -87, 258], size: [410, 266, 6], color: '#e2e8f0', isEnclosureBase: true, onBonnet: true },
+      { type: 'box', pos: [0, -276, 258], size: [410, 102, 6], color: '#cbd5e1', fixedNose: true },
+      { type: 'box', pos: [0, -87, 271], size: [120, 120, 20], color: '#334155', onBonnet: true },
+      { type: 'box', pos: [-140, -216, 267], size: [40, 24, 12], color: '#334155', onBonnet: true },
+      { type: 'box', pos: [140, -216, 267], size: [40, 24, 12], color: '#334155', onBonnet: true },
+      { type: 'box', pos: [-140, 42, 268], size: [30, 30, 14], color: '#ea580c', onBonnet: true },
+      { type: 'box', pos: [140, 42, 268], size: [30, 30, 14], color: '#ea580c', onBonnet: true }
     ]
   }
 ];
@@ -1630,6 +1486,11 @@ function switchMainTab(tabName) {
     if (view) view.classList.toggle('hidden', t !== tabName);
     if (nav) nav.className = (t === tabName) ? 'nav-tab active' : 'nav-tab';
   });
+  const is3d = (tabName === '3d');
+  ['leftSidebar', 'rightSidebar'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('hidden', !is3d);
+  });
 }
 
 function setCameraView(preset) {
@@ -1912,6 +1773,36 @@ function buildBladeDiscFaces(cx, cy, cz, radius, height, color, dir, partId) {
   return faces;
 }
 
+function buildShroudRingFaces(cx, cy, cz, innerR, outerR, height, color, segments, partId) {
+  const hz = height / 2;
+  const faces = [];
+  for (let i = 0; i < segments; i++) {
+    const a0 = (i / segments) * Math.PI * 2;
+    const a1 = ((i + 1) / segments) * Math.PI * 2;
+    const c0 = Math.cos(a0), s0 = Math.sin(a0);
+    const c1 = Math.cos(a1), s1 = Math.sin(a1);
+    const ox0 = cx + c0 * outerR, oy0 = cy + s0 * outerR;
+    const ox1 = cx + c1 * outerR, oy1 = cy + s1 * outerR;
+    const ix0 = cx + c0 * innerR, iy0 = cy + s0 * innerR;
+    const ix1 = cx + c1 * innerR, iy1 = cy + s1 * innerR;
+    const light = 0.78 + 0.24 * Math.cos(a0 - 0.6);
+    // Outer protective guard wall + Top annular rim
+    faces.push({
+      verts: [[ox0, oy0, cz - hz], [ox1, oy1, cz - hz], [ox1, oy1, cz + hz], [ox0, oy0, cz + hz]],
+      color: shadeHexColor(color, light),
+      alpha: 0.92,
+      partId
+    });
+    faces.push({
+      verts: [[ix0, iy0, cz + hz], [ox0, oy0, cz + hz], [ox1, oy1, cz + hz], [ix1, iy1, cz + hz]],
+      color: shadeHexColor(color, 1.12),
+      alpha: 0.95,
+      partId
+    });
+  }
+  return faces;
+}
+
 function render3DScene() {
   if (currentMainTab === '3d') {
     const dpr = window.devicePixelRatio || 1;
@@ -1936,7 +1827,7 @@ function render3DScene() {
 
     const rotateBonnetPt = (pt) => {
       if (bonnetAngleRad < 0.001) return pt;
-      const hpY = -310, hpZ = 259;
+      const hpY = -216, hpZ = 263;
       const dy = pt[1] - hpY, dz = pt[2] - hpZ;
       const c = Math.cos(bonnetAngleRad), s = Math.sin(bonnetAngleRad);
       return [pt[0], hpY + dy * c - dz * s, hpZ + dy * s + dz * c];
@@ -2010,6 +1901,8 @@ function render3DScene() {
           faces = buildTrackFaces(px, py, pz, sh.size[0], sh.size[1], sh.size[2], sh.color, part.id);
         } else if (sh.type === 'bladeDisc') {
           faces = buildBladeDiscFaces(px, py, pz, sh.radius, sh.height, sh.color, sh.dir, part.id);
+        } else if (sh.type === 'shroudRing') {
+          faces = buildShroudRingFaces(px, py, pz, sh.innerRadius, sh.outerRadius, sh.height, sh.color, 16, part.id);
         }
 
         const applyBonnet = (part.mountedOnBonnet || sh.onBonnet) && explodeFactor < 0.05 && bonnetAngleRad > 0.001;
@@ -2057,7 +1950,7 @@ function render3DScene() {
       ctx.strokeStyle = '#dc2626';
       ctx.lineWidth = 2.5;
       ctx.setLineDash([5, 3]);
-      [[-105, 215], [105, 95]].forEach(([mx, my]) => {
+      [[-105, 208], [105, 88]].forEach(([mx, my]) => {
         const topMotorP = project3D(
           mx + mowerMotorPart.explodeVec[0] * explodeFactor,
           my + mowerMotorPart.explodeVec[1] * explodeFactor,
@@ -2113,9 +2006,9 @@ function render3DScene() {
     // 4b. Dual Gas Struts when Bonnet is Open (hands-free prop at 62°)
     if (bonnetAngleRad > 0.05 && explodeFactor < 0.05) {
       ctx.save();
-      [-178, 178].forEach(sx => {
-        const baseP = project3D(sx, -170, 236, cx, cy, scale);
-        const topPt = rotateBonnetPt([sx, -15, 254]);
+      [-192, 192].forEach(sx => {
+        const baseP = project3D(sx, -165, 236, cx, cy, scale);
+        const topPt = rotateBonnetPt([sx, -30, 255]);
         const topP = project3D(topPt[0], topPt[1], topPt[2], cx, cy, scale);
         ctx.strokeStyle = '#0f172a';
         ctx.lineWidth = 4;
@@ -2128,9 +2021,9 @@ function render3DScene() {
       });
       // Vertical lift guide arrow highlight for both battery slots
       if (swapCartridgeStage > 0.05) {
-        [[-85, 35, 215], [85, -73, 165]].forEach(([bx, by, liftZ]) => {
+        [[-96, -84, 215], [96, -84, 175]].forEach(([bx, by, liftZ]) => {
           const dockP = project3D(bx, by, 86, cx, cy, scale);
-          const packP = project3D(bx, by, 162 + liftZ * swapCartridgeStage, cx, cy, scale);
+          const packP = project3D(bx, by, 167 + liftZ * swapCartridgeStage, cx, cy, scale);
           ctx.strokeStyle = '#16a34a';
           ctx.lineWidth = 2.5;
           ctx.setLineDash([5, 3]);
@@ -2262,13 +2155,13 @@ function generatePartTechnicalSvg(part, w = 280, h = 130) {
       <rect x="174" y="14" width="54" height="9" rx="3" fill="#eab308" stroke="#713f12"/>
       <rect x="64" y="102" width="30" height="8" rx="2" fill="#dc2626"/>
       <rect x="186" y="102" width="30" height="8" rx="2" fill="#dc2626"/>
-      <text x="79" y="56" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">좌측 6.75kg</text>
-      <text x="79" y="70" font-size="8" fill="#dcfce7" font-family="monospace" text-anchor="middle">162×240×160</text>
+      <text x="79" y="56" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">슬롯 1 (Y=-84)</text>
+      <text x="79" y="70" font-size="8" fill="#dcfce7" font-family="monospace" text-anchor="middle">162×240×158</text>
       <text x="79" y="84" font-size="8" fill="#fef08a" text-anchor="middle">⬆️ 수직 리프팅</text>
-      <text x="201" y="56" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">우측 6.75kg</text>
-      <text x="201" y="70" font-size="8" fill="#dcfce7" font-family="monospace" text-anchor="middle">162×240×160</text>
+      <text x="201" y="56" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">슬롯 2 (Y=-84)</text>
+      <text x="201" y="70" font-size="8" fill="#dcfce7" font-family="monospace" text-anchor="middle">162×240×158</text>
       <text x="201" y="84" font-size="8" fill="#fef08a" text-anchor="middle">⬆️ 수직 리프팅</text>
-      <text x="140" y="122" font-size="8.5" fill="#166534" font-weight="bold" text-anchor="middle">하부 Anderson SBS75G 블라인드 도킹 · 10초 교체</text>
+      <text x="140" y="122" font-size="8.5" fill="#166534" font-weight="bold" text-anchor="middle">470mm 프레임 +18~30mm 공차 · E-Stop 차단 후 10초 교체</text>
     `;
   } else if (id === 'E_TOP_COWL') {
     g = `
@@ -2280,7 +2173,7 @@ function generatePartTechnicalSvg(part, w = 280, h = 130) {
       <line x1="90" y1="88" x2="145" y2="48" stroke="#dc2626" stroke-width="3"/>
       <text x="115" y="45" font-size="9" fill="#1e40af" font-weight="bold" text-anchor="middle">힌지 보닛 62° 개방</text>
       <text x="228" y="58" font-size="8" fill="#0f172a" font-weight="bold" text-anchor="middle">전방 고정노즈</text>
-      <text x="140" y="114" font-size="8.5" fill="#475569" font-weight="bold" text-anchor="middle">후방 힌지(Y=-310) + 가스 쇼바 + 전방 토글래치</text>
+      <text x="140" y="114" font-size="8.5" fill="#475569" font-weight="bold" text-anchor="middle">중앙 방진 보닛(Y=-216)만 62° 오픈 · 전방 고정 IP65 유지</text>
     `;
   } else if (id === 'B_MOWER_MOTOR' || id === 'B_ANTI_WRAP') {
     g = `
@@ -2288,11 +2181,11 @@ function generatePartTechnicalSvg(part, w = 280, h = 130) {
       <text x="248" y="64" font-size="8" fill="#1e40af" font-weight="bold" text-anchor="end">Z단차 상부 브릿지</text>
       <rect x="95" y="16" width="70" height="48" rx="5" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
       <text x="130" y="38" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">상부 예초모터</text>
-      <text x="130" y="50" font-size="8" fill="#e0f2fe" text-anchor="middle">Z=165mm (비간섭)</text>
+      <text x="130" y="50" font-size="8" fill="#e0f2fe" text-anchor="middle">3단조절 (35/55/75mm)</text>
       <rect x="114" y="64" width="32" height="32" fill="#475569" stroke="#1e293b"/>
       <line x1="130" y1="64" x2="130" y2="112" stroke="#eab308" stroke-width="5"/>
       <rect x="65" y="106" width="130" height="8" rx="3" fill="#dc2626"/>
-      <text x="130" y="124" font-size="9" fill="#991b1b" font-weight="bold" text-anchor="middle">하부 스핀들축 & 칼날만 회전 (Z=42mm)</text>
+      <text x="130" y="124" font-size="9" fill="#991b1b" font-weight="bold" text-anchor="middle">하부 Ø230 칼날 + Ø242 보호 슈라우드 (Z=42mm)</text>
     `;
   } else if (id === 'A_DRIVE_MOTOR') {
     g = `
@@ -2304,7 +2197,7 @@ function generatePartTechnicalSvg(part, w = 280, h = 130) {
       <text x="82" y="50" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">48V 750W BLDC</text>
       <text x="82" y="63" font-size="8" fill="#c7d2fe" text-anchor="middle">후방 상층 Z=195mm</text>
       <text x="157" y="54" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">1:36 감속기</text>
-      <text x="130" y="118" font-size="9" fill="#1e40af" font-weight="bold" text-anchor="middle">Ø90 × L 176 mm (배터리 베이 후방 12mm 이격)</text>
+      <text x="130" y="118" font-size="9" fill="#1e40af" font-weight="bold" text-anchor="middle">Ø88 × L 176 mm (Z=178 · 35° 토크 100N·m+ 여유)</text>
     `;
   } else if (id === 'D_RPI5') {
     g = `
@@ -2351,101 +2244,108 @@ function generatePartTechnicalSvg(part, w = 280, h = 130) {
 }
 
 function renderVisualAtlasAndDiagrams() {
-  // 1. Side Elevation Cutaway SVG (Rev 4.0 Hinged Bonnet + Dual Vertical Lift Cartridges)
+  // 1. Side Elevation Cutaway SVG (Rev 5.0 Fixed Avionics Bridge + 62deg Dust Bonnet + Z<=340mm)
   document.getElementById('assembledSvgContainer').innerHTML = `
     <svg viewBox="0 0 620 340" class="w-full h-76">
       <rect width="620" height="340" fill="#f8fafc" rx="8"/>
+      <!-- Solar Panel Bottom Clearance Line Z=340mm -->
+      <line x1="25" y1="36" x2="595" y2="36" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,4"/>
+      <text x="590" y="28" font-size="9.5" fill="#dc2626" font-weight="bold" text-anchor="end">태양광 패널 하부 통과 상한 Z = 340mm (실차 Z_max = 333mm PASS)</text>
+
+      <!-- Ground Z=0 -->
       <line x1="30" y1="295" x2="590" y2="295" stroke="#334155" stroke-width="2.5"/>
-      <text x="40" y="315" font-size="10" fill="#334155" font-family="monospace" font-weight="bold">Z = 0mm (지면 · 하부 궤도 보기륜 롤러 접지면)</text>
+      <text x="40" y="315" font-size="10" fill="#334155" font-family="monospace" font-weight="bold">Z = 0mm (지면 · 궤도 전폭 650mm / 프레임 470×660mm)</text>
       <polygon points="85,295 515,295 535,258 235,148 165,148 65,258" fill="#27272a" fill-opacity="0.1" stroke="#27272a" stroke-width="3.5" stroke-dasharray="6,3"/>
-      <rect x="105" y="242" width="390" height="7" fill="#475569"/>
-      <text x="502" y="248" font-size="9.5" fill="#1e40af" font-weight="bold">Z=80mm (베이스판)</text>
+      <rect x="100" y="242" width="405" height="6" fill="#475569"/>
+      <text x="510" y="248" font-size="9" fill="#1e40af" font-weight="bold">Z=78 (4mm 베이스)</text>
 
-      <!-- Rear Lower Power Bay (under Drive Motors) -->
-      <rect x="115" y="210" width="84" height="32" rx="4" fill="#0f172a" stroke="#64748b"/>
-      <text x="157" y="229" font-size="8" fill="#facc15" font-weight="bold" text-anchor="middle">버스바·12V (Z=102)</text>
+      <!-- Rear Lower Power Bay + Upper Drive Motor -->
+      <rect x="108" y="210" width="84" height="32" rx="4" fill="#0f172a" stroke="#64748b"/>
+      <text x="150" y="229" font-size="8" fill="#facc15" font-weight="bold" text-anchor="middle">퓨즈·버스바·컨택터</text>
+      <rect x="108" y="158" width="84" height="44" rx="5" fill="#3730a3" stroke="#1e1b4b" stroke-width="2"/>
+      <text x="150" y="178" font-size="8.5" fill="#fff" font-weight="bold" text-anchor="middle">주행모터 ×2</text>
+      <text x="150" y="191" font-size="7.5" fill="#e0e7ff" text-anchor="middle">Z=178 · 동축 Y=-170</text>
 
-      <!-- Upper Drive Motors -->
-      <rect x="112" y="148" width="90" height="44" rx="5" fill="#3730a3" stroke="#1e1b4b" stroke-width="2"/>
-      <text x="157" y="168" font-size="9" fill="#ffffff" font-weight="bold" text-anchor="middle">상층 주행모터×2</text>
-      <text x="157" y="181" font-size="8" fill="#e0e7ff" text-anchor="middle">Z=195mm (+12mm이격)</text>
+      <!-- Rear Fixed Telemetry Deck & Low-profile Antennas -->
+      <rect x="98" y="122" width="102" height="8" rx="2" fill="#94a3b8"/>
+      <rect x="105" y="96" width="38" height="24" rx="3" fill="#0284c7"/>
+      <text x="124" y="111" font-size="7.5" fill="#fff" font-weight="bold" text-anchor="middle">퍽RTK 315</text>
+      <rect x="148" y="88" width="46" height="32" rx="3" fill="#6d28d9"/>
+      <text x="171" y="107" font-size="7.5" fill="#fff" font-weight="bold" text-anchor="middle">L절곡 333</text>
+      <text x="146" y="79" font-size="8.5" fill="#1e40af" font-weight="bold" text-anchor="middle">후방 고정안테나 (비개폐)</text>
 
-      <!-- Vertical Lift Battery Cartridges (+15mm top airgap!) -->
-      <rect x="212" y="156" width="80" height="82" rx="5" fill="#16a34a" stroke="#14532d" stroke-width="2"/>
-      <rect x="232" y="148" width="40" height="6" rx="2" fill="#eab308"/>
-      <text x="252" y="188" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">우 카트리지</text>
-      <text x="252" y="201" font-size="8" fill="#dcfce7" text-anchor="middle">6.75kg</text>
-      <rect x="300" y="156" width="80" height="82" rx="5" fill="#15803d" stroke="#14532d" stroke-width="2"/>
-      <rect x="320" y="148" width="40" height="6" rx="2" fill="#eab308"/>
-      <text x="340" y="188" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">좌 카트리지</text>
-      <text x="340" y="201" font-size="8" fill="#dcfce7" text-anchor="middle">6.75kg</text>
-      <text x="296" y="138" font-size="9" fill="#15803d" font-weight="bold" text-anchor="middle">⬆️ 수직 리프팅 인출 (상단 15mm 에어갭)</text>
+      <!-- Symmetric Dual Cartridge Bay + Lightweight 62deg Dust Bonnet -->
+      <rect x="210" y="150" width="128" height="88" rx="5" fill="#16a34a" stroke="#14532d" stroke-width="2"/>
+      <rect x="248" y="142" width="52" height="6" rx="2" fill="#eab308"/>
+      <text x="274" y="185" font-size="9.5" fill="#fff" font-weight="bold" text-anchor="middle">대칭 배터리 베이 ×2</text>
+      <text x="274" y="200" font-size="8" fill="#dcfce7" text-anchor="middle">Y=-84 · 공차 +18~30mm</text>
+      <text x="274" y="214" font-size="8" fill="#fef08a" text-anchor="middle">1단계 1팩 / 2단계 2팩</text>
 
-      <!-- Hinged Bonnet (Closed line & 62deg Open Ghost outline!) -->
-      <line x1="105" y1="128" x2="405" y2="128" stroke="#64748b" stroke-width="5"/>
-      <line x1="105" y1="128" x2="255" y2="22" stroke="#16a34a" stroke-width="4" stroke-dasharray="6,3"/>
-      <circle cx="105" cy="128" r="7" fill="#0f172a"/>
-      <text x="86" y="114" font-size="8.5" fill="#0f172a" font-weight="bold" text-anchor="end">후방 힌지</text>
-      <rect x="394" y="118" width="16" height="12" rx="2" fill="#ea580c"/>
-      <text x="398" y="112" font-size="8.5" fill="#ea580c" font-weight="bold" text-anchor="middle">토글래치</text>
-      <text x="235" y="42" font-size="9.5" fill="#15803d" font-weight="bold">62° 보닛 오픈 궤적 (IP65 박스째 열림)</text>
+      <!-- Lightweight 62deg Dust Bonnet + Intake Fan -->
+      <line x1="202" y1="126" x2="348" y2="126" stroke="#64748b" stroke-width="5"/>
+      <rect x="242" y="112" width="66" height="12" rx="2" fill="#334155"/>
+      <text x="275" y="121" font-size="7.5" fill="#fff" text-anchor="middle">흡기팬+필터</text>
+      <line x1="202" y1="126" x2="275" y2="46" stroke="#16a34a" stroke-width="4" stroke-dasharray="6,3"/>
+      <circle cx="202" cy="126" r="6" fill="#0f172a"/>
+      <rect x="336" y="116" width="14" height="12" rx="2" fill="#ea580c"/>
+      <text x="295" y="54" font-size="9" fill="#15803d" font-weight="bold">62° 경량 방진 보닛만 개방</text>
 
-      <!-- Fixed Front Nose + Sensors -->
-      <rect x="414" y="124" width="84" height="8" rx="2" fill="#94a3b8"/>
-      <rect x="424" y="88" width="38" height="34" rx="4" fill="#334155"/>
-      <text x="458" y="80" font-size="8.5" fill="#0f172a" font-weight="bold" text-anchor="middle">고정 센서 노즈(LiDAR·캠)</text>
+      <!-- Front Fixed Avionics Bridge: IP65 Box + Pixhawk + Sensors -->
+      <rect x="355" y="122" width="150" height="8" rx="2" fill="#94a3b8"/>
+      <rect x="362" y="72" width="96" height="48" rx="5" fill="#e2e8f0" stroke="#ea580c" stroke-width="2.5"/>
+      <text x="410" y="94" font-size="8.5" fill="#0f172a" font-weight="bold" text-anchor="middle">고정 IP65 함 (329)</text>
+      <text x="410" y="107" font-size="7.5" fill="#9a3412" font-weight="bold" text-anchor="middle">Pixhawk · RPi5 영구고정</text>
+      <rect x="464" y="76" width="38" height="44" rx="4" fill="#334155"/>
+      <text x="483" y="96" font-size="7.5" fill="#fff" font-weight="bold" text-anchor="middle">LiDAR</text>
+      <text x="483" y="108" font-size="7" fill="#cbd5e1" text-anchor="middle">328mm</text>
 
-      <!-- Z-Bridge Mower Motor & Lower Blades -->
-      <rect x="396" y="204" width="95" height="6" fill="#64748b"/>
-      <rect x="408" y="156" width="72" height="47" rx="5" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
-      <text x="444" y="177" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">상부 예초모터</text>
-      <text x="444" y="190" font-size="8" fill="#e0f2fe" text-anchor="middle">Z=165mm (비간섭)</text>
-      <rect x="431" y="204" width="26" height="62" fill="#475569"/>
-      <rect x="385" y="266" width="118" height="8" rx="3" fill="#dc2626"/>
-      <text x="444" y="286" font-size="9" fill="#dc2626" font-weight="bold" text-anchor="middle">하부 칼날 (Z=42mm)</text>
-
-      <!-- IP65 Box -->
-      <rect x="195" y="72" width="175" height="50" rx="5" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
-      <text x="282" y="96" font-size="9" fill="#0f172a" font-weight="bold" text-anchor="middle">IP65 박스 (Pixhawk 6C + RPi 5)</text>
-      <text x="282" y="110" font-size="8" fill="#334155" text-anchor="middle">보닛에 고정되어 무배선 분리 열림</text>
+      <!-- Z-Bridge 3-Stage Mower & Shroud Blades -->
+      <rect x="380" y="204" width="104" height="6" fill="#64748b"/>
+      <rect x="396" y="154" width="72" height="48" rx="5" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
+      <text x="432" y="175" font-size="8.5" fill="#fff" font-weight="bold" text-anchor="middle">상부 예초모터 ×2</text>
+      <text x="432" y="188" font-size="7.5" fill="#e0f2fe" text-anchor="middle">3단 조절 (35/55/75)</text>
+      <rect x="420" y="204" width="24" height="60" fill="#475569"/>
+      <rect x="372" y="252" width="120" height="22" rx="3" fill="none" stroke="#475569" stroke-width="3"/>
+      <rect x="376" y="264" width="112" height="8" rx="3" fill="#dc2626"/>
+      <text x="432" y="287" font-size="8.5" fill="#dc2626" font-weight="bold" text-anchor="middle">Ø230 칼날 + Ø242 슈라우드</text>
     </svg>
   `;
 
-  // 2. 5-Layer Full Exploded Schematic
+  // 2. 5-Layer Full Exploded Schematic (Rev 5.0)
   document.getElementById('explodedSvgContainer').innerHTML = `
     <svg viewBox="0 0 620 340" class="w-full h-76">
       <rect width="620" height="340" fill="#fffbeb" fill-opacity="0.35" rx="8"/>
-      <rect x="14" y="12" width="108" height="24" rx="4" fill="#f3e8ff" stroke="#9333ea"/>
-      <text x="68" y="28" font-size="9" fill="#6b21a8" font-weight="bold" text-anchor="middle">5층: 보닛·안테나·고정노즈</text>
-      <rect x="130" y="10" width="145" height="28" rx="4" fill="#0284c7"/><text x="202" y="27" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">RTK안테나 + Ø120접지판</text>
-      <rect x="283" y="10" width="155" height="28" rx="4" fill="#cbd5e1" stroke="#334155"/><text x="360" y="27" font-size="9" fill="#0f172a" font-weight="bold" text-anchor="middle">62° 힌지 보닛 & 토글래치</text>
-      <rect x="446" y="10" width="159" height="28" rx="4" fill="#0ea5e9"/><text x="525" y="27" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">전방 고정노즈 (OAK-D/LiDAR)</text>
+      <rect x="14" y="12" width="114" height="24" rx="4" fill="#f3e8ff" stroke="#9333ea"/>
+      <text x="71" y="28" font-size="8.5" fill="#6b21a8" font-weight="bold" text-anchor="middle">5층: 저상센서·방진보닛</text>
+      <rect x="135" y="10" width="145" height="28" rx="4" fill="#0284c7"/><text x="207" y="27" font-size="8.5" fill="#fff" font-weight="bold" text-anchor="middle">후방 고정 저상 RTK·RC (≤333)</text>
+      <rect x="288" y="10" width="150" height="28" rx="4" fill="#cbd5e1" stroke="#334155"/><text x="363" y="27" font-size="8.5" fill="#0f172a" font-weight="bold" text-anchor="middle">중앙 62° 경량 방진보닛·흡기팬</text>
+      <rect x="446" y="10" width="159" height="28" rx="4" fill="#0ea5e9"/><text x="525" y="27" font-size="8.5" fill="#fff" font-weight="bold" text-anchor="middle">전방 고정노즈 (OAK-D/LiDAR)</text>
 
-      <rect x="14" y="68" width="108" height="24" rx="4" fill="#dbeafe" stroke="#2563eb"/>
-      <text x="68" y="84" font-size="9" fill="#1e40af" font-weight="bold" text-anchor="middle">4층: 보닛 IP65 두뇌</text>
-      <rect x="130" y="60" width="115" height="40" rx="4" fill="#ea580c"/><text x="187" y="77" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">Holybro Pixhawk 6C</text><text x="187" y="91" font-size="8" fill="#ffedd5" text-anchor="middle">92×52×24 (댐퍼포함)</text>
-      <rect x="253" y="60" width="115" height="40" rx="4" fill="#15803d"/><text x="310" y="77" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">Raspberry Pi 5 + 쿨러</text><text x="310" y="91" font-size="8" fill="#dcfce7" text-anchor="middle">85×56×34mm · 0.12kg</text>
-      <rect x="376" y="60" width="105" height="40" rx="4" fill="#0f766e"/><text x="428" y="77" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">u-blox ZED-F9P</text><text x="428" y="91" font-size="8" fill="#ccfbf1" text-anchor="middle">50×45×14mm · RTK</text>
-      <rect x="489" y="60" width="116" height="40" rx="4" fill="#2563eb"/><text x="547" y="77" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">PM07 · 5V컨버터</text><text x="547" y="91" font-size="8" fill="#dbeafe" text-anchor="middle">힌지축 PG9 방수그랜드</text>
+      <rect x="14" y="68" width="114" height="24" rx="4" fill="#ffedd5" stroke="#ea580c"/>
+      <text x="71" y="84" font-size="8.5" fill="#9a3412" font-weight="bold" text-anchor="middle">4층: 전방 고정 IP65</text>
+      <rect x="135" y="60" width="112" height="40" rx="4" fill="#ea580c"/><text x="191" y="77" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">Holybro Pixhawk 6C</text><text x="191" y="91" font-size="8" fill="#ffedd5" text-anchor="middle">프레임 직결 (영점 불변)</text>
+      <rect x="255" y="60" width="112" height="40" rx="4" fill="#15803d"/><text x="311" y="77" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">Raspberry Pi 5</text><text x="311" y="91" font-size="8" fill="#dcfce7" text-anchor="middle">2단계 자율주행 확장</text>
+      <rect x="375" y="60" width="105" height="40" rx="4" fill="#0f766e"/><text x="427" y="77" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">u-blox ZED-F9P</text><text x="427" y="91" font-size="8" fill="#ccfbf1" text-anchor="middle">고정 데크 1cm RTK</text>
+      <rect x="488" y="60" width="117" height="40" rx="4" fill="#2563eb"/><text x="546" y="77" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">PM07 · 5V UBEC</text><text x="546" y="91" font-size="8" fill="#dbeafe" text-anchor="middle">고정 격벽 PG9 밀폐</text>
 
-      <rect x="14" y="130" width="108" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/>
-      <text x="68" y="146" font-size="9" fill="#166534" font-weight="bold" text-anchor="middle">3층: 퀵스왑 배터리</text>
-      <rect x="130" y="122" width="155" height="42" rx="5" fill="#16a34a"/><text x="207" y="140" font-size="9.5" fill="#fff" font-weight="bold" text-anchor="middle">듀얼 수직 카트리지 ×2</text><text x="207" y="154" font-size="8" fill="#fef08a" font-weight="bold" text-anchor="middle">각 162×240×160 (6.75kg×2)</text>
-      <rect x="293" y="122" width="105" height="42" rx="4" fill="#0f172a"/><text x="345" y="140" font-size="9" fill="#38bdf8" font-weight="bold" text-anchor="middle">VESC 75100 V2 ×2</text><text x="345" y="154" font-size="8" fill="#cbd5e1" text-anchor="middle">외벽 방열 (비간섭)</text>
-      <rect x="406" y="122" width="105" height="42" rx="4" fill="#1e293b"/><text x="458" y="140" font-size="9" fill="#facc15" font-weight="bold" text-anchor="middle">48V 80A ESC ×2</text><text x="458" y="154" font-size="8" fill="#cbd5e1" text-anchor="middle">외벽 방열 (비간섭)</text>
-      <rect x="519" y="122" width="86" height="42" rx="4" fill="#b91c1c"/><text x="562" y="140" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">200A컨택터·퓨즈</text><text x="562" y="154" font-size="8" fill="#fecaca" text-anchor="middle">후방하부(Z=102)</text>
+      <rect x="14" y="130" width="114" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+      <text x="71" y="146" font-size="8.5" fill="#166534" font-weight="bold" text-anchor="middle">3층: 대칭 배터리·측창</text>
+      <rect x="135" y="122" width="150" height="42" rx="5" fill="#16a34a"/><text x="210" y="140" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">대칭 배터리 슬롯 (Y=-84)</text><text x="210" y="154" font-size="8" fill="#fef08a" font-weight="bold" text-anchor="middle">1팩→2팩 확장 · +18~30mm</text>
+      <rect x="293" y="122" width="105" height="42" rx="4" fill="#0f172a"/><text x="345" y="140" font-size="9" fill="#38bdf8" font-weight="bold" text-anchor="middle">VESC 75100 ×2</text><text x="345" y="154" font-size="8" fill="#cbd5e1" text-anchor="middle">3030 측창 포켓(±212)</text>
+      <rect x="406" y="122" width="105" height="42" rx="4" fill="#1e293b"/><text x="458" y="140" font-size="9" fill="#facc15" font-weight="bold" text-anchor="middle">48V 80A ESC ×2</text><text x="458" y="154" font-size="8" fill="#cbd5e1" text-anchor="middle">3030 측창 포켓(±212)</text>
+      <rect x="519" y="122" width="86" height="42" rx="4" fill="#b91c1c"/><text x="562" y="140" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">200A컨택터·퓨즈</text><text x="562" y="154" font-size="8" fill="#fecaca" text-anchor="middle">중앙56mm·Y=-255</text>
 
-      <rect x="14" y="194" width="108" height="24" rx="4" fill="#fef3c7" stroke="#d97706"/>
-      <text x="68" y="210" font-size="9" fill="#92400e" font-weight="bold" text-anchor="middle">2층: 상부 모터·섀시</text>
-      <rect x="130" y="186" width="155" height="42" rx="4" fill="#0284c7"/><text x="207" y="204" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬆️ 상부 예초모터 ×2 (Z=165)</text><text x="207" y="218" font-size="8" fill="#e0f2fe" text-anchor="middle">Z단차 브릿지 장착</text>
-      <rect x="293" y="186" width="155" height="42" rx="4" fill="#3730a3"/><text x="370" y="204" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬆️ 상층 주행모터 ×2 (Z=195)</text><text x="370" y="218" font-size="8" fill="#e0e7ff" text-anchor="middle">후방 대칭 Ø90×176mm</text>
-      <rect x="456" y="186" width="149" height="42" rx="4" fill="#64748b"/><text x="530" y="204" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">3030 오픈탑 프레임</text><text x="530" y="218" font-size="8" fill="#f1f5f9" text-anchor="middle">400×650×175mm</text>
+      <rect x="14" y="194" width="114" height="24" rx="4" fill="#fef3c7" stroke="#d97706"/>
+      <text x="71" y="210" font-size="8.5" fill="#92400e" font-weight="bold" text-anchor="middle">2층: 470섀시·3단조절</text>
+      <rect x="135" y="186" width="150" height="42" rx="4" fill="#0284c7"/><text x="210" y="204" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬆️ 상부 예초모터 ×2</text><text x="210" y="218" font-size="8" fill="#e0f2fe" text-anchor="middle">3단 수동 조절 + 전동 홀</text>
+      <rect x="293" y="186" width="155" height="42" rx="4" fill="#3730a3"/><text x="370" y="204" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬆️ 주행모터 ×2 (Z=178)</text><text x="370" y="218" font-size="8" fill="#e0e7ff" text-anchor="middle">35° 토크 100N·m+ 여유</text>
+      <rect x="456" y="186" width="149" height="42" rx="4" fill="#64748b"/><text x="530" y="204" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">3030 확장 프레임</text><text x="530" y="218" font-size="8" fill="#f1f5f9" text-anchor="middle">470×660×175 (4.95kg)</text>
 
-      <rect x="14" y="258" width="108" height="24" rx="4" fill="#fee2e2" stroke="#dc2626"/>
-      <text x="68" y="274" font-size="9" fill="#991b1b" font-weight="bold" text-anchor="middle">1층: 하부 피구동부</text>
-      <rect x="130" y="250" width="145" height="44" rx="4" fill="#475569"/><text x="202" y="268" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬇️ Ø20mm 베어링 스핀들 허브</text><text x="202" y="282" font-size="8" fill="#cbd5e1" text-anchor="middle">4mm 베이스판 관통 · 충격흡수</text>
-      <rect x="283" y="250" width="160" height="44" rx="4" fill="#dc2626"/><text x="363" y="268" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬇️ 하부 듀얼 스윙 칼날 (Z=42)</text><text x="363" y="282" font-size="8" fill="#fecaca" text-anchor="middle">D=241.9mm · 유효폭 440mm</text>
-      <rect x="451" y="250" width="154" height="44" rx="4" fill="#27272a"/><text x="528" y="268" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬇️ 삼각형 고무궤도 & 벨트</text><text x="528" y="282" font-size="8" fill="#d4d4d8" text-anchor="middle">85×640×230mm · HTD 벨트</text>
+      <rect x="14" y="258" width="114" height="24" rx="4" fill="#fee2e2" stroke="#dc2626"/>
+      <text x="71" y="274" font-size="8.5" fill="#991b1b" font-weight="bold" text-anchor="middle">1층: 보호덱·650궤도</text>
+      <rect x="135" y="250" width="140" height="44" rx="4" fill="#475569"/><text x="205" y="268" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬇️ Ø20 스핀들 &amp; 방지컵</text><text x="205" y="282" font-size="8" fill="#cbd5e1" text-anchor="middle">4mm 베이스 Ø250 릴리프</text>
+      <rect x="283" y="250" width="160" height="44" rx="4" fill="#dc2626"/><text x="363" y="268" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬇️ Ø230 칼날 + 보호 슈라우드</text><text x="363" y="282" font-size="8" fill="#fecaca" text-anchor="middle">D=241.9 · 측면 14~20mm</text>
+      <rect x="451" y="250" width="154" height="44" rx="4" fill="#27272a"/><text x="528" y="268" font-size="9" fill="#fff" font-weight="bold" text-anchor="middle">⬇️ 650mm 궤도 (동축)</text><text x="528" y="282" font-size="8" fill="#d4d4d8" text-anchor="middle">X=±282.5 · Y=-170 동축</text>
     </svg>
   `;
 
@@ -2476,27 +2376,52 @@ function renderVisualAtlasAndDiagrams() {
     `;
   }).join('');
 
-  // 4. Blade Math SVG (with Dual Cartridge Footprints Overlay!)
+  // 4. Blade + 650mm Track + Symmetric Battery Bay Plan SVG (Rev 5.0)
   document.getElementById('bladeMathSvgContainer').innerHTML = `
-    <svg viewBox="0 0 500 280" class="w-full max-w-lg h-64">
-      <rect width="500" height="280" fill="#ffffff" rx="8"/>
-      <line x1="250" y1="12" x2="250" y2="265" stroke="#cbd5e1" stroke-dasharray="4,4"/>
-      <rect x="236" y="22" width="28" height="220" fill="#dcfce7" opacity="0.7"/>
-      <text x="250" y="262" font-size="10" fill="#15803d" font-weight="bold" text-anchor="middle">중앙 20mm 중첩 (미절단 0% · 유효폭 440mm)</text>
-      <!-- Dual battery cartridge safe rear zones -->
-      <rect x="135" y="112" width="95" height="90" rx="4" fill="#bbf7d0" fill-opacity="0.45" stroke="#16a34a" stroke-dasharray="3,2"/>
-      <text x="182" y="160" font-size="8.5" fill="#166534" font-weight="bold" text-anchor="middle">좌 배터리(비간섭)</text>
-      <rect x="270" y="165" width="95" height="82" rx="4" fill="#bbf7d0" fill-opacity="0.45" stroke="#16a34a" stroke-dasharray="3,2"/>
-      <text x="317" y="210" font-size="8.5" fill="#166534" font-weight="bold" text-anchor="middle">우 배터리(비간섭)</text>
+    <svg viewBox="0 0 540 295" class="w-full max-w-xl h-64">
+      <rect width="540" height="295" fill="#ffffff" rx="8"/>
+      <!-- 650mm Track Footprints (Outer ±325 -> x=42..100 & x=440..498; Inner ±240) -->
+      <rect x="42" y="20" width="58" height="248" rx="4" fill="#27272a" fill-opacity="0.16" stroke="#27272a" stroke-width="2"/>
+      <text x="71" y="145" font-size="8.5" fill="#18181b" font-weight="bold" text-anchor="middle">좌 궤도</text>
+      <text x="71" y="157" font-size="7.5" fill="#3f3f46" text-anchor="middle">내벽 -240</text>
+      <rect x="440" y="20" width="58" height="248" rx="4" fill="#27272a" fill-opacity="0.16" stroke="#27272a" stroke-width="2"/>
+      <text x="469" y="145" font-size="8.5" fill="#18181b" font-weight="bold" text-anchor="middle">우 궤도</text>
+      <text x="469" y="157" font-size="7.5" fill="#3f3f46" text-anchor="middle">내벽 +240</text>
 
-      <circle cx="172" cy="76" r="82" fill="#fee2e2" fill-opacity="0.5" stroke="#dc2626" stroke-width="2.5"/>
-      <circle cx="172" cy="76" r="15" fill="#0284c7" stroke="#0f172a" stroke-width="2"/>
-      <text x="148" y="42" font-size="9.5" fill="#991b1b" font-weight="bold">좌 스핀들(-105,+215)</text>
-      <circle cx="328" cy="148" r="82" fill="#fee2e2" fill-opacity="0.5" stroke="#dc2626" stroke-width="2.5"/>
-      <circle cx="328" cy="148" r="15" fill="#0284c7" stroke="#0f172a" stroke-width="2"/>
-      <text x="335" y="132" font-size="9.5" fill="#991b1b" font-weight="bold">우 스핀들(+105,+95)</text>
-      <line x1="172" y1="76" x2="328" y2="148" stroke="#1d4ed8" stroke-width="2"/>
-      <text x="270" y="102" font-size="10.5" fill="#1e40af" font-weight="bold" text-anchor="middle">D=241.9mm (+11.9mm 여유)</text>
+      <!-- Front Skirt Line (Y=+336 -> y=22, clear ahead of Left Blade Y=+323) -->
+      <line x1="112" y1="20" x2="428" y2="20" stroke="#18181b" stroke-width="4"/>
+      <text x="270" y="14" font-size="8" fill="#18181b" font-weight="bold" text-anchor="middle">전방 비산방지 스커트 (Y=+336 · 슈라우드와 비간섭)</text>
+
+      <!-- Centerline & 20mm Overlap -->
+      <line x1="270" y1="22" x2="270" y2="268" stroke="#cbd5e1" stroke-dasharray="4,4"/>
+      <rect x="256" y="28" width="28" height="225" fill="#dcfce7" opacity="0.75"/>
+
+      <!-- Symmetric Dual Battery Bays (X=±96, Y=-84 -> lower safe rear zone) -->
+      <rect x="148" y="176" width="108" height="84" rx="4" fill="#bbf7d0" fill-opacity="0.45" stroke="#16a34a" stroke-dasharray="3,2"/>
+      <text x="202" y="222" font-size="8.5" fill="#166534" font-weight="bold" text-anchor="middle">좌 배터리 슬롯 (-96,-84)</text>
+      <rect x="284" y="176" width="108" height="84" rx="4" fill="#bbf7d0" fill-opacity="0.45" stroke="#16a34a" stroke-dasharray="3,2"/>
+      <text x="338" y="222" font-size="8.5" fill="#166534" font-weight="bold" text-anchor="middle">우 배터리 슬롯 (+96,-84)</text>
+
+      <!-- Left & Right Protective Shrouds (R_outer=121 -> 82px visual) + Ø230 Blades -->
+      <circle cx="198" cy="95" r="82" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="5,3"/>
+      <circle cx="198" cy="95" r="76" fill="#fee2e2" fill-opacity="0.55" stroke="#dc2626" stroke-width="2.5"/>
+      <circle cx="198" cy="95" r="14" fill="#0284c7" stroke="#0f172a" stroke-width="2"/>
+      <text x="198" y="54" font-size="9" fill="#991b1b" font-weight="bold" text-anchor="middle">좌 스핀들(-105,+208)</text>
+
+      <circle cx="342" cy="158" r="82" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="5,3"/>
+      <circle cx="342" cy="158" r="76" fill="#fee2e2" fill-opacity="0.55" stroke="#dc2626" stroke-width="2.5"/>
+      <circle cx="342" cy="158" r="14" fill="#0284c7" stroke="#0f172a" stroke-width="2"/>
+      <text x="342" y="140" font-size="9" fill="#991b1b" font-weight="bold" text-anchor="middle">우 스핀들(+105,+88)</text>
+
+      <!-- Side Gap Arrows -->
+      <line x1="100" y1="95" x2="116" y2="95" stroke="#16a34a" stroke-width="2.5"/>
+      <text x="108" y="88" font-size="7.5" fill="#15803d" font-weight="bold" text-anchor="middle">+14~20</text>
+      <line x1="424" y1="158" x2="440" y2="158" stroke="#16a34a" stroke-width="2.5"/>
+      <text x="432" y="151" font-size="7.5" fill="#15803d" font-weight="bold" text-anchor="middle">+14~20</text>
+
+      <line x1="198" y1="95" x2="342" y2="158" stroke="#1d4ed8" stroke-width="2"/>
+      <text x="275" y="114" font-size="10" fill="#1e40af" font-weight="bold" text-anchor="middle">D=241.9mm</text>
+      <text x="270" y="284" font-size="9.5" fill="#15803d" font-weight="bold" text-anchor="middle">전폭 650mm 확정 · 궤도 비간섭(+14~20mm) · 유효폭 440mm (중앙 20mm 중첩)</text>
     </svg>
   `;
 }
