@@ -84,6 +84,10 @@
           <svg width="15" height="15" aria-hidden="true"><use href="#ic-ruler"/></svg>
           <span>4. 동결/예산</span>
         </button>
+        <button id="mainTab_wiring" type="button" role="tab" aria-selected="false" aria-controls="tabView_wiring" onclick="switchMainTab('wiring')" class="nav-tab">
+          <svg width="15" height="15" aria-hidden="true"><use href="#ic-explode"/></svg>
+          <span>5. 전장/가공</span>
+        </button>
       </nav>
 
       <div class="bp-mode-bar" role="group" aria-label="조립 및 분해 제어">
@@ -117,7 +121,7 @@
 
           <div class="bp-search-wrap">
             <svg class="bp-search-icon" width="16" height="16" aria-hidden="true"><use href="#ic-search"/></svg>
-            <input id="partSearchInput" type="text" placeholder="부품 검색 (Pixhawk, Vesc, 배터리)..." aria-label="부품 이름 검색"
+            <input id="partSearchInput" type="text" placeholder="부품 검색 (Pixhawk, VESC, 배터리)..." aria-label="부품 이름 검색"
               oninput="renderPartTree()" class="bp-input" />
           </div>
 
@@ -142,11 +146,12 @@
               <button type="button" onclick="focusPreset('all')" class="quick-chip">전체</button>
               <button type="button" onclick="focusPreset('battery')" class="quick-chip">배터리 교체</button>
               <button type="button" onclick="focusPreset('pixhawk')" class="quick-chip">01 Pixhawk</button>
-              <button type="button" onclick="focusPreset('drivers')" class="quick-chip">09 측창 Esc</button>
+              <button type="button" onclick="focusPreset('drivers')" class="quick-chip">09 측창 VESC</button>
               <button type="button" onclick="focusPreset('motors')" class="quick-chip">16 상부 모터</button>
             </div>
             <div class="bp-toolbar-group" role="group" aria-label="뷰포트 표시 옵션">
               <button id="btnLabelMode" type="button" onclick="cycleLabelMode()" class="quick-chip">라벨: 핵심만</button>
+              <button id="btnSolarCeiling" type="button" aria-pressed="false" onclick="cycleSolarCeiling()" class="quick-chip">천장: OFF</button>
               <button id="btnXray" type="button" aria-pressed="true" onclick="toggleXray()" class="quick-chip active">투시: ON</button>
               <button id="btnAnimate" type="button" aria-pressed="true" onclick="toggleAnimation()" class="quick-chip active">칼날: ON</button>
             </div>
@@ -386,7 +391,7 @@
                     <tr>
                       <td class="is-strong">6. 중량 오기재 및 4mm 타공</td>
                       <td>청사진 33kg(무배터리 24.8kg) 오기재(실합산 47.89kg), 75mm 최대 상승 시 베이스판 간섭 우려</td>
-                      <td class="is-strong">실측 합산 중량 정정(1팩 ~44~48kg, 2팩 51kg 대), 베이스판 4mm(Z=76~80) 및 Ø250mm 릴리프 반영</td>
+                      <td class="is-strong">실측 합산 정정(32종 51.39kg + 부자재 2.3kg ≈ 53.7kg), 베이스판 4mm(Z=76~80) Ø254 릴리프 반영</td>
                     </tr>
                   </tbody>
                 </table>
@@ -398,8 +403,8 @@
                 <div class="bp-plate-head">
                   <h2 class="bp-h2">듀얼 칼날 및 650mm 궤도 비간섭 평면 검증</h2>
                 </div>
-                <p>좌 스핀들(-105, +208)과 우 스핀들(+105, +88) 배치로 D=241.9mm 비충돌과 대칭 배터리 공차(+18~30mm)를 동시에 만족합니다.</p>
-                <div id="bladeMathSvgContainer" class="fig bp-svg-plate" role="img" aria-label="듀얼 칼날 및 650mm 궤도 평면 간섭 검증 도면"></div>
+                <p>좌 스핀들(-105, +208)과 우 스핀들(+105, +88) 모두 동일 Ø230mm 1:1 축척이며 D=241.9mm 비충돌과 궤도 간격(+20mm)을 만족합니다.</p>
+                <div id="bladeMathSvgContainer" class="fig bp-svg-plate" role="img" aria-label="듀얼 칼날 및 650mm 궤도 1:1 축척 평면 간섭 검증 도면"></div>
                 <div class="bp-kpi-grid">
                   <div class="bp-stat-cell">
                     <div class="bp-stat-label">유효폭 / 궤도 여유</div>
@@ -420,7 +425,7 @@
                 <div class="bp-plate-head">
                   <h2 class="bp-h2">3030 프로파일 Rev 5.0 재단 치수표 (470×660×175mm)</h2>
                 </div>
-                <p>외곽 470×660×175mm 섀시(내폭 410mm, Z=80~255mm) 측창 포켓에 Vesc/Esc와 타이밍 벨트를 수납합니다.</p>
+                <p>외곽 470×660×175mm 섀시(내폭 410mm, Z=80~255mm) 측창 포켓에 VESC/ESC와 타이밍 벨트를 수납합니다.</p>
                 <div class="bp-table-wrap">
                   <table class="bp-table">
                     <thead>
@@ -450,26 +455,49 @@
               <section class="bp-plate">
                 <div class="bp-plate-head">
                   <h2 class="bp-h2">계통별 실측 중량, 무게중심(CG), 소비전력 검증</h2>
+                  <span class="bp-rev-tag">부자재 포함 실차 약 53.7 kg</span>
                 </div>
+                <div class="bp-sim-bar" role="group" aria-label="배터리 구성 시뮬레이터">
+                  <button type="button" id="simBtn_2pack" onclick="setBatterySimMode('2pack')" class="bp-btn bp-btn--primary" aria-pressed="true">2팩 풀세트 (30Ah)</button>
+                  <button type="button" id="simBtn_1pack_center" onclick="setBatterySimMode('1pack_center')" class="bp-btn" aria-pressed="false">1팩 중앙 대칭 (15Ah)</button>
+                  <button type="button" id="simBtn_1pack_left" onclick="setBatterySimMode('1pack_left')" class="bp-btn" aria-pressed="false">1팩 좌슬롯 (편심 점검)</button>
+                  <button type="button" id="simBtn_dry" onclick="setBatterySimMode('dry')" class="bp-btn" aria-pressed="false">무배터리 (적재 상태)</button>
+                </div>
+                <div class="bp-kpi-grid">
+                  <div class="bp-stat-cell">
+                    <div class="bp-stat-label">총중량 (32종 / 부자재+2.3kg)</div>
+                    <div id="simWeightVal" class="bp-stat-val">51.39 / 53.69 kg</div>
+                  </div>
+                  <div class="bp-stat-cell">
+                    <div class="bp-stat-label">3축 무게중심 (X, Y, Z)</div>
+                    <div id="simCgVal" class="bp-stat-val">(-0.2, -46.8, 151.3)</div>
+                  </div>
+                  <div class="bp-stat-cell">
+                    <div class="bp-stat-label">35° 토크 / 연속 예초</div>
+                    <div id="simRunVal" class="bp-stat-val">25.0 N·m / 65분</div>
+                  </div>
+                </div>
+                <div id="simAdviceBox" class="bp-callout-info">2팩 대칭 장착(-96 / +96) 상태로 좌우 CG 편심이 0.2mm 이내로 균일합니다. 일반 작업 1,200W(23.4A) 기준 48V 30Ah(유효 1,306Wh)로 약 65분 연속 예초 가능합니다.</div>
                 <div class="bp-table-wrap">
                   <table class="bp-table">
                     <thead>
                       <tr>
-                        <th>계통 (32종 부품)</th>
+                        <th>계통 및 부자재</th>
                         <th>중량</th>
-                        <th>세부 구성 및 검증 내용</th>
+                        <th>세부 구성 및 평균 소비전력 (51.2V LiFePO4 기준)</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr><td class="is-strong">A-1. 주행 동력계</td><td class="num">8.80 kg</td><td>48V 750W 1:36 유성감속 모터 ×2(7.20kg), 풀리 및 벨트(0.70kg), Ø20 구동축 및 베어링(0.90kg)</td></tr>
-                      <tr><td class="is-strong">A-2. 삼각 무한궤도</td><td class="num">6.80 kg</td><td>삼각형 고무 무한궤도 모듈 ×1쌍(좌 3.40kg + 우 3.40kg, 스프로킷 및 보기륜 일체)</td></tr>
-                      <tr><td class="is-strong">A-3. 3030 프레임/하부판</td><td class="num">9.13 kg</td><td>470×660 AL3030 프레임 14본(4.95kg), AL5052 4mm 베이스판(3.05kg), 핸들/스커트(1.13kg)</td></tr>
-                      <tr><td class="is-strong">B. 예초계통 및 보호덱</td><td class="num">7.15 kg</td><td>상부 모터·3단 브릿지(2.65), Ø20 스핀들(1.6), Ø230 칼날 및 Ø242 슈라우드(2.9)</td></tr>
-                      <tr><td class="is-strong">C. 배터리·ESC·배전</td><td class="num">16.31 kg</td><td>듀얼 배터리 2팩(13.50kg, 1팩당 6.75kg), 측창 Vesc/Esc(1.46kg), 컨택터/퓨즈/버스바/DCDC/E-Stop(1.35kg)</td></tr>
-                      <tr><td class="is-strong">D+E. 고정 두뇌·센서·보닛</td><td class="num">3.20 kg</td><td>전방 고정 IP65 제어함·Pixhawk·RPi5(1.37kg), 62° 방진 보닛·흡기팬·LiDAR·RTK·카메라(1.83kg)</td></tr>
+                      <tr><td class="is-strong">A-1. 주행 동력계</td><td class="num">8.80 kg</td><td>750W 1:36 모터×2(7.20), 풀리/벨트(0.70), Ø20 구동축/베어링(0.90) | 주행 평균 480W (9.4A)</td></tr>
+                      <tr><td class="is-strong">A-2. 삼각 무한궤도</td><td class="num">6.80 kg</td><td>삼각 고무 궤도 모듈×1쌍 (좌 3.40 + 우 3.40, 스프로킷/보기륜 일체형 프레임 포함)</td></tr>
+                      <tr><td class="is-strong">A-3. 3030 프레임/판재</td><td class="num">9.13 kg</td><td>470×660 프로파일(4.95), AL5052 4mm 바닥판(3.05), 핸들/스커트(1.13)</td></tr>
+                      <tr><td class="is-strong">B. 예초계통 및 슈라우드</td><td class="num">7.15 kg</td><td>상부 모터×2/Z-브릿지(2.65), 커플러/스핀들(1.60), Ø230 칼날/Ø242 슈라우드(2.90) | 예초 700W (13.7A)</td></tr>
+                      <tr><td class="is-strong">C. 배터리·ESC·배전</td><td class="num">16.31 kg</td><td>듀얼 48V 15Ah 2팩(13.50, 1팩 6.75), 측창 VESC/ESC×4(1.46), 컨택터/프리차지/DCDC(1.35)</td></tr>
+                      <tr><td class="is-strong">D+E. 제어·센서·보닛</td><td class="num">3.20 kg</td><td>고정 IP65/Pixhawk/RPi5(1.37), 보닛/흡기팬/LiDAR/RTK(1.83) | 제어/팬 평균 20W (0.4A)</td></tr>
+                      <tr><td class="is-strong">F. 체결 부자재·하네스</td><td class="num">+2.30 kg</td><td>3030 코너 브라켓 28개, M6 T-너트/볼트 90조, 10AWG 실리콘 강전선/러그/주름관 (실차 필수 추가분)</td></tr>
                     </tbody>
                     <tfoot>
-                      <tr><td>실차 운용 중량 요약</td><td class="num">37.89 ~ 51.39 kg</td><td>무배터리 본체 37.89 kg (2인 적재) / 1단계(1팩) 44.64 kg / 2단계(2팩) 51.39 kg | 35° 등판 토크 4배 여유(100N·m+ 대 24.2N·m)</td></tr>
+                      <tr><td>실차 소비전력 및 CG 요약</td><td class="num">53.69 kg</td><td>일반 작업 1,200W (23.4A, 1시간 1,412Wh 필요 DoD85%) / 고부하 1,450W (28.3A) | CG (-0.2, -46.8, 151.3) mm | 35° 토크 25.0 대 100N·m+ (4배)</td></tr>
                     </tfoot>
                   </table>
                 </div>
@@ -477,7 +505,8 @@
 
               <section class="bp-plate">
                 <div class="bp-plate-head">
-                  <h2 class="bp-h2">단계별 예산 분리, 4대 확정 안건 및 3인 병렬 로드맵</h2>
+                  <h2 class="bp-h2">단계별 예산 분리, 통합 발주표 및 3인 병렬 로드맵</h2>
+                  <button type="button" onclick="downloadFullBomCsv()" class="bp-btn bp-btn--primary">통합 발주표 (.csv)</button>
                 </div>
                 <div class="bp-table-wrap">
                   <table class="bp-table">
@@ -489,24 +518,106 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr><td class="is-strong">1단계 원격 실증</td><td>470×660 프레임/궤도, 주행/예초 모터×4, 드라이버×4, 48V 1팩, E-Stop/DCDC, RC 조종기</td><td class="num">~100만 원 (보유품 제외)</td></tr>
+                      <tr><td class="is-strong">1단계 원격 실증</td><td>470×660 프레임/궤도, 주행/예초 모터×4, 드라이버×4, 48V 1팩, E-Stop/프리차지/RC 믹싱, 부자재 일체</td><td class="num">~100만 원 (보유품 제외)</td></tr>
                       <tr><td class="is-strong">2단계 자율주행 확장</td><td>Pixhawk 6C, ZED-F9P RTK, RPi 5, OAK-D, 3D LiDAR, 915MHz 텔레메트리, 2번 팩, 전동 액추에이터</td><td class="num">+150~200만 원 볼트온</td></tr>
                     </tbody>
                   </table>
                 </div>
                 <div class="bp-gate-grid">
                   <div class="bp-gate-cell">
-                    <strong>담당 A (기구 / CAD)</strong>
-                    650mm 프레임/궤도, Ø242 보호덱, 수동 3단 높이조절, 고정 Pixhawk 브릿지, 경량 방진 보닛
+                    <strong>담당 A (기구 / 가공)</strong>
+                    470×660 프레임/궤도, AL5052 Ø254 레이저 타공판, 4점 Ø10 가이드 Z-브릿지(Ø242 동반승강), 우레탄 조 커플러
                   </div>
                   <div class="bp-gate-cell">
                     <strong>담당 B (동력 / 전장)</strong>
-                    48V 1팩 배터리, 모터 4개 벤치구동, 3030 측창 ESC 방열판, E-Stop 및 100만 원 BOM 발주
+                    1팩 중앙 임시거치, 전자브레이크 프리휠 비상 스위치, 컨택터 100옴 프리차지 회로, 10번 게이지 강전 하네스
                   </div>
                   <div class="bp-gate-cell">
                     <strong>담당 C (제어 / 시스템)</strong>
-                    RC 믹싱 및 예초 비상차단 로직, Pixhawk 진동/자세 검증, 2단계 자율주행/FPV SW 준비
+                    1단계 RC 조종기 V-Tail 믹싱 및 CH6 비상차단, 2단계 Pixhawk CAN/RTK 자세 검증 (5번 전장/가공 탭 기준)
                   </div>
+                </div>
+              </section>
+            </div>
+
+            <section class="bp-plate">
+              <div class="bp-plate-head">
+                <h2 class="bp-h2">제조, 조립 및 현장 실무 7대 누락 보완 체크리스트</h2>
+                <span class="bp-badge-pass">현장 7대 실무 항목 반영 완료</span>
+              </div>
+              <div class="bp-table-wrap">
+                <table class="bp-table">
+                  <thead>
+                    <tr>
+                      <th>보완 항목</th>
+                      <th>기존 누락 시 현장 리스크</th>
+                      <th>Rev 5.0 확정 스펙 및 대책</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="is-strong">1. 체결 패스너 및 10AWG 배선</td><td>볼트/브라켓/강전선 없이 조립 불가, 실차 중량 ~2.3kg 오차 발생</td><td class="is-strong">브라켓 28개, M6 T-너트/볼트 90조, 10AWG 실리콘선, 링러그(+2.30kg, 실차 53.69kg) 통합 BOM 수록</td></tr>
+                    <tr><td class="is-strong">2. 전자브레이크 수동 프리휠</td><td>완전 방전 또는 VESC 고장 시 전자브레이크가 잠겨 54kg 차체 견인 불가</td><td class="is-strong">#19 모터 후단 기계식 수동 릴리즈 레버 사양 적용 + 외부 24/48V 비상 프리휠 토글 단자 배선</td></tr>
+                    <tr><td class="is-strong">3. 모터-스핀들 충격 커플러</td><td>돌 충돌 시 회전 충격이 #16 예초모터 베어링/축 휨으로 직결됨</td><td class="is-strong">우레탄 스파이더 내장 알루미늄 조(Jaw) 플렉시블 커플러 ×2를 Z-브릿지와 스핀들 사이 직결</td></tr>
+                    <tr><td class="is-strong">4. 3단 Z-브릿지 및 Ø254 타공</td><td>고정 슈라우드 사용 시 칼날 상승(75mm) 때 베이스판/슈라우드 간섭</td><td class="is-strong">4점 Ø10 가이드봉+M8 핀(35/55/75mm) 방식, Ø242 슈라우드 동반 승강, 바닥판 릴리프 Ø254mm 확장</td></tr>
+                    <tr><td class="is-strong">5. 1단계 1팩 좌우 편심 대책</td><td>2슬롯 중 한쪽에만 6.75kg 1팩 장착 시 CG -14.1mm 편향으로 경사 주행 불량</td><td class="is-strong">1단계 전용 중앙(X=0) 탈착식 임시 트레이 거치(편심 0mm) 또는 반대편 6.7kg 밸런스 추 탑재</td></tr>
+                    <tr><td class="is-strong">6. 1단계 RC 직결 및 프리차지</td><td>Pixhawk 없는 1단계 차동 주행 방법 부재 및 초기 전원 아크 용착 위험</td><td class="is-strong">조종기 EdgeTX V-Tail 믹싱→VESC 직결 + CH5 예초 병렬 + TE EVC200 접점에 100Ω 10W 프리차지 저항</td></tr>
+                    <tr><td class="is-strong">7. 4mm 판재 CNC 타공 좌표</td><td>3030 재단표만 있어 레이저/CNC 판재 가공 발주 시 치수 누락</td><td class="is-strong">5번 탭에 AL5052 4mm(470×660mm) 스핀들 Ø254 타공 및 M6 체결 홀 2D 가공 도면·좌표 완비</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- TAB 5: STAGE 1/2 WIRING & SHEET METAL CNC DRAWINGS -->
+        <div id="tabView_wiring" role="tabpanel" aria-labelledby="mainTab_wiring" class="hidden bp-tab-panel bp-tab-scroll cad-scroll">
+          <div class="bp-container">
+            <div class="bp-banner">
+              <div>
+                <h2 class="bp-h2">전장 배선도 (1/2단계 전환) 및 판재 레이저 가공 도면</h2>
+                <p>1단계 조종기 직접 믹싱과 100옴 프리차지, 전자브레이크 프리휠 스위치 및 4mm 알루미늄 판재 타공 치수를 발주 기준으로 제공합니다.</p>
+              </div>
+              <div class="bp-toolbar-group" role="group" aria-label="배선 단계 선택">
+                <button type="button" id="wireBtn_stage1" onclick="setWiringStage('stage1')" class="bp-btn bp-btn--primary" aria-pressed="true">1단계 원격 실증 배선</button>
+                <button type="button" id="wireBtn_stage2" onclick="setWiringStage('stage2')" class="bp-btn" aria-pressed="false">2단계 자율주행 배선</button>
+                <button type="button" onclick="downloadFullBomCsv()" class="bp-btn">발주표 저장 (.csv)</button>
+              </div>
+            </div>
+
+            <div class="bp-grid-2">
+              <section class="bp-plate">
+                <div class="bp-plate-head">
+                  <h3 id="wiringTitle" class="bp-h3">1단계 원격 예초 전장 배선 블록도 (Pixhawk 없이 즉시 주행)</h3>
+                  <span id="wiringBadge" class="bp-rev-tag">예산 ~100만 원 / 1팩 기준</span>
+                </div>
+                <div id="wiringSvgContainer" class="fig bp-svg-plate" style="min-height:330px;" role="img" aria-label="MINI-UGV 전장 배선 및 프리차지 블록도"></div>
+                <div id="wiringDetailBox" class="bp-callout-info">투입 순서: ① E-Stop 해제 → ② 100Ω 10W 프리차지 스위치 2~3초 ON → ③ 200A 메인 컨택터 코일 ON → ④ RC CH6 안전 킬 스위치 해제. 조종기 내장 V-Tail/Elevon 믹싱으로 CH1/CH2 PWM을 좌/우 VESC에 직접 인가해 Pixhawk 없이 스키드 스티어링을 구현합니다.</div>
+              </section>
+
+              <section class="bp-plate">
+                <div class="bp-plate-head">
+                  <h3 class="bp-h3">AL5052 4mm 베이스판 (470×660mm) 레이저·CNC 타공 도면</h3>
+                  <span class="bp-rev-tag">T=4.0 mm / Ø254 릴리프</span>
+                </div>
+                <div id="cncSheetSvgContainer" class="fig bp-svg-plate" style="min-height:330px;" role="img" aria-label="4mm AL5052 하부 베이스판 470x660mm 레이저 타공 2D 도면"></div>
+                <div class="bp-table-wrap">
+                  <table class="bp-table">
+                    <thead>
+                      <tr>
+                        <th>가공 피처</th>
+                        <th>좌표 (중심 X, Y mm)</th>
+                        <th>가공 규격 / 목적</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="is-strong">전방 좌 스핀들/슈라우드 홀</td><td class="num">(-105, +208)</td><td>Ø250~254 mm (전방 레일 Y=+300 부근 U-릴리프 포함, 35/50/65mm 비간섭)</td></tr>
+                      <tr><td class="is-strong">전방 우 스핀들/슈라우드 홀</td><td class="num">(+105, +88)</td><td>Ø250~254 mm 원형 관통 (좌/우 궤도 내벽 ±240mm와 +8~14mm 여유)</td></tr>
+                      <tr><td class="is-strong">1단계 중앙 배터리 고정 홀</td><td class="num">(0, -84) [4×Ø6.5]</td><td>165×244 피치 4홀 (1팩 단독 운용 시 좌우 CG 편심 0mm 거치)</td></tr>
+                      <tr><td class="is-strong">2단계 대칭 배터리 트레이 홀</td><td class="num">(±96, -84) [8×Ø6.5]</td><td>양측 대칭 4×Ø6.5 카운터싱크 (슬롯 1/2 Anderson 도킹 베이스)</td></tr>
+                      <tr><td class="is-strong">후방 강전 배전 모듈 마운트</td><td class="num">(±128/±68/0, -255)</td><td>M5 탭/Ø5.5×8홀 (컨택터·퓨즈·버스바·DC-DC·프리차지 저항)</td></tr>
+                      <tr><td class="is-strong">3030 프레임 외곽 체결 홀</td><td class="num">X=±220 / Y=±315 순환</td><td>14×Ø6.5mm 카운터보어 (M6×12 접시볼트 + T-너트 직결)</td></tr>
+                    </tbody>
+                  </table>
                 </div>
               </section>
             </div>
@@ -566,7 +677,7 @@
                 <div class="bp-preset-head">1. 전방 고정 Pixhawk 및 측창 ESC</div>
                 <button type="button" onclick="focusPreset('pixhawk')" class="bp-link-btn">3D 보기</button>
               </div>
-              <p class="bp-preset-copy">Pixhawk 6C는 전방 고정 IP65 브릿지에 직결하고, Vesc×2 및 예초 Esc×2는 470mm 측창 포켓(±212)에 매립했습니다.</p>
+              <p class="bp-preset-copy">Pixhawk 6C는 전방 고정 IP65 브릿지에 직결하고, VESC×2 및 예초 ESC×2는 470mm 측창 포켓(±212)에 매립했습니다.</p>
             </div>
             <div class="bp-preset-card">
               <div class="bp-preset-head-row">
@@ -1324,12 +1435,12 @@ const PARTS_CATALOG = [
     "sysName": "계통 C / 전원/드라이버",
     "shortLabel": "200A 메인 릴레이",
     "name": "TE EVC200 48V 200A 메인 컨택터 + 프리차지",
-    "sub": "85×60×72mm / 좌/우 주행모터 중앙 56mm 복도 수납",
+    "sub": "52×76×68mm (+ 100Ω 10W 프리차지 저항 병렬) / 좌 우 주행모터 중앙 56mm 복도 수납",
     "dim": "52 × 76 × 68 mm",
     "qty": "1식",
     "weight": 0.45,
     "coord": "(0, -255, 116), 후방 주행모터 사이 중앙 공간",
-    "note": "[Rev 5.0 개선] 470mm 확장으로 주행모터 사이 중앙 복도가 56mm(±28)로 넓어져 컨택터가 배터리 베이(Y=-204)와 간섭 없이 후방 중앙에 수직 안착합니다.",
+    "note": "[Rev 5.0 개선 & 안전] 470mm 확장으로 주행모터 사이 중앙 복도가 56mm(±28)로 넓어져 컨택터(52×76×68mm)가 배터리 베이(Y=-204)와 간섭 없이 후방 중앙에 수직 안착합니다. [필수 프리차지 회로] 주접점(+)에 100Ω 10W 권선 저항 + 모멘터리 스위치(또는 2단 키 스위치)를 병렬 연결하여, 2~3초 프리차지 후 컨택터 코일을 여자해야 VESC/ESC 커패시터 아크 용착을 방지합니다.",
     "color": "#334155",
     "visible": true,
     "mountedOnBonnet": false,
@@ -1493,7 +1604,7 @@ const PARTS_CATALOG = [
     "sysName": "계통 C / 전원/드라이버",
     "shortLabel": "후방 비상정지 버튼",
     "name": "후방 외부 프레임 직결 비상정지 (E-Stop)",
-    "sub": "Ø45 버섯형 × 박스 54×34×42 / 후방 3030 크로스바 외측 L브래킷",
+    "sub": "총 54×34×64mm (방수박스 H42 + Ø44 버섯버튼 H22) / 후방 3030 크로스바 외측 L브래킷",
     "dim": "54 × 34 × 64 mm",
     "qty": "1개",
     "weight": 0.12,
@@ -1542,12 +1653,12 @@ const PARTS_CATALOG = [
     "sysName": "계통 B / 예초계통",
     "shortLabel": "상부 예초모터 ×2 (3단조절)",
     "name": "상부 예초모터 ×2 + 3단 수동 높이조절 Z-브릿지",
-    "sub": "Ø76×70mm / 수동 3단(35/55/75mm) 장공 가이드 + 전동 액추에이터 예비홀",
+    "sub": "Ø76×70mm / 4점 Ø10 가이드봉 + M8 핀(35/50/65mm 권장 / 75mm 시 전방 레일 릴리프) + Ø242 슈라우드 동반 승강",
     "dim": "Ø76 × H 70 mm (2개)",
     "qty": "2개 (3단 Z-브릿지)",
     "weight": 2.65,
     "coord": "좌 (-105, +208, 166) / 우 (+105, +88, 166)",
-    "note": "[Rev 5.0 개선] 1차 수동 3단 핀 조절(예초 높이 35 / 55 / 75mm) 양측 가이드 레일(X=±187)을 추가하고, 중앙 Z-링크(Y=+148)에 2단계 12V 리니어 액추에이터 볼트온 예비 홀을 반영했습니다. 최고 75mm 상승 시에도 상부 고정 전장 데크(Z=255)와 +21mm 여유를 유지합니다.",
+    "note": "[Rev 5.0 높이조절 기구 상세] 상부 Z-브릿지 양측(X=±187)에 4점 Ø10mm 수직 가이드 샤프트(리니어 부싱) + 15~20mm 피치 M8 퀵릴리즈 핀을 적용해 수평을 유지한 채 30초 내 조절합니다. 하부 Ø242 슈라우드가 스핀들과 동반 승강하므로 ① 35/50/65mm 세팅 시 하부 레일(Z=80)과 비간섭, ② 75mm 최대 상승 시 전방 하부 크로스바 U-컷아웃 릴리프(5번 탭)가 필요합니다.",
     "color": "#0284c7",
     "visible": true,
     "isKeyLabel": true,
@@ -1659,12 +1770,12 @@ const PARTS_CATALOG = [
     "sysName": "계통 B / 예초계통",
     "shortLabel": "Ø20 스핀들 & 방지링",
     "name": "Ø20 스핀들 베어링 허브 + 풀 감김 방지 캡 ×2",
-    "sub": "스핀들 Ø44×68 + 방지컵 Ø80×18mm / 하부 돌 충격 차단",
+    "sub": "우레탄 스파이더 조 커플러(Ø35) + Ø20 스핀들 허브(Ø44×68) + 방지컵(Ø80×18) ×2",
     "dim": "허브 Ø44×68 / 컵 Ø80×18 mm",
     "qty": "2세트",
     "weight": 1.6,
     "coord": "좌 (-105, +208, 58~122) / 우 (+105, +88, 58~122)",
-    "note": "모터(Z=166)를 안전구역에 두고 하부 Ø20 스핀들 베어링 허브 방지컵만 하부로 내려 풀 감김과 축 휨을 방지합니다.",
+    "note": "[Rev 5.0 충격 흡수] 상부 예초모터 축과 하부 Ø20 스핀들 사이에 우레탄 스파이더 인서트 내장 알루미늄 조 커플러(Jaw Flexible Coupler ×2)를 직결해 돌 충돌 충격을 1차 흡수합니다. 하부 베어링 허브 + 방지컵(Ø80×18mm)만 저상으로 내려 풀 감김과 모터 축 휨을 원천 차단합니다.",
     "color": "#64748b",
     "visible": true,
     "mountedOnBonnet": false,
@@ -1800,12 +1911,12 @@ const PARTS_CATALOG = [
     "sysName": "계통 A / 프레임/구동",
     "shortLabel": "상층 주행모터 ×2 (Z=178)",
     "name": "48V 750W 1:36 BLDC 감속 주행모터 ×2",
-    "sub": "Ø90×176mm / 중앙 56mm 배선 컨택터 공간 / 35° 경사 토크 100N m+ 검증",
+    "sub": "Ø88×L176mm / 전자브레이크 수동 프리휠 해제 레버 비상 스위치 / 35° 경사 토크 100N m+",
     "dim": "Ø88 × L 176 mm (2개)",
     "qty": "2개 (후방 상층 대칭)",
     "weight": 7.2,
     "coord": "좌 (-116, -255, 178) / 우 (+116, -255, 178)",
-    "note": "[Rev 5.0 검증] 실차 중량 51kg 기준 35° 급경사 등판 요구 토크 ~24.2N m 대비 양측 합산 100N m+로 토크 여유 충분. Z=178mm 배치로 상부 힌지 크로스바(Z_min=232) 및 하부 버스바(Z_max=116)와 모두 완전 비간섭입니다.",
+    "note": "[Rev 5.0 검증 & 프리휠 대책] 실차 예상 중량 ~53.7kg(부자재 포함) 기준 35° 급경사 등판 요구 토크 ~25.0N m 대비 양측 합산 100N m+로 4배 이상 여유가 있습니다. [필수 비상 해제] 내장 전자브레이크는 완전 방전이나 VESC 오류 시 바퀴가 잠기므로, 후단 기계식 수동 릴리즈 레버 사양 선정 및 배선함 측면 비상 24/48V 프리휠 해제 스위치 단자를 반드시 결선합니다.",
     "color": "#3730a3",
     "visible": true,
     "isKeyLabel": true,
@@ -2226,13 +2337,13 @@ const PARTS_CATALOG = [
     "sys": "A",
     "sysName": "계통 A / 프레임/구동",
     "shortLabel": "4mm 하부 베이스판",
-    "name": "AL5052-H32 4mm 하부 베이스 플레이트 (Ø250 타공)",
-    "sub": "470×660×4mm (Z=76~80) / 스핀들/칼날 상부 릴리프 & 도킹 트레이 베이스",
+    "name": "AL5052-H32 4mm 하부 베이스 플레이트 (Ø254 타공)",
+    "sub": "470×660×4mm (Z=76~80) / 전방 Ø254 스핀들 슈라우드 관통타공 + 레이저 가공도 반영",
     "dim": "470 × 660 × 4 mm",
     "qty": "1장",
     "weight": 3.05,
     "coord": "(0, 0, 78)",
-    "note": "표기/CAD 두께를 4mm(Z=76~80)로 통일하고 배터리 트레이(Z=80~86)를 상면에 안착시켰습니다. 전방 예초부 하부에는 Ø250mm 릴리프 컷아웃을 적용해 3단 높이조절(35/55/75mm) 시 간섭이 없습니다.",
+    "note": "표기/CAD 두께를 4mm(Z=76~80, AL5052-H32)로 통일하고 배터리 트레이(Z=80~86)를 상면에 안착시켰습니다. 전방 예초부 하부에는 동반 승강하는 Ø242mm 슈라우드 외경(+12mm 직경 여유)에 맞춘 Ø254mm 릴리프 관통 홀을 반영했습니다(5번 탭 레이저 가공 좌표표 참조).",
     "color": "#cbd5e1",
     "visible": true,
     "mountedOnBonnet": false,
@@ -2403,7 +2514,7 @@ const PARTS_CATALOG = [
     "shortLabel": "OAK-D 노즈 카메라",
     "name": "OAK-D 스테레오 카메라 (전방 고정 데크 / 2단계)",
     "sub": "91×22×22mm / 고정 노즈 데크 상단 (Z_max=283 / LiDAR 스캔면과 19mm 아래)",
-    "dim": "91 × 28 × 22 mm",
+    "dim": "91 × 22 × 22 mm",
     "qty": "1세트 (1단계 FPV 대체 가능)",
     "weight": 0.09,
     "coord": "(0, +319, 272), 전방 고정 데크 선단",
@@ -2797,6 +2908,9 @@ let targetExplode = 0;
 let swapProgress = 0;
 let targetSwap = 0;
 let xrayMode = true;
+let solarCeilingMm = 0;
+let batterySimMode = '2pack';
+let wiringStageMode = 'stage1';
 let labelMode = (window.innerWidth < 768) ? 'selected' : 'key';
 let labelModeManual = false;
 let animateBlades = !reducedMotion;
@@ -3064,6 +3178,15 @@ function toggleXray() {
   btn.setAttribute('aria-pressed', xrayMode ? 'true' : 'false');
 }
 
+function cycleSolarCeiling() {
+  const order = [0, 340, 350];
+  solarCeilingMm = order[(order.indexOf(solarCeilingMm) + 1) % order.length];
+  const btn = document.getElementById('btnSolarCeiling');
+  btn.textContent = solarCeilingMm === 0 ? '천장: OFF' : `천장: ${solarCeilingMm}mm`;
+  btn.className = solarCeilingMm === 0 ? 'quick-chip' : 'quick-chip active';
+  btn.setAttribute('aria-pressed', solarCeilingMm === 0 ? 'false' : 'true');
+}
+
 function toggleAnimation() {
   animateBlades = !animateBlades;
   const btn = document.getElementById('btnAnimate');
@@ -3074,7 +3197,7 @@ function toggleAnimation() {
 
 function switchMainTab(tabName) {
   currentMainTab = tabName;
-  ['3d', 'compare', 'atlas', 'spec'].forEach(t => {
+  ['3d', 'compare', 'atlas', 'spec', 'wiring'].forEach(t => {
     const view = document.getElementById('tabView_' + t);
     const nav = document.getElementById('mainTab_' + t);
     const active = (t === tabName);
@@ -3377,21 +3500,23 @@ function render3DScene() {
         ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
       }
 
-      // Floor Orientation Markers (FRONT +Y / REAR -Y) so Top/Exploded views are always unmistakable
-      const pf = project3D(0, 390, 0, cx, cy, scale);
-      const pr = project3D(0, -390, 0, cx, cy, scale);
+      // Floor Orientation Markers pinned clearly outside chassis envelope
+      const pf = project3D(0, 415, 0, cx, cy, scale);
+      const pr = project3D(0, -420, 0, cx, cy, scale);
+      const fRect = { x: pf.x - 54, y: pf.y - 10, w: 108, h: 20 };
+      const rRect = { x: pr.x - 52, y: pr.y - 10, w: 104, h: 20 };
       ctx.save();
       ctx.font = '600 11px "Pretendard Variable", "IBM Plex Sans", sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillStyle = '#0f2447';
-      ctx.fillRect(pf.x - 54, pf.y - 10, 108, 20);
+      ctx.fillRect(fRect.x, fRect.y, fRect.w, fRect.h);
       ctx.fillStyle = '#ffffff';
       ctx.fillText('▲ 전방 (FRONT)', pf.x, pf.y);
       ctx.fillStyle = '#e2e8f0';
       ctx.strokeStyle = '#0f2447';
       ctx.lineWidth = 1;
-      ctx.fillRect(pr.x - 52, pr.y - 10, 104, 20);
-      ctx.strokeRect(pr.x - 52, pr.y - 10, 104, 20);
+      ctx.fillRect(rRect.x, rRect.y, rRect.w, rRect.h);
+      ctx.strokeRect(rRect.x, rRect.y, rRect.w, rRect.h);
       ctx.fillStyle = '#0f2447';
       ctx.fillText('▼ 후방 (REAR)', pr.x, pr.y);
       ctx.restore();
@@ -3513,7 +3638,51 @@ function render3DScene() {
         ctx.restore();
       }
 
-      // Gate 73 safe Callout Plates cleared cleanly below PiP and ViewCube (6 core landmarks in key mode)
+      // Virtual Solar Panel Ceiling Guide (340mm / 350mm)
+      if (solarCeilingMm > 0 && explodeFactor < 0.05) {
+        const cPts = [
+          project3D(-340, -350, solarCeilingMm, cx, cy, scale),
+          project3D(340, -350, solarCeilingMm, cx, cy, scale),
+          project3D(340, 350, solarCeilingMm, cx, cy, scale),
+          project3D(-340, 350, solarCeilingMm, cx, cy, scale)
+        ];
+        ctx.save();
+        ctx.beginPath();
+        cPts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(29,78,216,0.10)';
+        ctx.fill();
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([6, 4]);
+        ctx.stroke();
+
+        // Clearance ruler from SiK antenna top (Z=333) to solar ceiling
+        const antTop = project3D(145, -296, 333, cx, cy, scale);
+        const ceilPt = project3D(145, -296, solarCeilingMm, cx, cy, scale);
+        ctx.setLineDash([]);
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(antTop.x, antTop.y); ctx.lineTo(ceilPt.x, ceilPt.y); ctx.stroke();
+
+        const marginMm = solarCeilingMm - 333;
+        const badgeText = `태양광 한계 Z=${solarCeilingMm}mm (여유 +${marginMm}mm PASS)`;
+        ctx.font = '600 11px "Pretendard Variable", "IBM Plex Sans", sans-serif';
+        const bw = ctx.measureText(badgeText).width + 16;
+        const bx = Math.min(w - bw - 12, ceilPt.x + 12);
+        const by = Math.max(12, ceilPt.y - 24);
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 1.5;
+        ctx.fillRect(bx, by, bw, 20);
+        ctx.strokeRect(bx, by, bw, 20);
+        ctx.fillStyle = '#b91c1c';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(badgeText, bx + bw / 2, by + 10);
+        ctx.restore();
+      }
+
+      // Gate 73 & Floor Badge safe Callout Plates
       const CORE_KEY_IDS = new Set(['D_PIXHAWK', 'C_BATTERY', 'B_MOWER_MOTOR', 'B_BLADE', 'A_DRIVE_MOTOR', 'A_TRACKS']);
       projectedCallouts = [];
       if (labelMode !== 'off') {
@@ -3521,37 +3690,49 @@ function render3DScene() {
         const filtered = partAnchors.filter(a => labelMode === 'selected' ? a.isSelected : (labelMode === 'key' ? (a.isSelected || CORE_KEY_IDS.has(a.part.id)) : true));
         const leftItems = filtered.filter(a => a.currP.x < cx).sort((a, b) => a.currP.y - b.currP.y);
         const rightItems = filtered.filter(a => a.currP.x >= cx).sort((a, b) => a.currP.y - b.currP.y);
+        const isAllMode = (labelMode === 'all');
+        const overlapsRect = (ax, ay, aw, ah, rc) => !(ax + aw < rc.x - 6 || ax > rc.x + rc.w + 6 || ay + ah < rc.y - 4 || ay > rc.y + rc.h + 4);
+
         const drawColumn = (items, isLeft) => {
           let lastY = getOverlayClearanceY(isLeft, canvasRect);
           const marginOffset = Math.min(250, w * 0.27);
+          const th = isAllMode ? 17 : 22;
+          const gap = isAllMode ? 2 : 6;
           for (const a of items) {
             const p = a.currP, isSel = a.isSelected;
             const label = '#' + String(a.part.num).padStart(2, '0') + ' ' + a.part.shortLabel;
-            ctx.font = '500 11.5px "Pretendard Variable", "IBM Plex Sans", sans-serif';
-            const tw = ctx.measureText(label).width + 16, th = 22;
-            const by = Math.min(h - 28, Math.max(lastY, p.y - th / 2));
-            lastY = by + th + 6;
-            const bx = isLeft ? Math.max(10, cx - marginOffset - tw) : Math.min(w - tw - 10, cx + marginOffset);
-            const elbowX = isLeft ? bx + tw + 10 : bx - 10;
-            const attachX = isLeft ? bx + tw : bx, attachY = by + th / 2;
+            ctx.font = isAllMode ? '500 10.5px "Pretendard Variable", "IBM Plex Sans", sans-serif' : '500 11.5px "Pretendard Variable", "IBM Plex Sans", sans-serif';
+            const tw = ctx.measureText(label).width + (isAllMode ? 12 : 16);
+            // In 'all' mode pin columns to outer canvas edges so center chassis and FRONT/REAR badges stay 100% clear
+            const bx = isAllMode
+              ? (isLeft ? 8 : Math.max(8, w - tw - 8))
+              : (isLeft ? Math.max(10, cx - marginOffset - tw) : Math.min(w - tw - 10, cx + marginOffset));
+            let by = Math.min(h - th - 6, Math.max(lastY, p.y - th / 2));
+            if (by > h - th - 6) by = h - th - 6;
+            const finalBx = (!isAllMode && (overlapsRect(bx, by, tw, th, rRect) || overlapsRect(bx, by, tw, th, fRect)))
+              ? (isLeft ? 8 : Math.max(8, w - tw - 8))
+              : bx;
+            lastY = by + th + gap;
+            const elbowX = isLeft ? finalBx + tw + 10 : finalBx - 10;
+            const attachX = isLeft ? finalBx + tw : finalBx, attachY = by + th / 2;
 
-            ctx.strokeStyle = isSel ? '#0f2447' : 'rgba(15,36,71,0.68)';
-            ctx.lineWidth = isSel ? 2.2 : 1.2;
+            ctx.strokeStyle = isSel ? '#0f2447' : 'rgba(15,36,71,0.55)';
+            ctx.lineWidth = isSel ? 2.2 : 1.0;
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(elbowX, attachY); ctx.lineTo(attachX, attachY); ctx.stroke();
 
             ctx.fillStyle = isSel ? '#0f2447' : '#1d4ed8';
-            ctx.beginPath(); ctx.arc(p.x, p.y, isSel ? 4.5 : 3.2, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(p.x, p.y, isSel ? 4.5 : 2.8, 0, Math.PI * 2); ctx.fill();
 
             ctx.fillStyle = isSel ? '#0f2447' : '#ffffff';
             ctx.strokeStyle = isSel ? '#0f2447' : 'rgba(15,36,71,0.55)';
             ctx.lineWidth = isSel ? 2 : 1;
-            ctx.fillRect(bx, by, tw, th);
-            ctx.strokeRect(bx, by, tw, th);
+            ctx.fillRect(finalBx, by, tw, th);
+            ctx.strokeRect(finalBx, by, tw, th);
 
             ctx.fillStyle = isSel ? '#ffffff' : '#0f2447';
             ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText(label, bx + tw / 2, by + th / 2);
-            projectedCallouts.push({ partId: a.part.id, bx, by, bw: tw, bh: th });
+            ctx.fillText(label, finalBx + tw / 2, by + th / 2);
+            projectedCallouts.push({ partId: a.part.id, bx: finalBx, by, bw: tw, bh: th });
           }
         };
         drawColumn(leftItems, true);
@@ -3697,17 +3878,17 @@ function renderVisualAtlasAndDiagrams() {
       <rect x="14" y="130" width="114" height="26" fill="rgba(15,36,71,0.10)" stroke="currentColor" stroke-width="1.5"/>
       <text x="71" y="147" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">3층 대칭 배터리</text>
       <rect x="135" y="122" width="150" height="42" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="1.5"/><text x="210" y="147" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">48V 배터리 2팩 (13.5kg)</text>
-      <rect x="293" y="122" width="105" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="345" y="147" font-size="9.5" fill="currentColor" text-anchor="middle">Vesc 75100 측창</text>
-      <rect x="406" y="122" width="105" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="458" y="147" font-size="9.5" fill="currentColor" text-anchor="middle">80A Esc 측창</text>
-      <rect x="519" y="122" width="86" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="562" y="147" font-size="9" fill="currentColor" text-anchor="middle">컨택터/퓨즈</text>
+      <rect x="293" y="122" width="105" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="345" y="147" font-size="9.5" fill="currentColor" text-anchor="middle">VESC 75100 측창</text>
+      <rect x="406" y="122" width="105" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="458" y="147" font-size="9.5" fill="currentColor" text-anchor="middle">80A ESC 측창</text>
+      <rect x="519" y="122" width="86" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="562" y="147" font-size="9" fill="currentColor" text-anchor="middle">컨택터/프리차지</text>
       <rect x="14" y="194" width="114" height="26" fill="rgba(15,36,71,0.10)" stroke="currentColor" stroke-width="1.5"/>
       <text x="71" y="211" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">2층 470 섀시/모터</text>
-      <rect x="135" y="186" width="150" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="210" y="211" font-size="9.5" fill="currentColor" text-anchor="middle">상부 예초모터×2 (3단)</text>
-      <rect x="293" y="186" width="155" height="42" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="1.5"/><text x="370" y="211" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">750W 주행모터×2 (7.2kg)</text>
+      <rect x="135" y="186" width="150" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="210" y="211" font-size="9.5" fill="currentColor" text-anchor="middle">예초모터+커플러 (3단)</text>
+      <rect x="293" y="186" width="155" height="42" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="1.5"/><text x="370" y="211" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">750W+프리휠 (7.2kg)</text>
       <rect x="456" y="186" width="149" height="42" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="530" y="211" font-size="9.5" fill="currentColor" text-anchor="middle">3030 프레임 (4.95kg)</text>
       <rect x="14" y="258" width="114" height="26" fill="rgba(15,36,71,0.10)" stroke="currentColor" stroke-width="1.5"/>
       <text x="71" y="275" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">1층 보호덱/궤도</text>
-      <rect x="135" y="250" width="140" height="44" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="205" y="276" font-size="9.5" fill="currentColor" text-anchor="middle">Ø20 스핀들 (1.6kg)</text>
+      <rect x="135" y="250" width="140" height="44" fill="rgba(30,64,175,0.08)" stroke="currentColor"/><text x="205" y="276" font-size="9.5" fill="currentColor" text-anchor="middle">Ø20 스핀들 (Ø254 타공)</text>
       <rect x="283" y="250" width="160" height="44" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="1.5"/><text x="363" y="276" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">Ø230 칼날 + Ø242 슈라우드</text>
       <rect x="451" y="250" width="154" height="44" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="1.5"/><text x="528" y="276" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">650mm 삼각 궤도 (6.8kg)</text>
     </svg>
@@ -3738,39 +3919,334 @@ function renderVisualAtlasAndDiagrams() {
     `;
   }).join('');
 
+  // Strictly 1:1 Isotropic (0.50 px/mm in both X & Y) Blade Clearance Diagram (ZERO overlaps!)
   document.getElementById('bladeMathSvgContainer').innerHTML = `
-    <svg viewBox="0 0 540 295" style="width:100%;height:256px;color:var(--color-ink);" aria-hidden="true">
-      <rect x="42" y="20" width="58" height="248" fill="rgba(15,36,71,0.16)" stroke="currentColor" stroke-width="2"/>
-      <text x="71" y="145" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">좌 궤도</text>
-      <text x="71" y="162" font-size="8.5" fill="currentColor" text-anchor="middle">내벽 -240</text>
-      <rect x="440" y="20" width="58" height="248" fill="rgba(15,36,71,0.16)" stroke="currentColor" stroke-width="2"/>
-      <text x="469" y="145" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">우 궤도</text>
-      <text x="469" y="162" font-size="8.5" fill="currentColor" text-anchor="middle">내벽 +240</text>
-      <line x1="112" y1="20" x2="428" y2="20" stroke="currentColor" stroke-width="3"/>
-      <text x="270" y="14" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">▲ 전방 비산방지 스커트 (Y=+336)</text>
-      <line x1="270" y1="22" x2="270" y2="268" stroke="rgba(15,36,71,0.35)" stroke-dasharray="4,4"/>
-      <rect x="256" y="28" width="28" height="225" fill="rgba(30,64,175,0.10)"/>
-      <rect x="148" y="176" width="108" height="84" fill="rgba(30,64,175,0.08)" stroke="currentColor" stroke-dasharray="3,2"/>
-      <text x="202" y="222" font-size="9" fill="currentColor" font-weight="500" text-anchor="middle">좌 배터리 (-96,-84)</text>
-      <rect x="284" y="176" width="108" height="84" fill="rgba(30,64,175,0.08)" stroke="currentColor" stroke-dasharray="3,2"/>
-      <text x="338" y="222" font-size="9" fill="currentColor" font-weight="500" text-anchor="middle">우 배터리 (+96,-84)</text>
-      <circle cx="198" cy="95" r="82" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5,3"/>
-      <circle cx="198" cy="95" r="76" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="2"/>
-      <circle cx="198" cy="95" r="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <text x="198" y="54" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">좌 스핀들(-105,+208)</text>
-      <circle cx="342" cy="158" r="82" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5,3"/>
-      <circle cx="342" cy="158" r="76" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="2"/>
-      <circle cx="342" cy="158" r="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <text x="342" y="138" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">우 스핀들(+105,+88)</text>
-      <line x1="100" y1="95" x2="116" y2="95" stroke="currentColor" stroke-width="2"/>
-      <text x="108" y="86" font-size="8.5" fill="currentColor" font-weight="600" text-anchor="middle">+14~20</text>
-      <line x1="424" y1="158" x2="440" y2="158" stroke="currentColor" stroke-width="2"/>
-      <text x="432" y="149" font-size="8.5" fill="currentColor" font-weight="600" text-anchor="middle">+14~20</text>
-      <line x1="198" y1="95" x2="342" y2="158" stroke="currentColor" stroke-width="1.5"/>
-      <text x="275" y="114" font-size="10.5" fill="currentColor" font-weight="600" text-anchor="middle">D=241.9mm</text>
-      <text x="270" y="285" font-size="10" fill="currentColor" font-weight="600" text-anchor="middle">전폭 650mm, 궤도 비간섭(+14~20mm), 유효폭 440mm (중앙 20mm 중첩)</text>
+    <svg viewBox="0 0 600 320" style="width:100%;height:280px;color:var(--color-ink);" aria-hidden="true">
+      <!-- Track Outer (325->462.5) and Inner Walls (±240mm => x=180 / x=420) -->
+      <rect x="137.5" y="34" width="42.5" height="236" fill="rgba(15,36,71,0.16)" stroke="currentColor" stroke-width="2"/>
+      <text x="158.8" y="148" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">좌 궤도</text>
+      <text x="158.8" y="162" font-size="8" fill="currentColor" text-anchor="middle">-240</text>
+      <rect x="420" y="34" width="42.5" height="236" fill="rgba(15,36,71,0.16)" stroke="currentColor" stroke-width="2"/>
+      <text x="441.2" y="148" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">우 궤도</text>
+      <text x="441.2" y="162" font-size="8" fill="currentColor" text-anchor="middle">+240</text>
+
+      <!-- Front Safety Skirt (Y=+336 -> y=30) -->
+      <line x1="186" y1="30" x2="414" y2="30" stroke="currentColor" stroke-width="3"/>
+      <text x="300" y="18" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">▲ 전방 스커트 (Y=+336) · 유효 예초폭 440mm (중앙 X=±10mm 20mm 중첩)</text>
+
+      <!-- Center 20mm Overlap Strip (X=-10..+10 => width=10px) -->
+      <rect x="295" y="32" width="10" height="218" fill="rgba(30,64,175,0.14)" stroke="rgba(15,36,71,0.35)" stroke-dasharray="3,2"/>
+
+      <!-- Left Blade (-105, +208 => cx=247.5, cy=94.0): 1:1 Shroud r=60.5, Blade r=57.5 -->
+      <circle cx="247.5" cy="94" r="60.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="5,3"/>
+      <circle cx="247.5" cy="94" r="57.5" fill="rgba(30,64,175,0.11)" stroke="currentColor" stroke-width="2"/>
+      <circle cx="247.5" cy="94" r="4" fill="currentColor"/>
+      <text x="247.5" y="76" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">좌 칼날 (-105, +208)</text>
+      <text x="247.5" y="114" font-size="8.5" fill="currentColor" text-anchor="middle">Ø230 (슈라우드 Ø242)</text>
+
+      <!-- Right Blade (+105, +88 => cx=352.5, cy=154.0): IDENTICAL r=60.5 / r=57.5 -->
+      <circle cx="352.5" cy="154" r="60.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="5,3"/>
+      <circle cx="352.5" cy="154" r="57.5" fill="rgba(30,64,175,0.11)" stroke="currentColor" stroke-width="2"/>
+      <circle cx="352.5" cy="154" r="4" fill="currentColor"/>
+      <text x="352.5" y="176" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">우 칼날 (+105, +88)</text>
+      <text x="352.5" y="191" font-size="8.5" fill="currentColor" text-anchor="middle">Ø230 (슈라우드 Ø242)</text>
+
+      <!-- Center-to-Center Line D=241.9mm + External Pill Leader -->
+      <line x1="247.5" y1="94" x2="352.5" y2="154" stroke="#dc2626" stroke-width="2"/>
+      <line x1="300" y1="124" x2="395" y2="62" stroke="#dc2626" stroke-width="1.5"/>
+      <line x1="395" y1="62" x2="468" y2="62" stroke="#dc2626" stroke-width="1.5"/>
+      <rect x="470" y="48" width="122" height="32" fill="#ffffff" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="531" y="61" font-size="9.5" fill="#b91c1c" font-weight="600" text-anchor="middle">D = 241.9 mm</text>
+      <text x="531" y="74" font-size="8" fill="currentColor" text-anchor="middle">Ø230 대비 +11.9 여유</text>
+
+      <!-- Left & Right Track Clearance External Leader Callouts -->
+      <line x1="122" y1="94" x2="188" y2="94" stroke="#1d4ed8" stroke-width="2"/>
+      <rect x="8" y="76" width="114" height="36" fill="#ffffff" stroke="currentColor" stroke-width="1.5"/>
+      <text x="65" y="91" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">좌 궤도 여유 +20mm</text>
+      <text x="65" y="104" font-size="8" fill="currentColor" text-anchor="middle">슈라우드 +14mm 비간섭</text>
+
+      <line x1="413" y1="154" x2="470" y2="154" stroke="#1d4ed8" stroke-width="2"/>
+      <rect x="470" y="136" width="122" height="36" fill="#ffffff" stroke="currentColor" stroke-width="1.5"/>
+      <text x="531" y="151" font-size="9" fill="currentColor" font-weight="600" text-anchor="middle">우 궤도 여유 +20mm</text>
+      <text x="531" y="164" font-size="8" fill="currentColor" text-anchor="middle">슈라우드 +14mm 비간섭</text>
+
+      <!-- Battery Symmetrical Reference Outline Behind -->
+      <rect x="219" y="218" width="76" height="52" fill="rgba(30,64,175,0.06)" stroke="currentColor" stroke-dasharray="3,2"/>
+      <text x="257" y="247" font-size="8.5" fill="currentColor" text-anchor="middle">좌 배터리 (-96)</text>
+      <rect x="305" y="218" width="76" height="52" fill="rgba(30,64,175,0.06)" stroke="currentColor" stroke-dasharray="3,2"/>
+      <text x="343" y="247" font-size="8.5" fill="currentColor" text-anchor="middle">우 배터리 (+96)</text>
+
+      <text x="300" y="302" font-size="9.5" fill="currentColor" font-weight="600" text-anchor="middle">1:1 동일 반경 축척 (좌/우 Ø230mm 동일 규격 · 전폭 650mm · 바닥판 Ø254 타공)</text>
     </svg>
   `;
+  renderWiringAndCncDiagrams();
+}
+
+function setBatterySimMode(mode) {
+  batterySimMode = mode;
+  ['2pack', '1pack_center', '1pack_left', 'dry'].forEach(m => {
+    const b = document.getElementById('simBtn_' + m);
+    if (!b) return;
+    const active = (m === mode);
+    b.className = active ? 'bp-btn bp-btn--primary' : 'bp-btn';
+    b.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+  const cfg = {
+    '2pack': {
+      w: '51.39 / 53.69 kg',
+      cg: '(-0.2, -46.8, 151.3)',
+      run: '25.0 N·m / 65분',
+      cls: 'bp-callout-info',
+      msg: '2팩 대칭 장착(-96 / +96mm)으로 좌우 편심 0.2mm 이내입니다. 일반 부하 1,200W(23.4A) 기준 48V 30Ah(DoD 85% = 1,306Wh)로 약 65분(고부하 1,450W 시 약 54분) 연속 예초 가능합니다.'
+    },
+    '1pack_center': {
+      w: '44.64 / 46.94 kg',
+      cg: '(-0.3, -41.4, 149.1)',
+      run: '21.9 N·m / 33분',
+      cls: 'bp-callout-info',
+      msg: '1단계 예산 절감안(1팩 중앙 임시 브래킷 X=0, Y=-84 거치): 좌우 무게 편심이 없어 경사지 직진성이 완벽하게 유지됩니다. 15Ah(DoD 85% = 653Wh) 기준 약 33분 운용 후 E-Stop OFF → 10초 퀵스왑 교체를 수행합니다.'
+    },
+    '1pack_left': {
+      w: '44.64 / 46.94 kg',
+      cg: '(-14.1, -41.4, 149.1)',
+      run: '21.9 N·m / 33분',
+      cls: 'bp-callout-warn',
+      msg: '경고: 2슬롯 중 좌측 슬롯(-96mm)에만 6.75kg 1팩을 끼우면 CG가 왼쪽으로 ΔX = -14.1mm(약 0.65 kg·m) 쏠려 횡경사 등판·직진성이 틀어집니다. 반드시 중앙(X=0) 임시 거치 브래킷 또는 반대편 6.7kg 밸런스 추를 적용하세요.'
+    },
+    'dry': {
+      w: '37.89 / 40.19 kg',
+      cg: '(-0.3, -34.3, 146.1)',
+      run: '무배터리 / 2인 운반',
+      cls: 'bp-callout-info',
+      msg: '배터리 팩을 수직 인출한 차량 상차 상태입니다. 부자재 포함 약 40.2kg으로 1인 단독 거상보다 4코너 리프팅 핸들을 이용한 2인 운반 또는 트럭용 접이식 경사로(램프) 탑재가 안전합니다.'
+    }
+  }[mode];
+  document.getElementById('simWeightVal').textContent = cfg.w;
+  document.getElementById('simCgVal').textContent = cfg.cg;
+  document.getElementById('simRunVal').textContent = cfg.run;
+  const adv = document.getElementById('simAdviceBox');
+  adv.className = cfg.cls;
+  adv.textContent = cfg.msg;
+}
+
+function setWiringStage(stage) {
+  wiringStageMode = stage;
+  ['stage1', 'stage2'].forEach(s => {
+    const b = document.getElementById('wireBtn_' + s);
+    if (!b) return;
+    const active = (s === stage);
+    b.className = active ? 'bp-btn bp-btn--primary' : 'bp-btn';
+    b.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+  renderWiringAndCncDiagrams();
+}
+
+function renderWiringAndCncDiagrams() {
+  const wireSvg = document.getElementById('wiringSvgContainer');
+  const wireTitle = document.getElementById('wiringTitle');
+  const wireBadge = document.getElementById('wiringBadge');
+  const wireDetail = document.getElementById('wiringDetailBox');
+  if (wireSvg) {
+    if (wiringStageMode === 'stage1') {
+      wireTitle.textContent = '1단계 원격 예초 전장 배선 블록도 (Pixhawk 없이 즉시 주행)';
+      wireBadge.textContent = '예산 ~100만 원 / 1팩+RC 믹싱';
+      wireDetail.textContent = '투입 순서: ① 후방 E-Stop 해제 → ② 100Ω 10W 프리차지 스위치 2~3초 ON → ③ TE EVC200 200A 메인 컨택터 ON → ④ RC CH6 안전 킬 해제. Pixhawk 없이 조종기 내장 V-Tail/Elevon 믹싱(CH1/CH2)으로 VESC×2 차동 회전 및 CH5 스위치로 예초 ESC×2를 제어합니다.';
+      wireSvg.innerHTML = `
+        <svg viewBox="0 0 640 330" style="width:100%;height:310px;color:var(--color-ink);" aria-hidden="true">
+          <!-- Power Backbone Row -->
+          <rect x="18" y="22" width="118" height="58" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="2"/>
+          <text x="77" y="46" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">48V 배터리 1팩</text>
+          <text x="77" y="64" font-size="8.5" fill="currentColor" text-anchor="middle">중앙(X=0) 15Ah+</text>
+
+          <line x1="136" y1="51" x2="170" y2="51" stroke="currentColor" stroke-width="2.5"/>
+          <rect x="170" y="22" width="128" height="58" fill="rgba(220,38,38,0.08)" stroke="#b91c1c" stroke-width="1.8"/>
+          <text x="234" y="42" font-size="9" font-weight="600" fill="#b91c1c" text-anchor="middle">E-Stop + 150A 퓨즈</text>
+          <text x="234" y="57" font-size="8" fill="currentColor" text-anchor="middle">+ TE EVC200 컨택터</text>
+          <text x="234" y="71" font-size="8" fill="#b91c1c" font-weight="600" text-anchor="middle">병렬 100Ω 10W 프리차지</text>
+
+          <line x1="298" y1="51" x2="334" y2="51" stroke="currentColor" stroke-width="2.5"/>
+          <rect x="334" y="22" width="112" height="58" fill="rgba(30,64,175,0.10)" stroke="currentColor" stroke-width="1.8"/>
+          <text x="390" y="46" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">M8 동 버스바 (+/-)</text>
+          <text x="390" y="64" font-size="8.5" fill="currentColor" text-anchor="middle">10AWG 실리콘 강전선</text>
+
+          <line x1="446" y1="51" x2="484" y2="51" stroke="currentColor" stroke-width="2"/>
+          <rect x="484" y="22" width="138" height="58" fill="rgba(30,64,175,0.08)" stroke="currentColor" stroke-width="1.5"/>
+          <text x="553" y="44" font-size="9" font-weight="600" fill="currentColor" text-anchor="middle">48V→12V DCDC(20A)</text>
+          <text x="553" y="62" font-size="8" fill="currentColor" text-anchor="middle">+ 5V UBEC (수신기 전원)</text>
+
+          <!-- Drivers & Emergency Freewheel Row -->
+          <line x1="365" y1="80" x2="365" y2="112" stroke="currentColor" stroke-width="2"/>
+          <line x1="160" y1="112" x2="545" y2="112" stroke="currentColor" stroke-width="2"/>
+          <line x1="160" y1="112" x2="160" y2="132" stroke="currentColor" stroke-width="2"/>
+          <line x1="415" y1="112" x2="415" y2="132" stroke="currentColor" stroke-width="2"/>
+          <line x1="545" y1="112" x2="545" y2="132" stroke="#b91c1c" stroke-width="1.8"/>
+
+          <rect x="50" y="132" width="220" height="62" fill="rgba(30,64,175,0.10)" stroke="currentColor" stroke-width="1.8"/>
+          <text x="160" y="153" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">좌/우 VESC 75100 ×2 (10AWG)</text>
+          <text x="160" y="170" font-size="8.5" fill="currentColor" text-anchor="middle">↔ #19 750W 감속모터 ×2 (CAN-Bus 연동)</text>
+          <text x="160" y="185" font-size="8" fill="currentColor" text-anchor="middle">측창(±212) 알루미늄 히트싱크 직결</text>
+
+          <rect x="292" y="132" width="180" height="62" fill="rgba(30,64,175,0.10)" stroke="currentColor" stroke-width="1.8"/>
+          <text x="382" y="153" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">80A 예초 ESC ×2 (Y분배)</text>
+          <text x="382" y="170" font-size="8.5" fill="currentColor" text-anchor="middle">↔ 조 커플러 ↔ Ø20 스핀들</text>
+          <text x="382" y="185" font-size="8" fill="currentColor" text-anchor="middle">전방 측창(±212) 방열판 매립</text>
+
+          <rect x="488" y="132" width="134" height="62" fill="rgba(220,38,38,0.08)" stroke="#b91c1c" stroke-width="1.5"/>
+          <text x="555" y="153" font-size="9" font-weight="600" fill="#b91c1c" text-anchor="middle">전자브레이크 프리휠</text>
+          <text x="555" y="169" font-size="8" fill="currentColor" text-anchor="middle">비상 수동 릴리즈 레버</text>
+          <text x="555" y="184" font-size="8" fill="currentColor" text-anchor="middle">+ 외부 24/48V 해제 토글</text>
+
+          <!-- RC Direct Mixing Signal Row -->
+          <rect x="50" y="230" width="572" height="78" fill="#ffffff" stroke="currentColor" stroke-width="2"/>
+          <text x="336" y="251" font-size="10" font-weight="600" fill="currentColor" text-anchor="middle">1단계 전용 2.4GHz RC 직접 제어 배선 (조종기 EdgeTX V-Tail 믹싱 활성 — Pixhawk 미장착)</text>
+          <text x="336" y="271" font-size="9" fill="#1d4ed8" font-weight="600" text-anchor="middle">CH1(좌 궤도 PWM) → 좌 VESC   |   CH2(우 궤도 PWM) → 우 VESC   |   CH5(3단 스위치) → 예초 ESC Y-하네스</text>
+          <text x="336" y="290" font-size="8.5" fill="#b91c1c" font-weight="600" text-anchor="middle">CH6(2단 킬 스위치) → 예초 전원 릴레이 & 컨택터 코일 인터록 (오작동 즉시 차단)</text>
+
+          <line x1="160" y1="194" x2="160" y2="230" stroke="#1d4ed8" stroke-width="1.8" stroke-dasharray="4,2"/>
+          <line x1="382" y1="194" x2="382" y2="230" stroke="#1d4ed8" stroke-width="1.8" stroke-dasharray="4,2"/>
+        </svg>
+      `;
+    } else {
+      wireTitle.textContent = '2단계 자율주행 전장 배선 블록도 (Pixhawk 6C + ZED-F9P RTK + RPi5 + LiDAR)';
+      wireBadge.textContent = '2팩 30Ah / 자율주행 볼트온 완성';
+      wireDetail.textContent = '전방 고정 IP65 함체(Y=+144)에 Pixhawk 6C·Raspberry Pi 5·ZED-F9P·PM07·5V UBEC가 일체 고정됩니다. RC 수신기 SBUS가 Pixhawk로 들어가며, Pixhawk가 CAN/PWM으로 VESC 및 80A 예초 ESC를 제어하고, RPi 5가 OAK-D/3D LiDAR/RTK NTRIP 경로를 MAVLink로 전송합니다.';
+      wireSvg.innerHTML = `
+        <svg viewBox="0 0 640 330" style="width:100%;height:310px;color:var(--color-ink);" aria-hidden="true">
+          <rect x="20" y="18" width="180" height="58" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="2"/>
+          <text x="110" y="42" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">듀얼 48V 15Ah×2팩 (30Ah)</text>
+          <text x="110" y="60" font-size="8.5" fill="currentColor" text-anchor="middle">대칭 슬롯 ±96mm · 컨택터/프리차지</text>
+
+          <rect x="225" y="18" width="185" height="58" fill="rgba(30,64,175,0.08)" stroke="currentColor" stroke-width="1.8"/>
+          <text x="317" y="42" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">PM07 + 5V 5A 듀얼 UBEC</text>
+          <text x="317" y="60" font-size="8.5" fill="currentColor" text-anchor="middle">Pixhawk 5V / RPi5 PD 5V 5A 분리</text>
+
+          <rect x="435" y="18" width="185" height="58" fill="rgba(30,64,175,0.08)" stroke="currentColor" stroke-width="1.8"/>
+          <text x="527" y="42" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">48V→12V DCDC 240W</text>
+          <text x="527" y="60" font-size="8.5" fill="currentColor" text-anchor="middle">전동 높이 액추에이터 & 120mm 쿨링팬</text>
+
+          <!-- Fixed Front IP65 Box -->
+          <rect x="20" y="102" width="388" height="108" fill="#ffffff" stroke="currentColor" stroke-width="2"/>
+          <text x="214" y="121" font-size="9.5" font-weight="600" fill="#1d4ed8" text-anchor="middle">전방 비개폐 고정 IP65 방수 제어함 (보닛과 분리 → IMU 영점 0.0° 유지)</text>
+
+          <rect x="34" y="132" width="170" height="64" fill="rgba(30,64,175,0.12)" stroke="currentColor" stroke-width="1.5"/>
+          <text x="119" y="153" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">Holybro Pixhawk 6C</text>
+          <text x="119" y="170" font-size="8" fill="currentColor" text-anchor="middle">TELEM1(915MHz) · GPS1(RTK)</text>
+          <text x="119" y="184" font-size="8" fill="currentColor" text-anchor="middle">CAN/MAIN OUT → VESC & ESC</text>
+
+          <rect x="222" y="132" width="170" height="64" fill="rgba(30,64,175,0.08)" stroke="currentColor" stroke-width="1.5"/>
+          <text x="307" y="153" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">Raspberry Pi 5 (8GB)</text>
+          <text x="307" y="170" font-size="8" fill="currentColor" text-anchor="middle">TELEM2 UART MAVLink2 (921k)</text>
+          <text x="307" y="184" font-size="8" fill="currentColor" text-anchor="middle">USB3 OAK-D + Eth 3D LiDAR</text>
+
+          <line x1="204" y1="164" x2="222" y2="164" stroke="#b91c1c" stroke-width="2"/>
+
+          <!-- Fixed External Sensors -->
+          <rect x="435" y="102" width="185" height="108" fill="rgba(30,64,175,0.08)" stroke="currentColor" stroke-width="1.8"/>
+          <text x="527" y="124" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">비개폐 전·후 고정 센서군</text>
+          <text x="527" y="144" font-size="8.5" fill="currentColor" text-anchor="middle">• 전방 OAK-D / 3D LiDAR (Z=328)</text>
+          <text x="527" y="162" font-size="8.5" fill="currentColor" text-anchor="middle">• 후방 저상 퍽 RTK (Z=315)</text>
+          <text x="527" y="180" font-size="8.5" fill="currentColor" text-anchor="middle">• L절곡 915MHz/RC (Z=333)</text>
+          <text x="527" y="198" font-size="8" fill="#1d4ed8" font-weight="600" text-anchor="middle">태양광 340mm 하부 완전 통과</text>
+
+          <rect x="20" y="236" width="600" height="72" fill="rgba(30,64,175,0.06)" stroke="currentColor" stroke-width="1.8"/>
+          <text x="320" y="259" font-size="9.5" font-weight="600" fill="currentColor" text-anchor="middle">동력계 & 안전 이중 인터록 (Pixhawk CAN/PWM + RC SBUS 비상 오버라이드)</text>
+          <text x="320" y="279" font-size="8.5" fill="currentColor" text-anchor="middle">MAIN 1/3 → 좌/우 VESC 75100 (750W 주행모터×2 + 수동 프리휠)   |   AUX 1/2 → 80A 예초 ESC×2 (칼날 ON/OFF)</text>
+          <text x="320" y="297" font-size="8.5" fill="#b91c1c" font-weight="600" text-anchor="middle">후방 E-Stop(Y=-349) + RC CH6 하드웨어 릴레이 차단 + RTK Tilt(Pixhawk 35° 전복 차단) 3중 안전</text>
+        </svg>
+      `;
+    }
+  }
+
+  const cncSvg = document.getElementById('cncSheetSvgContainer');
+  if (cncSvg) {
+    // Strictly 1:1 isotropic (0.54 px/mm in both X and Y):
+    // Length Y (660mm: -330..+330) -> x = 300 + Y * 0.54 => [121.8 .. 478.2]
+    // Width  X (470mm: -235..+235) -> y = 165 + X * 0.54 => [38.1 .. 291.9]
+    cncSvg.innerHTML = `
+      <svg viewBox="0 0 600 330" style="width:100%;height:310px;color:var(--color-ink);" aria-hidden="true">
+        <text x="300" y="18" font-size="10" font-weight="600" fill="currentColor" text-anchor="middle">AL5052-H32 (T=4.0mm) 하부 베이스판 470×660mm 1:1 레이저/CNC 타공도</text>
+        <rect x="121.8" y="38.1" width="356.4" height="253.8" fill="rgba(30,64,175,0.07)" stroke="currentColor" stroke-width="2.5"/>
+        <!-- 3030 Side Rail Footprint Lines (X=±205 => y=54.3 and y=275.7) -->
+        <line x1="121.8" y1="54.3" x2="478.2" y2="54.3" stroke="rgba(15,36,71,0.35)" stroke-dasharray="4,2"/>
+        <line x1="121.8" y1="275.7" x2="478.2" y2="275.7" stroke="rgba(15,36,71,0.35)" stroke-dasharray="4,2"/>
+
+        <!-- Rear Power Module Holes (Y=-255 => x=162.3) -->
+        <rect x="142" y="94" width="40" height="142" fill="none" stroke="currentColor" stroke-dasharray="3,2"/>
+        <text x="108" y="165" font-size="8.5" fill="currentColor" text-anchor="end">강전홀(Y=-255)</text>
+        <line x1="112" y1="165" x2="142" y2="165" stroke="currentColor" stroke-width="1"/>
+
+        <!-- Center 1-Pack Symmetrical Mount (0,-84) & Dual-Pack Holes (±96,-84) -->
+        <rect x="195" y="142" width="120" height="46" fill="none" stroke="#1d4ed8" stroke-dasharray="4,2"/>
+        <text x="255" y="169" font-size="8.5" font-weight="600" fill="#1d4ed8" text-anchor="middle">1팩 중앙(0,-84)</text>
+        <rect x="195" y="74" width="120" height="58" fill="none" stroke="currentColor" stroke-dasharray="3,2"/>
+        <text x="255" y="106" font-size="8" fill="currentColor" text-anchor="middle">좌(-96,-84)</text>
+        <rect x="195" y="198" width="120" height="58" fill="none" stroke="currentColor" stroke-dasharray="3,2"/>
+        <text x="255" y="230" font-size="8" fill="currentColor" text-anchor="middle">우(+96,-84)</text>
+
+        <!-- Dual Ø254 Shroud Cutouts (exact R=127*0.54=68.6, 3030 D-flat at ±204mm) -->
+        <circle cx="412.3" cy="108.3" r="65.0" fill="#ffffff" stroke="#b91c1c" stroke-width="2.2"/>
+        <circle cx="412.3" cy="108.3" r="3.5" fill="#b91c1c"/>
+        <text x="412.3" y="101" font-size="8.5" font-weight="600" fill="#b91c1c" text-anchor="middle">좌 Ø254 홀</text>
+        <text x="412.3" y="122" font-size="8" fill="currentColor" text-anchor="middle">(-105,+208)</text>
+
+        <circle cx="347.5" cy="221.7" r="65.0" fill="#ffffff" stroke="#b91c1c" stroke-width="2.2"/>
+        <circle cx="347.5" cy="221.7" r="3.5" fill="#b91c1c"/>
+        <text x="347.5" y="215" font-size="8.5" font-weight="600" fill="#b91c1c" text-anchor="middle">우 Ø254 홀</text>
+        <text x="347.5" y="236" font-size="8" fill="currentColor" text-anchor="middle">(+105,+88)</text>
+
+        <!-- Perimeter M6 Mounting Holes -->
+        <circle cx="136" cy="46" r="2.8" fill="currentColor"/><circle cx="240" cy="46" r="2.8" fill="currentColor"/><circle cx="350" cy="46" r="2.8" fill="currentColor"/><circle cx="464" cy="46" r="2.8" fill="currentColor"/>
+        <circle cx="136" cy="284" r="2.8" fill="currentColor"/><circle cx="240" cy="284" r="2.8" fill="currentColor"/><circle cx="350" cy="284" r="2.8" fill="currentColor"/><circle cx="464" cy="284" r="2.8" fill="currentColor"/>
+
+        <text x="122" y="314" font-size="9" font-weight="600" fill="currentColor">◀ 후방 Y=-330</text>
+        <text x="300" y="314" font-size="9" fill="currentColor" text-anchor="middle">1:1 축척 660×470mm (3030 레일 외측 D-컷 릴리프 적용)</text>
+        <text x="478" y="314" font-size="9" font-weight="600" fill="currentColor" text-anchor="end">전방 Y=+330 ▶</text>
+      </svg>
+    `;
+  }
+}
+
+function downloadFullBomCsv() {
+  const phase2Ids = new Set(['D_PIXHAWK', 'D_RPI5', 'D_ZED_F9P', 'D_UBEC_5V', 'D_PM07', 'D_IP65_BOX', 'D_CABLE_GLANDS', 'E_FPV_CAM', 'E_LIDAR_BOSS', 'E_RTK_ANT', 'E_SIK_TELEM']);
+  const rows = [
+    ['구분', '번호', '계통', '부품명', '규격 및 치수', '수량', '합산중량(kg)', '3D 좌표 / 조립 위치', '적용단계']
+  ];
+  for (const p of PARTS_CATALOG) {
+    rows.push([
+      '주요 CAD 32종',
+      '#' + String(p.num).padStart(2, '0'),
+      p.sysName,
+      p.name,
+      p.dim,
+      p.qty,
+      String(p.weight),
+      p.coord,
+      phase2Ids.has(p.id) ? '2단계 (자율주행 확장)' : '1단계 (기본 실증)'
+    ]);
+  }
+  const extras = [
+    ['필수 부자재', 'EX-01', 'A. 체결 패스너', 'AL3030 코너 브라켓 & 거셋 (L형/3방향)', '30×30mm 알루미늄 주물', '28개', '0.78', '3030 프레임 각 직각 조인트', '1단계 (필수)'],
+    ['필수 부자재', 'EX-02', 'A. 체결 패스너', 'M6 T-슬롯 너트 & M6×12/16 육각렌치 볼트·스프링와셔', 'M6×12 / M6×16 STS304', '90세트', '0.62', '프레임·4mm 베이스판·브릿지 전수', '1단계 (필수)'],
+    ['필수 부자재', 'EX-03', 'B. 동력전달 커플러', '예초모터-스핀들 우레탄 조(Jaw) 플렉시블 커플러', 'Ø35×L40 (보어 Ø10/12 ↔ Ø20)', '2세트', '0.24', '좌/우 Z-브릿지 예초모터 축 직결', '1단계 (필수)'],
+    ['필수 부자재', 'EX-04', 'B. 3단 Z-브릿지', 'Ø10 수직 가이드 샤프트(리니어 부싱) & M8 퀵릴리즈 핀', 'Ø10×L140 ×4 / M8 핀 ×4', '1식', '0.32', '예초 데크(35/55/75mm) 동반승강 가이드', '1단계 (필수)'],
+    ['필수 부자재', 'EX-05', 'A. 브레이크 안전', '전자브레이크 비상 프리휠 수동 해제 레버 & 방수 토글 스위치', '모터 후단 릴리즈 + 24/48V 토글', '2세트', '0.16', '#19 주행모터 후단 / 외부 배선함', '1단계 (필수)'],
+    ['필수 부자재', 'EX-06', 'C. 프리차지 안전', '200A 메인 컨택터 병렬 프리차지 저항 & 모멘터리 푸시 스위치', '100Ω 10W 시멘트/알루미늄 권선저항', '1식', '0.08', 'TE EVC200 접점(+) 병렬 연결', '1단계 (필수)'],
+    ['필수 부자재', 'EX-07', 'C. 강전 하네스', '10AWG 실리콘 내열선(적/흑) + AS150/SBS75G + M8 압착 링러그', '10AWG 각 3m / 주름관·타이 일체', '1식', '0.45', '배터리-버스바-VESC-모터 배선', '1단계 (필수)'],
+    ['필수 부자재', 'EX-08', 'C. 1팩 대칭 거치', '1단계 중앙(X=0) 탈착식 임시 배터리 트레이 브래킷', 'AL5052 3mm 절곡 (중앙 M6 4홀)', '1개', '0.25', '1팩 운용 시 좌우 편심 0mm 유지', '1단계 (권장)'],
+    ['가공 도면 품목', 'EX-09', 'A. 판재 가공품', 'AL5052 4mm 하부 베이스 플레이트 레이저 가공품 (Ø254 타공)', '470 × 660 × 4 mm (5번 탭 참조)', '1장', '(3.05)', '스핀들 Ø254×2 및 3030 홀 가공 포함', '1단계 (발주)'],
+    ['가공 도면 품목', 'EX-10', 'E. 1단계 RC 믹서', 'EdgeTX V-Tail 믹싱 설정 (미지원 조종기 시 V-Tail 믹서 동글)', 'PWM 2ch 믹싱 + 20A 릴레이', '1개', '0.04', '수신기 CH1/2 → VESC / CH6 킬', '1단계 (선택)']
+  ];
+  for (const r of extras) rows.push(r);
+  const csvContent = '\uFEFF' + rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mini_ugv_rev5_full_bom.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 syncLabelBtnText();
